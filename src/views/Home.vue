@@ -15,7 +15,8 @@
       <div class="hero-content">
         <h1 class="hero-title-apple mb-4">Thoth</h1>
         <p class="hero-subtitle-apple mb-6">
-          The future of AI/IoT learning. Portable. Powerful. Private.
+          Revolutionary IoT Device with Raspberry Pi, Sense HAT & PiSugar.<br>
+          Learn AI, Build Smart Systems, Join the Future.
         </p>
         <div class="hero-buttons">
           <v-btn class="apple-btn-secondary mr-4 mb-2" size="large" @click="scrollToFeatures">Learn More</v-btn>
@@ -28,9 +29,9 @@
     <v-container class="py-16">
       <v-row justify="center" align="center">
         <v-col cols="12" md="6" class="text-center text-md-left">
-          <h2 class="section-title mb-6">Designed for Innovation</h2>
+          <h2 class="section-title mb-6">Powered by Raspberry Pi & Sense HAT</h2>
           <p class="section-text mb-8">
-            A revolutionary platform combining Raspberry Pi and ESP32 technology. Seamlessly collect data, train models, and collaborate—all in a beautifully crafted, portable device.
+            Experience the perfect fusion of Raspberry Pi computing power, Sense HAT environmental sensors, and PiSugar battery management. Collect real-time data, train ML models on-device, and participate in federated learning—all in one portable IoT platform.
           </p>
           <v-btn class="apple-btn-primary" size="large" to="/features">
             Explore 3D Model

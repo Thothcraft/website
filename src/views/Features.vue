@@ -5,9 +5,9 @@
       <v-container>
         <v-row align="center">
           <v-col cols="12" md="6" class="text-center text-md-left">
-            <h1 class="hero-title-apple mb-4">Explore Thoth in 3D</h1>
+            <h1 class="hero-title-apple mb-4">Thoth IoT Device in 3D</h1>
             <p class="hero-subtitle-apple mb-6">
-              Interact with our revolutionary AI/IoT device. Rotate, zoom, and explore every detail.
+              Explore the Raspberry Pi-powered IoT platform with Sense HAT sensors and PiSugar battery. Rotate, zoom, and discover every component.
             </p>
             <div class="hero-buttons">
               <v-btn class="apple-btn-primary mr-4" size="large" @click="scrollToSpecs">View Specs</v-btn>
@@ -57,23 +57,23 @@
               <v-card class="glass-card-global pa-6" elevation="0">
                 <v-card-title class="text-h5 mb-4">Precision Data Collection</v-card-title>
                 <v-card-text class="text-body-1">
-                  Capture environmental, motion, and visual inputs effortlessly. Out-of-the-box WiFi captive portal for headless Raspberry Pi setup—deploy in seconds.
+                  Powered by Raspberry Pi Sense HAT: capture temperature, humidity, pressure, and motion data in real-time. Features WiFi captive portal for instant headless setup and PiSugar for portable power management.
                 </v-card-text>
                 <v-row class="mt-6">
                   <v-col cols="12" md="4" class="text-center">
                     <v-icon size="48" color="primary" class="mb-3">mdi-thermometer</v-icon>
-                    <h4 class="text-h6 mb-2">Environmental</h4>
-                    <p class="text-body-2">Temperature, humidity, pressure sensors</p>
+                    <h4 class="text-h6 mb-2">Sense HAT Environmental</h4>
+                    <p class="text-body-2">Temperature, humidity, pressure via Sense HAT</p>
                   </v-col>
                   <v-col cols="12" md="4" class="text-center">
                     <v-icon size="48" color="primary" class="mb-3">mdi-axis-arrow</v-icon>
-                    <h4 class="text-h6 mb-2">Motion</h4>
-                    <p class="text-body-2">Accelerometer, gyroscope, magnetometer</p>
+                    <h4 class="text-h6 mb-2">IMU Motion Tracking</h4>
+                    <p class="text-body-2">9-DOF IMU: accelerometer, gyroscope, compass</p>
                   </v-col>
                   <v-col cols="12" md="4" class="text-center">
                     <v-icon size="48" color="primary" class="mb-3">mdi-camera</v-icon>
-                    <h4 class="text-h6 mb-2">Visual</h4>
-                    <p class="text-body-2">High-quality camera for image capture</p>
+                    <h4 class="text-h6 mb-2">Power Management</h4>
+                    <p class="text-body-2">PiSugar battery with real-time monitoring</p>
                   </v-col>
                 </v-row>
               </v-card>
