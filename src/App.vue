@@ -16,7 +16,7 @@
             class="logo mr-2"
           />
           <v-toolbar-title class="brand-title">
-            Thoth
+            Thothcraft
           </v-toolbar-title>
         </div>
         

@@ -16,21 +16,22 @@
           </v-col>
           <v-col cols="12" md="6">
             <div class="sketchfab-embed-wrapper">
-              <iframe 
-                title="Thoth 3D Model" 
-                frameborder="0" 
-                allowfullscreen 
-                mozallowfullscreen="true" 
-                webkitallowfullscreen="true" 
-                allow="autoplay; fullscreen; xr-spatial-tracking" 
-                xr-spatial-tracking 
-                execution-while-out-of-viewport 
-                execution-while-not-rendered 
-                web-share 
-                src="https://sketchfab.com/models/3832c83dfc6d4baeae11791538d9a70e/embed?ui_controls=0&ui_infos=0&ui_inspector=0&ui_stop=0&ui_watermark=0&ui_watermark_link=0&ui_hint=0&autospin=0.2&autostart=1&ui_theme=dark&dnt=1"
-                class="model-iframe"
-              >
-              </iframe>
+<iframe 
+  title="Thoth 3D Model" 
+  frameborder="0" 
+  allowfullscreen 
+  mozallowfullscreen="true" 
+  webkitallowfullscreen="true" 
+  allow="autoplay; fullscreen; xr-spatial-tracking" 
+  xr-spatial-tracking 
+  execution-while-out-of-viewport 
+  execution-while-not-rendered 
+  web-share 
+  src="https://poly.cam/capture/ABE69FEA-A1DF-4CC5-BC65-CF1DB40BFEE8/embed" 
+  class="model-iframe"
+  style="height:100%;width:100%;max-height:720px;max-width:1280px;min-height:280px;min-width:280px"
+>
+</iframe>
             </div>
           </v-col>
         </v-row>
