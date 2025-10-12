@@ -115,7 +115,7 @@ const navItems = [
   { title: 'Shop', icon: 'mdi-shopping', to: '/shop' },
   { title: 'Community', icon: 'mdi-account-group', to: '/community' },
   { title: 'Plans', icon: 'mdi-currency-usd', to: '/plans' },
-  { title: 'Login to Portal', icon: 'mdi-login', to: 'https://thothfrontend.vercel.app/', isButton: true, external: true },
+  { title: 'Portal', icon: 'mdi-login', to: 'https://portal-three-rho.vercel.app', isButton: true, external: true },
 ]
 
 const isActive = (path) => route.path === path
