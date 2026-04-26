@@ -33,7 +33,7 @@
         </div>
         
         <!-- CTA Button -->
-        <div class="d-none d-md-flex">
+        <div class="d-none d-md-flex align-center">
           <v-btn
             v-for="item in navItems.filter(i => i.isButton)"
             :key="item.to"
@@ -44,6 +44,29 @@
             size="small"
           >
             {{ item.title }}
+          </v-btn>
+          
+          <!-- Theme Slider in Top Bar -->
+          <div class="theme-slider-top" @mouseenter="showSlider = true" @mouseleave="showSlider = false">
+            <span class="theme-label">Theme</span>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              :value="themePos"
+              class="theme-knob-input"
+              @input="onThemeChange"
+            />
+          </div>
+          
+          <!-- Chat Button -->
+          <v-btn
+            icon
+            @click="toggleChat"
+            class="chat-btn"
+            title="Open AI Assistant"
+          >
+            <v-icon>mdi-chat</v-icon>
           </v-btn>
         </div>
         
@@ -99,30 +122,6 @@
         <router-view />
       </v-container>
     </v-main>
-
-    <!-- Theme Cat Icon -->
-    <div class="theme-cat-container">
-      <button 
-        class="theme-cat-button" 
-        @click="toggleChat" 
-        @mouseenter="showSlider = true"
-        @mouseleave="showSlider = false"
-        title="Click to chat, hover for theme"
-      >
-        <span class="cat-icon">🐱</span>
-        <div class="theme-slider-wrapper" :class="{ visible: showSlider }">
-          <input
-            type="range"
-            min="0"
-            max="100"
-            :value="themePos"
-            class="theme-knob-input"
-            @input="onThemeChange"
-            @click.stop
-          />
-        </div>
-      </button>
-    </div>
 
     <!-- Chat Side Panel -->
     <div v-if="showChat" class="chat-side-panel">
@@ -698,6 +697,27 @@ const isActive = (path) => route.path === path
   color: var(--text-primary);
   font-size: 14px;
   font-family: inherit;
+}
+
+/* Theme Slider in Top Bar */
+.theme-slider-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 16px;
+}
+
+.theme-label {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.chat-btn {
+  margin-left: 8px;
+}
+
+.chat-input textarea {
   resize: none;
   outline: none;
   transition: border-color 0.2s ease;
