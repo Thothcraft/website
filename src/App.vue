@@ -100,17 +100,46 @@
       </v-container>
     </v-main>
 
-    <!-- Theme Spectrum Knob -->
-    <div class="theme-knob-container">
-      <span class="theme-knob-label">🐱</span>
-      <input
-        type="range"
-        min="0"
-        max="100"
-        :value="themePos"
-        class="theme-knob-input"
-        @input="onThemeChange"
-      />
+    <!-- Theme Cat Icon -->
+    <div class="theme-cat-container">
+      <button class="theme-cat-button" @click="toggleChat" title="Click to chat, hover for theme">
+        <span class="cat-icon">🐱</span>
+        <div class="theme-slider-wrapper">
+          <input
+            type="range"
+            min="0"
+            max="100"
+            :value="themePos"
+            class="theme-knob-input"
+            @input="onThemeChange"
+            @click.stop
+          />
+        </div>
+      </button>
+    </div>
+
+    <!-- Chat Modal -->
+    <div v-if="showChat" class="chat-modal-overlay" @click="toggleChat">
+      <div class="chat-modal" @click.stop>
+        <div class="chat-header">
+          <h3>🐱 ThothCraft AI Assistant</h3>
+          <button class="close-button" @click="toggleChat">×</button>
+        </div>
+        <div class="chat-messages" ref="chatMessages">
+          <div v-for="(msg, index) in chatMessages" :key="index" :class="['message', msg.role]">
+            <div class="message-content">{{ msg.content }}</div>
+          </div>
+        </div>
+        <div class="chat-input">
+          <textarea
+            v-model="chatInput"
+            @keydown.enter.prevent="sendMessage"
+            placeholder="Type your message..."
+            rows="2"
+          />
+          <button @click="sendMessage" :disabled="!chatInput.trim()">Send</button>
+        </div>
+      </div>
     </div>
   </v-app>
 </template>
@@ -120,6 +149,31 @@ import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 const drawer = ref(false)
 const route = useRoute()
+const showChat = ref(false)
+const chatInput = ref('')
+const chatMessages = ref([
+  { role: 'assistant', content: 'Hello! I\'m your ThothCraft AI assistant. How can I help you today?' }
+])
+
+function toggleChat() {
+  showChat.value = !showChat.value
+}
+
+function sendMessage() {
+  if (!chatInput.value.trim()) return
+  
+  chatMessages.value.push({ role: 'user', content: chatInput.value })
+  const userMessage = chatInput.value
+  chatInput.value = ''
+  
+  // Simulate AI response (replace with actual API call)
+  setTimeout(() => {
+    chatMessages.value.push({ 
+      role: 'assistant', 
+      content: `I received your message: "${userMessage}". This is a demo response. Connect to the Research Portal API for real AI assistance.` 
+    })
+  }, 1000)
+}
 
 // ── Theme Spectrum Engine ──
 // Interpolates between light grey/olive and dark grey/olive
@@ -425,5 +479,270 @@ const isActive = (path) => route.path === path
     padding: 6px 12px;
     font-size: 13px;
   }
+}
+
+/* ── Theme Cat Button ── */
+.theme-cat-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+}
+
+.theme-cat-button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--bg-card);
+  border: 2px solid var(--border-color);
+  box-shadow: 0 4px 20px var(--shadow-medium);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.theme-cat-button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 24px var(--shadow-medium);
+}
+
+.theme-cat-button:hover .theme-slider-wrapper {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-120px);
+}
+
+.cat-icon {
+  font-size: 28px;
+  transition: transform 0.3s ease;
+}
+
+.theme-cat-button:hover .cat-icon {
+  transform: scale(1.2);
+}
+
+.theme-slider-wrapper {
+  position: absolute;
+  right: 60px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(0);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 24px;
+  padding: 8px 16px;
+  box-shadow: 0 4px 20px var(--shadow-medium);
+}
+
+.theme-knob-input {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100px;
+  height: 6px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #e8e6e3, #b8c4a0, #5a6b3a, #1e1e1e);
+  outline: none;
+  cursor: pointer;
+}
+
+.theme-knob-input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid var(--bg-card);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.theme-knob-input::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid var(--bg-card);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  cursor: pointer;
+}
+
+/* ── Chat Modal ── */
+.chat-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.chat-modal {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 8px 32px var(--shadow-medium);
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.chat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.chat-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.close-button:hover {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.message {
+  max-width: 80%;
+  padding: 12px 16px;
+  border-radius: 16px;
+  animation: messageSlide 0.2s ease;
+}
+
+@keyframes messageSlide {
+  from {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.message.user {
+  align-self: flex-end;
+  background: var(--accent);
+  color: white;
+}
+
+.message.assistant {
+  align-self: flex-start;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+.message-content {
+  font-size: 14px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+.chat-input {
+  padding: 16px 20px;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  gap: 12px;
+}
+
+.chat-input textarea {
+  flex: 1;
+  padding: 10px 14px;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font-size: 14px;
+  font-family: inherit;
+  resize: none;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.chat-input textarea:focus {
+  border-color: var(--accent);
+}
+
+.chat-input button {
+  padding: 10px 20px;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.chat-input button:hover:not(:disabled) {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+}
+
+.chat-input button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 </style>
