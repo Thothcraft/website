@@ -110,10 +110,9 @@ const route = useRoute()
 
 const navItems = [
   { title: 'Home', icon: 'mdi-home', to: '/' },
-  { title: 'About', icon: 'mdi-information', to: '/about' },
   { title: 'Features', icon: 'mdi-feature-search', to: '/features' },
+  { title: 'Download', icon: 'mdi-download', to: '/download' },
   { title: 'Shop', icon: 'mdi-shopping', to: '/shop' },
-  { title: 'Community', icon: 'mdi-account-group', to: '/community' },
   { title: 'Plans', icon: 'mdi-currency-usd', to: '/plans' },
   { title: 'Portal', icon: 'mdi-login', to: 'https://portal-three-rho.vercel.app', isButton: true, external: true },
 ]
