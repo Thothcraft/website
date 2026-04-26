@@ -5,7 +5,7 @@
       <div class="hero-content">
         <h1 class="hero-title mb-4">Download Thoth</h1>
         <p class="hero-subtitle mb-6">
-          Free. Open source. One-click install on any platform.
+          Free. Open source. Install with Python on any platform.
         </p>
       </div>
     </div>

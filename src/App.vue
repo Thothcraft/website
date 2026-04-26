@@ -102,9 +102,15 @@
 
     <!-- Theme Cat Icon -->
     <div class="theme-cat-container">
-      <button class="theme-cat-button" @click="toggleChat" title="Click to chat, hover for theme">
+      <button 
+        class="theme-cat-button" 
+        @click="toggleChat" 
+        @mouseenter="showSlider = true"
+        @mouseleave="showSlider = false"
+        title="Click to chat, hover for theme"
+      >
         <span class="cat-icon">🐱</span>
-        <div class="theme-slider-wrapper">
+        <div class="theme-slider-wrapper" :class="{ visible: showSlider }">
           <input
             type="range"
             min="0"
@@ -118,27 +124,25 @@
       </button>
     </div>
 
-    <!-- Chat Modal -->
-    <div v-if="showChat" class="chat-modal-overlay" @click="toggleChat">
-      <div class="chat-modal" @click.stop>
-        <div class="chat-header">
-          <h3>🐱 ThothCraft AI Assistant</h3>
-          <button class="close-button" @click="toggleChat">×</button>
+    <!-- Chat Side Panel -->
+    <div v-if="showChat" class="chat-side-panel">
+      <div class="chat-side-header">
+        <h3>🐱 ThothCraft AI Assistant</h3>
+        <button class="close-button" @click="toggleChat">×</button>
+      </div>
+      <div class="chat-messages" ref="chatMessages">
+        <div v-for="(msg, index) in chatMessages" :key="index" :class="['message', msg.role]">
+          <div class="message-content">{{ msg.content }}</div>
         </div>
-        <div class="chat-messages" ref="chatMessages">
-          <div v-for="(msg, index) in chatMessages" :key="index" :class="['message', msg.role]">
-            <div class="message-content">{{ msg.content }}</div>
-          </div>
-        </div>
-        <div class="chat-input">
-          <textarea
-            v-model="chatInput"
-            @keydown.enter.prevent="sendMessage"
-            placeholder="Type your message..."
-            rows="2"
-          />
-          <button @click="sendMessage" :disabled="!chatInput.trim()">Send</button>
-        </div>
+      </div>
+      <div class="chat-input">
+        <textarea
+          v-model="chatInput"
+          @keydown.enter.prevent="sendMessage"
+          placeholder="Type your message..."
+          rows="2"
+        />
+        <button @click="sendMessage" :disabled="!chatInput.trim()">Send</button>
       </div>
     </div>
   </v-app>
@@ -150,6 +154,7 @@ import { useRoute } from 'vue-router'
 const drawer = ref(false)
 const route = useRoute()
 const showChat = ref(false)
+const showSlider = ref(false)
 const chatInput = ref('')
 const chatMessages = ref([
   { role: 'assistant', content: 'Hello! I\'m your ThothCraft AI assistant. How can I help you today?' }
@@ -502,18 +507,12 @@ const isActive = (path) => route.path === path
   box-shadow: 0 4px 20px var(--shadow-medium);
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  overflow: hidden;
+  overflow: visible;
 }
 
 .theme-cat-button:hover {
   transform: scale(1.1);
   box-shadow: 0 6px 24px var(--shadow-medium);
-}
-
-.theme-cat-button:hover .theme-slider-wrapper {
-  opacity: 1;
-  visibility: visible;
-  transform: translateX(-120px);
 }
 
 .cat-icon {
@@ -537,6 +536,12 @@ const isActive = (path) => route.path === path
   border-radius: 24px;
   padding: 8px 16px;
   box-shadow: 0 4px 20px var(--shadow-medium);
+}
+
+.theme-slider-wrapper.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-120px);
 }
 
 .theme-knob-input {
@@ -573,56 +578,34 @@ const isActive = (path) => route.path === path
   cursor: pointer;
 }
 
-/* ── Chat Modal ── */
-.chat-modal-overlay {
+/* ── Chat Side Panel ── */
+.chat-side-panel {
   position: fixed;
-  top: 0;
-  left: 0;
+  top: 72px;
   right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(4px);
-  z-index: 10000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  animation: fadeIn 0.2s ease;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-.chat-modal {
+  width: 400px;
+  height: calc(100vh - 72px);
   background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: 20px;
-  width: 90%;
-  max-width: 500px;
-  max-height: 80vh;
+  border-left: 1px solid var(--border-color);
+  box-shadow: -4px 0 24px var(--shadow-medium);
   display: flex;
   flex-direction: column;
-  box-shadow: 0 8px 32px var(--shadow-medium);
-  animation: slideUp 0.3s ease;
+  z-index: 10000;
+  animation: slideInRight 0.3s ease;
 }
 
-@keyframes slideUp {
+@keyframes slideInRight {
   from {
-    transform: translateY(20px);
+    transform: translateX(100%);
     opacity: 0;
   }
   to {
-    transform: translateY(0);
+    transform: translateX(0);
     opacity: 1;
   }
 }
 
-.chat-header {
+.chat-side-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -630,7 +613,7 @@ const isActive = (path) => route.path === path
   border-bottom: 1px solid var(--border-color);
 }
 
-.chat-header h3 {
+.chat-side-header h3 {
   margin: 0;
   font-size: 18px;
   font-weight: 600;
