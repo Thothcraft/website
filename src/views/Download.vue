@@ -28,9 +28,9 @@
               class="mb-3"
             >
               <v-icon start>mdi-download</v-icon>
-              Download .dmg
+              Download .tar.gz
             </v-btn>
-            <p class="platform-req">Requires macOS 12+</p>
+            <p class="platform-req">Requires Python 3.9+ and macOS 12+</p>
           </v-card>
         </v-col>
 
@@ -51,7 +51,7 @@
               <v-icon start>mdi-download</v-icon>
               Download .zip
             </v-btn>
-            <p class="platform-req">Requires Windows 10+</p>
+            <p class="platform-req">Requires Python 3.9+ and Windows 10+</p>
           </v-card>
         </v-col>
 
@@ -72,7 +72,7 @@
               <v-icon start>mdi-download</v-icon>
               Download .tar.gz
             </v-btn>
-            <p class="platform-req">Requires RPi 4+ (64-bit OS)</p>
+            <p class="platform-req">Requires Python 3.9+ and RPi 4+ (64-bit OS)</p>
           </v-card>
         </v-col>
       </v-row>
@@ -102,51 +102,53 @@
           <v-expansion-panel>
             <v-expansion-panel-title>
               <v-icon class="mr-3">mdi-apple</v-icon>
-              <strong>macOS — Install from .dmg</strong>
+              <strong>macOS — Install from Source Archive</strong>
             </v-expansion-panel-title>
             <v-expansion-panel-text>
               <ol class="install-steps">
-                <li>Open the downloaded <code>.dmg</code> file</li>
-                <li>Drag <strong>Thoth.app</strong> to your <strong>Applications</strong> folder</li>
-                <li>Launch Thoth from Applications — it appears as an icon in your menu bar</li>
+                <li>Extract the downloaded <code>.tar.gz</code> file</li>
+                <li>Open Terminal and navigate to the extracted directory: <code>cd thoth_mac</code></li>
+                <li>Run the installer: <code>./install.sh</code></li>
+                <li>Thoth appears as an icon in your menu bar (𓁟)</li>
                 <li>Click the icon → <strong>Open Dashboard</strong> to access the web UI at <code>http://localhost:8000</code></li>
                 <li>Thoth will start automatically on every login</li>
               </ol>
-              <p class="mt-4 text-caption">Alternative: clone the repo and run <code>./thoth_mac/install.sh</code></p>
+              <p class="mt-4 text-caption">Requires Python 3.9+. The installer creates a virtual environment and installs all dependencies.</p>
             </v-expansion-panel-text>
           </v-expansion-panel>
 
           <v-expansion-panel>
             <v-expansion-panel-title>
               <v-icon class="mr-3">mdi-microsoft-windows</v-icon>
-              <strong>Windows — Install from .zip</strong>
+              <strong>Windows — Install from Source Archive</strong>
             </v-expansion-panel-title>
             <v-expansion-panel-text>
               <ol class="install-steps">
                 <li>Extract the downloaded <code>.zip</code> file</li>
-                <li>Run <code>Thoth.exe</code> — it appears as an icon in your system tray</li>
+                <li>Open PowerShell and navigate to the extracted directory: <code>cd thoth_win</code></li>
+                <li>Run the installer: <code>powershell -ExecutionPolicy Bypass -File install.ps1</code></li>
+                <li>Thoth appears as an icon in your system tray</li>
                 <li>Right-click the tray icon → <strong>Open Dashboard</strong></li>
-                <li>To start on login: right-click → check <em>"Start with Windows"</em></li>
+                <li>Thoth will start automatically on every login</li>
               </ol>
-              <p class="mt-4 text-caption">Alternative: clone the repo and run <code>.\thoth_win\install.ps1</code></p>
+              <p class="mt-4 text-caption">Requires Python 3.9+. The installer creates a virtual environment and installs all dependencies.</p>
             </v-expansion-panel-text>
           </v-expansion-panel>
 
           <v-expansion-panel>
             <v-expansion-panel-title>
               <v-icon class="mr-3">mdi-raspberry-pi</v-icon>
-              <strong>Raspberry Pi — Flash &amp; Go</strong>
+              <strong>Raspberry Pi — Install from Source Archive</strong>
             </v-expansion-panel-title>
             <v-expansion-panel-text>
               <ol class="install-steps">
-                <li>Download the Thoth RPi archive and extract it</li>
-                <li>Open <strong>Raspberry Pi Imager</strong> and flash Raspberry Pi OS Lite</li>
-                <li>In Imager settings: configure <strong>WiFi</strong> and enable <strong>SSH</strong></li>
-                <li>Download <code>thoth_credentials.json</code> from the <a href="https://portal-three-rho.vercel.app" target="_blank">Research Portal</a> (Devices → Add Device)</li>
-                <li>Copy it to <code>/boot/firmware/thoth_credentials.json</code> on the SD card</li>
-                <li>Insert SD card, power on — Thoth starts automatically and connects to your account</li>
+                <li>Extract the downloaded <code>.tar.gz</code> file</li>
+                <li>Navigate to the extracted directory: <code>cd thoth_rpi/setup</code></li>
+                <li>Run the installer: <code>sudo ./install.sh</code></li>
+                <li>Thoth starts as a systemd service automatically</li>
                 <li>Access the dashboard at <code>http://&lt;pi-ip&gt;:8000</code></li>
               </ol>
+              <p class="mt-4 text-caption">Requires Python 3.9+ and RPi 4+ (64-bit OS). The installer creates a virtual environment and installs all dependencies.</p>
             </v-expansion-panel-text>
           </v-expansion-panel>
         </v-expansion-panels>
@@ -187,7 +189,7 @@
 const GITHUB_RELEASES = 'https://github.com/Thothcraft/thoth/releases/latest/download'
 
 const downloads = {
-  mac: `${GITHUB_RELEASES}/Thoth-macOS.dmg`,
+  mac: `${GITHUB_RELEASES}/Thoth-macOS.tar.gz`,
   win: `${GITHUB_RELEASES}/Thoth-Windows.zip`,
   rpi: `${GITHUB_RELEASES}/Thoth-RPi.tar.gz`,
 }
