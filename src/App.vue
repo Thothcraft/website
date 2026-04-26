@@ -47,27 +47,16 @@
           </v-btn>
           
           <!-- Theme Slider in Top Bar -->
-          <div class="theme-slider-top" @mouseenter="showSlider = true" @mouseleave="showSlider = false">
-            <span class="theme-label">Theme</span>
+          <div class="theme-slider-top">
             <input
               type="range"
               min="0"
               max="100"
               :value="themePos"
-              class="theme-knob-input"
+              class="theme-knob-input-top"
               @input="onThemeChange"
             />
           </div>
-          
-          <!-- Chat Button -->
-          <v-btn
-            icon
-            @click="toggleChat"
-            class="chat-btn"
-            title="Open AI Assistant"
-          >
-            <v-icon>mdi-chat</v-icon>
-          </v-btn>
         </div>
         
         <!-- Mobile Menu Icon -->
@@ -123,13 +112,24 @@
       </v-container>
     </v-main>
 
+    <!-- Chat Cat Icon (no theme slider) -->
+    <div class="chat-cat-container">
+      <button 
+        class="chat-cat-button" 
+        @click="toggleChat"
+        title="Click to chat"
+      >
+        <span class="cat-icon">🐱</span>
+      </button>
+    </div>
+
     <!-- Chat Side Panel -->
     <div v-if="showChat" class="chat-side-panel">
       <div class="chat-side-header">
         <h3>🐱 ThothCraft AI Assistant</h3>
         <button class="close-button" @click="toggleChat">×</button>
       </div>
-      <div class="chat-messages" ref="chatMessages">
+      <div class="chat-messages" ref="chatMessagesRef">
         <div v-for="(msg, index) in chatMessages" :key="index" :class="['message', msg.role]">
           <div class="message-content">{{ msg.content }}</div>
         </div>
@@ -148,35 +148,68 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, nextTick } from 'vue'
 import { useRoute } from 'vue-router'
 const drawer = ref(false)
 const route = useRoute()
 const showChat = ref(false)
-const showSlider = ref(false)
 const chatInput = ref('')
 const chatMessages = ref([
   { role: 'assistant', content: 'Hello! I\'m your ThothCraft AI assistant. How can I help you today?' }
 ])
+const chatMessagesRef = ref(null)
+const isLoading = ref(false)
 
 function toggleChat() {
   showChat.value = !showChat.value
 }
 
-function sendMessage() {
-  if (!chatInput.value.trim()) return
-  
+async function sendMessage() {
+  if (!chatInput.value.trim() || isLoading.value) return
+
   chatMessages.value.push({ role: 'user', content: chatInput.value })
   const userMessage = chatInput.value
   chatInput.value = ''
-  
-  // Simulate AI response (replace with actual API call)
-  setTimeout(() => {
-    chatMessages.value.push({ 
-      role: 'assistant', 
-      content: `I received your message: "${userMessage}". This is a demo response. Connect to the Research Portal API for real AI assistance.` 
+  isLoading.value = true
+
+  try {
+    // Get token from localStorage (assuming auth is handled)
+    const token = localStorage.getItem('auth_token')
+    const headers: Record<string, string> = {
+      'Content-Type': 'application/json',
+    }
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`
+    }
+
+    const response = await fetch('https://web-production-d7d37.up.railway.app/query', {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        query: userMessage,
+        context: {},
+      }),
     })
-  }, 1000)
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`)
+    }
+
+    const data = await response.json()
+    chatMessages.value.push({ role: 'assistant', content: data.response || data.message || 'No response received' })
+  } catch (error) {
+    console.error('Chat error:', error)
+    chatMessages.value.push({
+      role: 'assistant',
+      content: 'Sorry, I encountered an error. Please make sure you\'re logged in to the Research Portal.',
+    })
+  } finally {
+    isLoading.value = false
+    await nextTick()
+    if (chatMessagesRef.value) {
+      chatMessagesRef.value.scrollTop = chatMessagesRef.value.scrollHeight
+    }
+  }
 }
 
 // ── Theme Spectrum Engine ──
@@ -485,16 +518,56 @@ const isActive = (path) => route.path === path
   }
 }
 
-/* ── Theme Cat Button ── */
-.theme-cat-container {
+/* ── Theme Slider in Top Bar ── */
+.theme-slider-top {
+  margin-left: 24px;
+  display: flex;
+  align-items: center;
+}
+
+.theme-knob-input-top {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 120px;
+  height: 6px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #e8e6e3, #b8c4a0, #5a6b3a, #1e1e1e);
+  outline: none;
+  cursor: pointer;
+}
+
+.theme-knob-input-top::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid var(--bg-card);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.theme-knob-input-top::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid var(--bg-card);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  cursor: pointer;
+}
+
+/* ── Chat Cat Button (no theme slider) ── */
+.chat-cat-container {
   position: fixed;
   bottom: 24px;
   right: 24px;
   z-index: 9999;
 }
 
-.theme-cat-button {
-  position: relative;
+.chat-cat-button {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -506,10 +579,9 @@ const isActive = (path) => route.path === path
   box-shadow: 0 4px 20px var(--shadow-medium);
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  overflow: visible;
 }
 
-.theme-cat-button:hover {
+.chat-cat-button:hover {
   transform: scale(1.1);
   box-shadow: 0 6px 24px var(--shadow-medium);
 }
@@ -519,62 +591,8 @@ const isActive = (path) => route.path === path
   transition: transform 0.3s ease;
 }
 
-.theme-cat-button:hover .cat-icon {
+.chat-cat-button:hover .cat-icon {
   transform: scale(1.2);
-}
-
-.theme-slider-wrapper {
-  position: absolute;
-  right: 60px;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateX(0);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: 24px;
-  padding: 8px 16px;
-  box-shadow: 0 4px 20px var(--shadow-medium);
-}
-
-.theme-slider-wrapper.visible {
-  opacity: 1;
-  visibility: visible;
-  transform: translateX(-120px);
-}
-
-.theme-knob-input {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 100px;
-  height: 6px;
-  border-radius: 3px;
-  background: linear-gradient(90deg, #e8e6e3, #b8c4a0, #5a6b3a, #1e1e1e);
-  outline: none;
-  cursor: pointer;
-}
-
-.theme-knob-input::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: var(--accent);
-  border: 2px solid var(--bg-card);
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-
-.theme-knob-input::-moz-range-thumb {
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: var(--accent);
-  border: 2px solid var(--bg-card);
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-  cursor: pointer;
 }
 
 /* ── Chat Side Panel ── */
@@ -697,27 +715,6 @@ const isActive = (path) => route.path === path
   color: var(--text-primary);
   font-size: 14px;
   font-family: inherit;
-}
-
-/* Theme Slider in Top Bar */
-.theme-slider-top {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-left: 16px;
-}
-
-.theme-label {
-  font-size: 12px;
-  color: var(--text-muted);
-  font-weight: 500;
-}
-
-.chat-btn {
-  margin-left: 8px;
-}
-
-.chat-input textarea {
   resize: none;
   outline: none;
   transition: border-color 0.2s ease;
