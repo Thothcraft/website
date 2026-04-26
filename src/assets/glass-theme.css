@@ -1,175 +1,141 @@
-/* Apple Design System - Global Styles */
+/* ==========================================================================
+   Thoth Cat-Color Spectrum Theme
+   
+   Inspired by the Thoth cat logo.
+   Light end: light grey (#e8e6e3) + light olive (#b8c4a0)
+   Dark end:  dark grey (#1e1e1e) + dark olive (#3d4a2a)
+   
+   --theme-pos: 0 (lightest) to 100 (darkest), set by JS knob
+   All colors interpolate continuously based on this single variable.
+   ========================================================================== */
 
-/* Global Background */
+:root {
+  /* Default: light (pos=15) */
+  --theme-pos: 15;
+  
+  /* Computed by JS — these are the fallback light values */
+  --bg-primary:    #f2f0ed;
+  --bg-secondary:  #e8e6e3;
+  --bg-card:       #ffffff;
+  --bg-accent:     #b8c4a0;
+  --bg-accent-dim: #d4dcc4;
+  --text-primary:  #1e1e1e;
+  --text-secondary:#5a5a56;
+  --text-muted:    #8a8a84;
+  --border-color:  rgba(0,0,0,0.06);
+  --accent:        #6b7f4a;
+  --accent-hover:  #7d9456;
+  --shadow-light:  rgba(0,0,0,0.04);
+  --shadow-medium: rgba(0,0,0,0.08);
+}
+
+/* Global */
 body {
-  background: #fbfbfd;
+  background: var(--bg-primary);
+  color: var(--text-primary);
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif;
+  transition: background 0.4s ease, color 0.4s ease;
 }
 
-/* Container Override */
-.v-container {
-  background: transparent !important;
-}
+.v-container { background: transparent !important; }
+.v-application { background: var(--bg-primary) !important; color: var(--text-primary) !important; }
 
-/* Apple Card Styles */
-.apple-card-global {
-  background: white !important;
-  border: 1px solid rgba(0, 0, 0, 0.04) !important;
-  border-radius: 18px !important;
-  transition: all 0.3s ease !important;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
-}
+/* Nav */
+.v-app-bar { background: color-mix(in srgb, var(--bg-primary) 80%, transparent) !important; backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); border-bottom: 1px solid var(--border-color) !important; }
 
-.apple-card-global:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08) !important;
-}
+/* Cards */
+.v-card { border-radius: 18px !important; background: var(--bg-card) !important; border: 1px solid var(--border-color) !important; transition: background 0.4s ease, border-color 0.4s ease !important; }
+.v-card:hover { box-shadow: 0 8px 24px var(--shadow-medium) !important; }
 
-/* Apple Button Styles */
-.apple-btn-primary-global {
-  background: #0071e3 !important;
-  color: white !important;
-  border-radius: 12px !important;
-  font-weight: 500 !important;
-  letter-spacing: -0.01em !important;
-  transition: all 0.2s ease !important;
-  text-transform: none !important;
-}
+/* Buttons */
+.v-btn { border-radius: 12px !important; font-weight: 500 !important; letter-spacing: -0.01em !important; text-transform: none !important; }
 
-.apple-btn-primary-global:hover {
-  background: #0077ed !important;
-  transform: scale(1.02);
-}
+/* Tables */
+.v-table { border-radius: 12px !important; overflow: hidden !important; border: 1px solid var(--border-color) !important; background: var(--bg-card) !important; }
 
-.apple-btn-secondary-global {
-  background: transparent !important;
-  color: #0071e3 !important;
-  border: 1px solid #0071e3 !important;
-  border-radius: 12px !important;
-  font-weight: 500 !important;
-  letter-spacing: -0.01em !important;
-  transition: all 0.2s ease !important;
-  text-transform: none !important;
-}
+/* Expansion panels */
+.v-expansion-panel { border-radius: 12px !important; margin-bottom: 8px !important; border: 1px solid var(--border-color) !important; background: var(--bg-card) !important; }
 
-.apple-btn-secondary-global:hover {
-  background: rgba(0, 113, 227, 0.04) !important;
-  transform: scale(1.02);
+/* Glass hero (used by Shop/Plans) */
+.glass-hero-global {
+  background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+  padding: 140px 20px 80px;
+  min-height: 50vh;
 }
+.glass-hero-global .hero-title { color: var(--text-primary) !important; }
+.glass-hero-global .hero-subtitle { color: var(--text-muted) !important; }
 
-/* Apple Hero Styles */
-.apple-hero-global {
-  background: linear-gradient(180deg, #fbfbfd 0%, #f5f5f7 100%);
-  padding: 160px 20px 120px;
-  min-height: 60vh;
-  position: relative;
-}
+/* Glass card */
+.glass-card-global { background: var(--bg-card) !important; border: 1px solid var(--border-color) !important; border-radius: 18px !important; }
 
-/* Apple Typography */
-.apple-title-global {
-  color: #1d1d1f !important;
-  font-weight: 600 !important;
-  letter-spacing: -0.02em !important;
-}
+/* Selection */
+::selection { background: color-mix(in srgb, var(--accent) 20%, transparent); color: var(--text-primary); }
 
-.apple-text-global {
-  color: #515154 !important;
-  line-height: 1.6 !important;
-}
+/* Scrolling */
+html { scroll-behavior: smooth; }
 
-.apple-text-secondary {
-  color: #86868b !important;
-  line-height: 1.5 !important;
-}
-
-/* Hero Typography */
-.hero-title {
-  font-size: 4rem !important;
-  font-weight: 600 !important;
-  letter-spacing: -0.03em !important;
-  line-height: 1.1 !important;
-  color: #1d1d1f !important;
-}
-
-.hero-subtitle {
-  font-size: 1.375rem !important;
-  font-weight: 400 !important;
-  line-height: 1.4 !important;
-  color: #86868b !important;
-  max-width: 700px !important;
-  margin: 0 auto !important;
-}
-
-.hero-content {
-  max-width: 900px !important;
-  position: relative !important;
-  z-index: 1 !important;
-}
-
-/* Section Backgrounds */
-.apple-section-light {
-  background: #f5f5f7 !important;
-}
-
-.apple-section-white {
-  background: white !important;
-}
-
-.apple-section-dark {
-  background: #1d1d1f !important;
-  color: #f5f5f7 !important;
-}
-
-/* Vuetify Overrides */
-.v-card {
-  border-radius: 18px !important;
-}
-
-.v-btn {
-  border-radius: 12px !important;
-  font-weight: 500 !important;
-  letter-spacing: -0.01em !important;
-  text-transform: none !important;
-}
-
-.v-expansion-panel {
-  border-radius: 12px !important;
-  margin-bottom: 8px !important;
-  border: 1px solid rgba(0, 0, 0, 0.04) !important;
-}
-
-.v-table {
-  border-radius: 12px !important;
-  overflow: hidden !important;
-  border: 1px solid rgba(0, 0, 0, 0.04) !important;
-}
-
-/* Smooth Scrolling */
-html {
-  scroll-behavior: smooth;
-}
-
-/* Selection Styling */
-::selection {
-  background: rgba(0, 113, 227, 0.15);
-  color: #1d1d1f;
-}
-
-::-moz-selection {
-  background: rgba(0, 113, 227, 0.15);
-  color: #1d1d1f;
-}
-
-/* Focus States */
-*:focus-visible {
-  outline: 2px solid #0071e3;
-  outline-offset: 2px;
-}
+/* Focus */
+*:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 /* Transitions */
-* {
-  transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+* { transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1); }
+
+/* ── Theme Knob ── */
+.theme-knob-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 24px;
+  padding: 8px 16px;
+  box-shadow: 0 4px 20px var(--shadow-medium);
+  transition: background 0.4s ease;
+}
+
+.theme-knob-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.theme-knob-input {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100px;
+  height: 6px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #e8e6e3, #b8c4a0, #5a6b3a, #1e1e1e);
+  outline: none;
+  cursor: pointer;
+}
+
+.theme-knob-input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid var(--bg-card);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.theme-knob-input::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid var(--bg-card);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  cursor: pointer;
 }

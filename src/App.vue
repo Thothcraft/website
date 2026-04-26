@@ -99,14 +99,78 @@
         <router-view />
       </v-container>
     </v-main>
+
+    <!-- Theme Spectrum Knob -->
+    <div class="theme-knob-container">
+      <span class="theme-knob-label">🐱</span>
+      <input
+        type="range"
+        min="0"
+        max="100"
+        :value="themePos"
+        class="theme-knob-input"
+        @input="onThemeChange"
+      />
+    </div>
   </v-app>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 const drawer = ref(false)
 const route = useRoute()
+
+// ── Theme Spectrum Engine ──
+// Interpolates between light grey/olive and dark grey/olive
+const themePos = ref(parseInt(localStorage.getItem('thoth-theme-pos') || '15'))
+
+function lerp(a, b, t) { return Math.round(a + (b - a) * t) }
+
+function hexFromRGB(r, g, b) {
+  return '#' + [r, g, b].map(v => v.toString(16).padStart(2, '0')).join('')
+}
+
+function applyTheme(pos) {
+  const t = pos / 100 // 0 = lightest, 1 = darkest
+
+  const bgPrimary    = hexFromRGB(lerp(242,30,t), lerp(240,30,t), lerp(237,30,t))
+  const bgSecondary  = hexFromRGB(lerp(232,24,t), lerp(230,24,t), lerp(227,24,t))
+  const bgCard       = hexFromRGB(lerp(255,38,t), lerp(255,38,t), lerp(255,36,t))
+  const bgAccent     = hexFromRGB(lerp(184,61,t), lerp(196,74,t), lerp(160,42,t))
+  const textPrimary  = hexFromRGB(lerp(30,240,t), lerp(30,240,t), lerp(30,237,t))
+  const textSecondary= hexFromRGB(lerp(90,180,t), lerp(90,180,t), lerp(86,170,t))
+  const textMuted    = hexFromRGB(lerp(138,140,t), lerp(138,140,t), lerp(132,130,t))
+  const accent       = hexFromRGB(lerp(107,130,t), lerp(127,160,t), lerp(74,75,t))
+  const accentHover  = hexFromRGB(lerp(125,145,t), lerp(148,175,t), lerp(86,88,t))
+
+  const borderAlpha = lerp(6, 15, t) / 100
+  const shadowAlpha = lerp(4, 20, t) / 100
+
+  const root = document.documentElement.style
+  root.setProperty('--bg-primary', bgPrimary)
+  root.setProperty('--bg-secondary', bgSecondary)
+  root.setProperty('--bg-card', bgCard)
+  root.setProperty('--bg-accent', bgAccent)
+  root.setProperty('--text-primary', textPrimary)
+  root.setProperty('--text-secondary', textSecondary)
+  root.setProperty('--text-muted', textMuted)
+  root.setProperty('--accent', accent)
+  root.setProperty('--accent-hover', accentHover)
+  root.setProperty('--border-color', `rgba(${t > 0.5 ? '255,255,255' : '0,0,0'},${borderAlpha})`)
+  root.setProperty('--shadow-light', `rgba(0,0,0,${shadowAlpha * 0.5})`)
+  root.setProperty('--shadow-medium', `rgba(0,0,0,${shadowAlpha})`)
+  root.setProperty('--theme-pos', pos)
+}
+
+function onThemeChange(e) {
+  const pos = parseInt(e.target.value)
+  themePos.value = pos
+  applyTheme(pos)
+  localStorage.setItem('thoth-theme-pos', pos)
+}
+
+onMounted(() => applyTheme(themePos.value))
 
 const navItems = [
   { title: 'Home', icon: 'mdi-home', to: '/' },
@@ -123,10 +187,10 @@ const isActive = (path) => route.path === path
 <style scoped>
 /* Horizontal Navigation Bar */
 .apple-nav-horizontal {
-  background: rgba(251, 251, 253, 0.72) !important;
+  background: color-mix(in srgb, var(--bg-primary) 80%, transparent) !important;
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  border-bottom: 1px solid var(--border-color);
   position: fixed !important;
   top: 0;
   z-index: 1000;
@@ -153,7 +217,7 @@ const isActive = (path) => route.path === path
 .nav-link {
   position: relative;
   padding: 8px 16px;
-  color: rgba(0, 0, 0, 0.8);
+  color: var(--text-primary);
   text-decoration: none;
   font-size: 14px;
   font-weight: 500;
@@ -171,7 +235,7 @@ const isActive = (path) => route.path === path
   width: 0;
   height: 0;
   border-radius: 50%;
-  background: rgba(0, 113, 227, 0.1);
+  background: color-mix(in srgb, var(--accent) 15%, transparent);
   transform: translate(-50%, -50%);
   transition: width 0.6s ease, height 0.6s ease;
 }
@@ -183,13 +247,13 @@ const isActive = (path) => route.path === path
   left: 50%;
   width: 0;
   height: 2px;
-  background: linear-gradient(90deg, transparent, #0071e3, transparent);
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
   transform: translateX(-50%);
   transition: width 0.3s ease;
 }
 
 .nav-link:hover {
-  color: #0071e3;
+  color: var(--accent);
   transform: translateY(-1px);
 }
 
@@ -203,20 +267,20 @@ const isActive = (path) => route.path === path
 }
 
 .nav-link.active {
-  color: #0071e3;
-  background: rgba(0, 113, 227, 0.08);
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
   font-weight: 600;
 }
 
 .nav-link.active::after {
   width: calc(100% - 32px);
-  background: #0071e3;
+  background: var(--accent);
 }
 
 /* Portal Button with Glow Effect */
 .portal-btn {
   position: relative;
-  background: linear-gradient(135deg, #0071e3, #0077ed) !important;
+  background: linear-gradient(135deg, var(--accent), var(--accent-hover)) !important;
   color: white !important;
   border-radius: 20px !important;
   padding: 8px 24px !important;
@@ -225,7 +289,7 @@ const isActive = (path) => route.path === path
   letter-spacing: -0.01em !important;
   text-transform: none !important;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-  box-shadow: 0 4px 15px rgba(0, 113, 227, 0.25) !important;
+  box-shadow: 0 4px 15px color-mix(in srgb, var(--accent) 25%, transparent) !important;
   overflow: hidden;
 }
 
@@ -242,8 +306,8 @@ const isActive = (path) => route.path === path
 
 .portal-btn:hover {
   transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 6px 20px rgba(0, 113, 227, 0.35) !important;
-  background: linear-gradient(135deg, #0077ed, #007ff5) !important;
+  box-shadow: 0 6px 20px color-mix(in srgb, var(--accent) 35%, transparent) !important;
+  background: linear-gradient(135deg, var(--accent-hover), var(--accent)) !important;
 }
 
 .portal-btn:hover::before {
@@ -252,7 +316,7 @@ const isActive = (path) => route.path === path
 
 /* Mobile Drawer */
 .apple-drawer {
-  background: rgba(255, 255, 255, 0.98) !important;
+  background: color-mix(in srgb, var(--bg-card) 98%, transparent) !important;
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-right: 1px solid rgba(0, 0, 0, 0.08);
@@ -274,17 +338,17 @@ const isActive = (path) => route.path === path
 }
 
 .nav-item-mobile.active {
-  background: rgba(0, 113, 227, 0.08);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
 }
 
 .nav-icon-item {
-  color: rgba(0, 0, 0, 0.5);
+  color: var(--text-muted);
   margin-right: 12px;
   font-size: 20px;
 }
 
 .nav-text {
-  color: #1d1d1f;
+  color: var(--text-primary);
   font-weight: 500;
   font-size: 15px;
   letter-spacing: -0.01em;
@@ -292,7 +356,7 @@ const isActive = (path) => route.path === path
 
 /* Apple-style Button (mobile) */
 .apple-button-primary {
-  background: #0071e3 !important;
+  background: var(--accent) !important;
   color: white !important;
   border-radius: 12px !important;
   font-weight: 500 !important;
@@ -302,7 +366,7 @@ const isActive = (path) => route.path === path
 }
 
 .apple-button-primary:hover {
-  background: #0077ed !important;
+  background: var(--accent-hover) !important;
   transform: scale(1.02);
 }
 
@@ -332,7 +396,7 @@ const isActive = (path) => route.path === path
 
 /* Brand Title with Gradient Effect */
 .brand-title {
-  background: linear-gradient(135deg, #1d1d1f 0%, #1d1d1f 50%, #0071e3 50%, #0071e3 100%);
+  background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-primary) 50%, var(--accent) 50%, var(--accent) 100%);
   background-size: 200% 100%;
   background-position: 0% 0%;
   -webkit-background-clip: text !important;

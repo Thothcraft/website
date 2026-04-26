@@ -23,7 +23,7 @@
               block
               color="primary"
               size="large"
-              :href="latestRelease('Thoth-macOS', '.dmg')"
+              :href="downloads.mac"
               target="_blank"
               class="mb-3"
             >
@@ -44,7 +44,7 @@
               block
               color="primary"
               size="large"
-              :href="latestRelease('Thoth-Windows', '.zip')"
+              :href="downloads.win"
               target="_blank"
               class="mb-3"
             >
@@ -65,7 +65,7 @@
               block
               color="primary"
               size="large"
-              :href="latestRelease('Thoth-RPi', '.tar.gz')"
+              :href="downloads.rpi"
               target="_blank"
               class="mb-3"
             >
@@ -186,28 +186,30 @@
 <script setup>
 const GITHUB_RELEASES = 'https://github.com/Thothcraft/thoth/releases/latest/download'
 
-const latestRelease = (prefix, ext) => {
-  return `${GITHUB_RELEASES}/${prefix}${ext}`
+const downloads = {
+  mac: `${GITHUB_RELEASES}/Thoth-macOS.dmg`,
+  win: `${GITHUB_RELEASES}/Thoth-Windows.zip`,
+  rpi: `${GITHUB_RELEASES}/Thoth-RPi.tar.gz`,
 }
 </script>
 
 <style scoped>
 .dl-hero {
-  background: linear-gradient(180deg, #fbfbfd 0%, #f0f0f5 100%);
+  background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
   padding: 140px 20px 80px;
 }
-.hero-title { font-size: 3.5rem; font-weight: 700; letter-spacing: -0.03em; color: #1d1d1f; }
-.hero-subtitle { font-size: 1.25rem; color: #86868b; max-width: 500px; margin: 0 auto; }
-.platform-card { background: white !important; border: 1px solid rgba(0,0,0,0.06) !important; border-radius: 18px !important; transition: all 0.3s ease; }
+.hero-title { font-size: 3.5rem; font-weight: 700; letter-spacing: -0.03em; color: var(--text-primary); }
+.hero-subtitle { font-size: 1.25rem; color: var(--text-muted); max-width: 500px; margin: 0 auto; }
+.platform-card { background: var(--bg-card) !important; border: 1px solid var(--border-color) !important; border-radius: 18px !important; transition: all 0.3s ease; }
 .platform-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.08) !important; }
-.platform-name { font-size: 1.4rem; font-weight: 600; color: #1d1d1f; }
-.platform-desc { color: #86868b; font-size: 0.95rem; line-height: 1.4; }
-.platform-req { color: #86868b; font-size: 0.8rem; }
-.section-light { background: #f5f5f7; }
-.section-title { color: #1d1d1f !important; font-weight: 600 !important; font-size: 2rem !important; letter-spacing: -0.02em; }
+.platform-name { font-size: 1.4rem; font-weight: 600; color: var(--text-primary); }
+.platform-desc { color: var(--text-muted); font-size: 0.95rem; line-height: 1.4; }
+.platform-req { color: var(--text-muted); font-size: 0.8rem; }
+.section-light { background: var(--bg-secondary); }
+.section-title { color: var(--text-primary) !important; font-weight: 600 !important; font-size: 2rem !important; letter-spacing: -0.02em; }
 .install-steps { padding-left: 20px; }
-.install-steps li { margin-bottom: 8px; color: #515154; line-height: 1.5; }
-.ha-callout { background: linear-gradient(135deg, #e8f0fe 0%, #f0e8fe 100%) !important; border-radius: 18px !important; }
-.ha-callout-title { font-size: 1.3rem; font-weight: 600; color: #1d1d1f; }
-.ha-callout-text { color: #515154; font-size: 1rem; line-height: 1.5; }
+.install-steps li { margin-bottom: 8px; color: var(--text-secondary); line-height: 1.5; }
+.ha-callout { background: linear-gradient(135deg, var(--bg-accent-dim, #d4dcc4) 0%, var(--bg-secondary) 100%) !important; border-radius: 18px !important; }
+.ha-callout-title { font-size: 1.3rem; font-weight: 600; color: var(--text-primary); }
+.ha-callout-text { color: var(--text-secondary); font-size: 1rem; line-height: 1.5; }
 </style>

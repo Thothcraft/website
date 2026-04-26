@@ -137,22 +137,22 @@ automation:
 </script>
 
 <style scoped>
-.feat-hero { background: linear-gradient(180deg, #fbfbfd 0%, #f0f0f5 100%); padding: 140px 20px 80px; }
-.hero-title { font-size: 3.5rem; font-weight: 700; letter-spacing: -0.03em; color: #1d1d1f; }
-.hero-subtitle { font-size: 1.25rem; color: #86868b; max-width: 600px; margin: 0 auto; }
-.section-light { background: #f5f5f7; }
-.section-title { color: #1d1d1f; font-weight: 600; font-size: 2rem; letter-spacing: -0.02em; }
-.section-text { color: #515154; font-size: 1.05rem; line-height: 1.6; }
-.scenario-card { background: white !important; border: 1px solid rgba(0,0,0,0.06) !important; border-radius: 16px !important; transition: all 0.3s ease; }
+.feat-hero { background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%); padding: 140px 20px 80px; }
+.hero-title { font-size: 3.5rem; font-weight: 700; letter-spacing: -0.03em; color: var(--text-primary); }
+.hero-subtitle { font-size: 1.25rem; color: var(--text-muted); max-width: 600px; margin: 0 auto; }
+.section-light { background: var(--bg-secondary); }
+.section-title { color: var(--text-primary); font-weight: 600; font-size: 2rem; letter-spacing: -0.02em; }
+.section-text { color: var(--text-secondary); font-size: 1.05rem; line-height: 1.6; }
+.scenario-card { background: var(--bg-card) !important; border: 1px solid var(--border-color) !important; border-radius: 16px !important; transition: all 0.3s ease; }
 .scenario-card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.07) !important; }
-.scenario-label { font-weight: 600; font-size: 1.1rem; color: #1d1d1f; }
-.scenario-desc { color: #86868b; font-size: 0.9rem; line-height: 1.4; }
-.sensor-name { font-weight: 600; color: #1d1d1f; }
-.sensor-desc { color: #86868b; font-size: 0.9rem; }
-.platform-name { font-weight: 600; color: #1d1d1f; font-size: 1.1rem; }
-.platform-desc { color: #86868b; font-size: 0.9rem; }
+.scenario-label { font-weight: 600; font-size: 1.1rem; color: var(--text-primary); }
+.scenario-desc { color: var(--text-muted); font-size: 0.9rem; line-height: 1.4; }
+.sensor-name { font-weight: 600; color: var(--text-primary); }
+.sensor-desc { color: var(--text-muted); font-size: 0.9rem; }
+.platform-name { font-weight: 600; color: var(--text-primary); font-size: 1.1rem; }
+.platform-desc { color: var(--text-muted); font-size: 0.9rem; }
 .ha-table { border-radius: 12px; overflow: hidden; }
-.yaml-card { background: #1d1d1f !important; border-radius: 14px !important; }
+.yaml-card { background: var(--text-primary) !important; border-radius: 14px !important; }
 .yaml-label { color: rgba(255,255,255,0.5); font-size: 0.8rem; font-weight: 500; }
 .yaml-code { color: #a8d8a8; font-size: 0.82rem; line-height: 1.5; white-space: pre; overflow-x: auto; font-family: 'SF Mono', monospace; }
 @media (max-width: 768px) {
