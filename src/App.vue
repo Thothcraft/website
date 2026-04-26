@@ -46,17 +46,10 @@
             {{ item.title }}
           </v-btn>
           
-          <!-- Theme Slider in Top Bar -->
-          <div class="theme-slider-top">
-            <input
-              type="range"
-              min="0"
-              max="100"
-              :value="themePos"
-              class="theme-knob-input-top"
-              @input="onThemeChange"
-            />
-          </div>
+          <!-- Theme Toggle (Sun Icon) -->
+          <button class="theme-toggle-button" @click="toggleTheme" title="Toggle theme">
+            <span class="theme-icon">{{ isDark ? '☀️' : '🌙' }}</span>
+          </button>
         </div>
         
         <!-- Mobile Menu Icon -->
@@ -175,7 +168,7 @@ async function sendMessage() {
   try {
     // Get token from localStorage (assuming auth is handled)
     const token = localStorage.getItem('auth_token')
-    const headers: Record<string, string> = {
+    const headers = {
       'Content-Type': 'application/json',
     }
     if (token) {
@@ -212,56 +205,50 @@ async function sendMessage() {
   }
 }
 
-// ── Theme Spectrum Engine ──
-// Interpolates between light grey/olive and dark grey/olive
-const themePos = ref(parseInt(localStorage.getItem('thoth-theme-pos') || '15'))
+// ── Theme Toggle (Sun/Moon) ──
+const isDark = ref(localStorage.getItem('theme-mode') === 'dark')
 
-function lerp(a, b, t) { return Math.round(a + (b - a) * t) }
-
-function hexFromRGB(r, g, b) {
-  return '#' + [r, g, b].map(v => v.toString(16).padStart(2, '0')).join('')
+function toggleTheme() {
+  isDark.value = !isDark.value
+  applyTheme()
+  localStorage.setItem('theme-mode', isDark.value ? 'dark' : 'light')
 }
 
-function applyTheme(pos) {
-  const t = pos / 100 // 0 = lightest, 1 = darkest
-
-  const bgPrimary    = hexFromRGB(lerp(242,30,t), lerp(240,30,t), lerp(237,30,t))
-  const bgSecondary  = hexFromRGB(lerp(232,24,t), lerp(230,24,t), lerp(227,24,t))
-  const bgCard       = hexFromRGB(lerp(255,38,t), lerp(255,38,t), lerp(255,36,t))
-  const bgAccent     = hexFromRGB(lerp(184,61,t), lerp(196,74,t), lerp(160,42,t))
-  const textPrimary  = hexFromRGB(lerp(30,240,t), lerp(30,240,t), lerp(30,237,t))
-  const textSecondary= hexFromRGB(lerp(90,180,t), lerp(90,180,t), lerp(86,170,t))
-  const textMuted    = hexFromRGB(lerp(138,140,t), lerp(138,140,t), lerp(132,130,t))
-  const accent       = hexFromRGB(lerp(107,130,t), lerp(127,160,t), lerp(74,75,t))
-  const accentHover  = hexFromRGB(lerp(125,145,t), lerp(148,175,t), lerp(86,88,t))
-
-  const borderAlpha = lerp(6, 15, t) / 100
-  const shadowAlpha = lerp(4, 20, t) / 100
-
+function applyTheme() {
   const root = document.documentElement.style
-  root.setProperty('--bg-primary', bgPrimary)
-  root.setProperty('--bg-secondary', bgSecondary)
-  root.setProperty('--bg-card', bgCard)
-  root.setProperty('--bg-accent', bgAccent)
-  root.setProperty('--text-primary', textPrimary)
-  root.setProperty('--text-secondary', textSecondary)
-  root.setProperty('--text-muted', textMuted)
-  root.setProperty('--accent', accent)
-  root.setProperty('--accent-hover', accentHover)
-  root.setProperty('--border-color', `rgba(${t > 0.5 ? '255,255,255' : '0,0,0'},${borderAlpha})`)
-  root.setProperty('--shadow-light', `rgba(0,0,0,${shadowAlpha * 0.5})`)
-  root.setProperty('--shadow-medium', `rgba(0,0,0,${shadowAlpha})`)
-  root.setProperty('--theme-pos', pos)
+  
+  if (isDark.value) {
+    // Dark theme colors
+    root.setProperty('--bg-primary', '#1e1e1e')
+    root.setProperty('--bg-secondary', '#181818')
+    root.setProperty('--bg-card', '#262626')
+    root.setProperty('--bg-accent', '#2a2a2a')
+    root.setProperty('--text-primary', '#f0f0f0')
+    root.setProperty('--text-secondary', '#b0b0b0')
+    root.setProperty('--text-muted', '#8a8a8a')
+    root.setProperty('--accent', '#6b7f4a')
+    root.setProperty('--accent-hover', '#7d9456')
+    root.setProperty('--border-color', 'rgba(255,255,255,0.1)')
+    root.setProperty('--shadow-light', 'rgba(0,0,0,0.3)')
+    root.setProperty('--shadow-medium', 'rgba(0,0,0,0.5)')
+  } else {
+    // Light theme colors
+    root.setProperty('--bg-primary', '#f2f0ed')
+    root.setProperty('--bg-secondary', '#e8e6e3')
+    root.setProperty('--bg-card', '#ffffff')
+    root.setProperty('--bg-accent', '#b8c4a0')
+    root.setProperty('--text-primary', '#1e1e1e')
+    root.setProperty('--text-secondary', '#5a5a5a')
+    root.setProperty('--text-muted', '#8a8a84')
+    root.setProperty('--accent', '#6b7f4a')
+    root.setProperty('--accent-hover', '#7d9456')
+    root.setProperty('--border-color', 'rgba(0,0,0,0.06)')
+    root.setProperty('--shadow-light', 'rgba(0,0,0,0.05)')
+    root.setProperty('--shadow-medium', 'rgba(0,0,0,0.1)')
+  }
 }
 
-function onThemeChange(e) {
-  const pos = parseInt(e.target.value)
-  themePos.value = pos
-  applyTheme(pos)
-  localStorage.setItem('thoth-theme-pos', pos)
-}
-
-onMounted(() => applyTheme(themePos.value))
+onMounted(() => applyTheme())
 
 const navItems = [
   { title: 'Home', icon: 'mdi-home', to: '/' },
@@ -518,45 +505,33 @@ const isActive = (path) => route.path === path
   }
 }
 
-/* ── Theme Slider in Top Bar ── */
-.theme-slider-top {
+/* ── Theme Toggle (Sun/Moon) ── */
+.theme-toggle-button {
   margin-left: 24px;
   display: flex;
   align-items: center;
-}
-
-.theme-knob-input-top {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 120px;
-  height: 6px;
-  border-radius: 3px;
-  background: linear-gradient(90deg, #e8e6e3, #b8c4a0, #5a6b3a, #1e1e1e);
-  outline: none;
-  cursor: pointer;
-}
-
-.theme-knob-input-top::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 16px;
-  height: 16px;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  background: var(--accent);
-  border: 2px solid var(--bg-card);
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  background: var(--bg-card);
+  border: 2px solid var(--border-color);
   cursor: pointer;
-  transition: background 0.3s ease;
+  transition: all 0.3s ease;
 }
 
-.theme-knob-input-top::-moz-range-thumb {
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: var(--accent);
-  border: 2px solid var(--bg-card);
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-  cursor: pointer;
+.theme-toggle-button:hover {
+  transform: scale(1.1);
+  background: var(--bg-accent);
+}
+
+.theme-icon {
+  font-size: 20px;
+  transition: transform 0.3s ease;
+}
+
+.theme-toggle-button:hover .theme-icon {
+  transform: rotate(180deg);
 }
 
 /* ── Chat Cat Button (no theme slider) ── */
