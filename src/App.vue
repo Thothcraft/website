@@ -16,7 +16,7 @@
             class="logo mr-2"
           />
           <v-toolbar-title class="brand-title">
-            Thothcraft
+            {{ brandTitle }}
           </v-toolbar-title>
         </div>
         
@@ -50,6 +50,17 @@
           <button class="theme-toggle-button" @click="toggleTheme" title="Toggle theme">
             <span class="theme-icon">{{ isDark ? '☀️' : '🌙' }}</span>
           </button>
+          
+          <!-- Language Selector -->
+          <select 
+            v-model="locale" 
+            @change="setLocale($event.target.value)"
+            class="language-selector"
+          >
+            <option v-for="(label, code) in LOCALE_LABELS" :key="code" :value="code">
+              {{ label }}
+            </option>
+          </select>
         </div>
         
         <!-- Mobile Menu Icon -->
@@ -141,8 +152,10 @@
 </template>
 
 <script setup>
-import { ref, onMounted, nextTick } from 'vue'
+import { ref, onMounted, nextTick, computed } from 'vue'
 import { useRoute } from 'vue-router'
+import { useI18n } from './i18n'
+
 const drawer = ref(false)
 const route = useRoute()
 const showChat = ref(false)
@@ -152,6 +165,18 @@ const chatMessages = ref([
 ])
 const chatMessagesRef = ref(null)
 const isLoading = ref(false)
+const { locale, t, setLocale, isRTL, LOCALE_LABELS } = useI18n()
+
+const navItems = computed(() => [
+  { title: t('nav.home'), icon: 'mdi-home', to: '/' },
+  { title: t('nav.features'), icon: 'mdi-feature-search', to: '/features' },
+  { title: t('nav.download'), icon: 'mdi-download', to: '/download' },
+  { title: t('nav.shop'), icon: 'mdi-shopping', to: '/shop' },
+  { title: t('nav.plans'), icon: 'mdi-currency-usd', to: '/plans' },
+  { title: t('nav.portal'), icon: 'mdi-login', to: 'https://portal-three-rho.vercel.app', isButton: true, external: true },
+])
+
+const brandTitle = computed(() => t('brand.title'))
 
 function toggleChat() {
   showChat.value = !showChat.value
@@ -248,16 +273,11 @@ function applyTheme() {
   }
 }
 
-onMounted(() => applyTheme())
-
-const navItems = [
-  { title: 'Home', icon: 'mdi-home', to: '/' },
-  { title: 'Features', icon: 'mdi-feature-search', to: '/features' },
-  { title: 'Download', icon: 'mdi-download', to: '/download' },
-  { title: 'Shop', icon: 'mdi-shopping', to: '/shop' },
-  { title: 'Plans', icon: 'mdi-currency-usd', to: '/plans' },
-  { title: 'Portal', icon: 'mdi-login', to: 'https://portal-three-rho.vercel.app', isButton: true, external: true },
-]
+onMounted(() => {
+  applyTheme()
+  document.documentElement.dir = isRTL() ? 'rtl' : 'ltr'
+  document.documentElement.lang = locale
+})
 
 const isActive = (path) => route.path === path
 </script>
@@ -532,6 +552,31 @@ const isActive = (path) => route.path === path
 
 .theme-toggle-button:hover .theme-icon {
   transform: rotate(180deg);
+}
+
+/* ── Language Selector ── */
+.language-selector {
+  margin-left: 12px;
+  padding: 8px 12px;
+  border-radius: 20px;
+  background: var(--bg-card);
+  border: 2px solid var(--border-color);
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.language-selector:hover {
+  border-color: var(--accent);
+  background: var(--bg-accent);
+}
+
+.language-selector option {
+  background: var(--bg-card);
+  color: var(--text-primary);
 }
 
 /* ── Chat Cat Button (no theme slider) ── */
