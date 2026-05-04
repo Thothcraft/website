@@ -52,7 +52,12 @@
               <v-icon start>mdi-download</v-icon>
               Download .exe Installer
             </v-btn>
-            <p class="platform-req">Windows 10 or later &nbsp;·&nbsp; 64-bit</p>
+            <p class="platform-req">Windows 10 or later &nbsp;&middot;&nbsp; 64-bit</p>
+            <p class="platform-req mt-1">
+              <a :href="downloads.winFallback" target="_blank" class="releases-link">
+                Browse all releases
+              </a>
+            </p>
           </v-card>
         </v-col>
 
@@ -193,12 +198,16 @@
 </template>
 
 <script setup>
-const GITHUB_RELEASES = 'https://github.com/Thothcraft/thoth/releases/latest/download'
+const GITHUB_RELEASES_BASE  = 'https://github.com/Thothcraft/thoth/releases/latest/download'
+const GITHUB_RELEASES_PAGE  = 'https://github.com/Thothcraft/thoth/releases/latest'
 
 const downloads = {
-  mac: `${GITHUB_RELEASES}/Thoth-macOS.tar.gz`,
-  win: `${GITHUB_RELEASES}/Thoth-Setup.exe`,
-  rpi: `${GITHUB_RELEASES}/Thoth-RPi.tar.gz`,
+  mac: `${GITHUB_RELEASES_BASE}/Thoth-macOS.tar.gz`,
+  // Direct link works once the new build workflow has run at least once.
+  // Until then, the releases page always shows the available assets.
+  win: `${GITHUB_RELEASES_BASE}/Thoth-Setup.exe`,
+  winFallback: GITHUB_RELEASES_PAGE,
+  rpi: `${GITHUB_RELEASES_BASE}/Thoth-RPi.tar.gz`,
 }
 </script>
 
@@ -222,4 +231,6 @@ const downloads = {
 .ha-callout { background: linear-gradient(135deg, var(--bg-accent-dim, #d4dcc4) 0%, var(--bg-secondary) 100%) !important; border-radius: 18px !important; }
 .ha-callout-title { font-size: 1.3rem; font-weight: 600; color: var(--text-primary); }
 .ha-callout-text { color: var(--text-secondary); font-size: 1rem; line-height: 1.5; }
+.releases-link { color: var(--accent, #6c7fd8); text-decoration: none; font-size: 0.8rem; }
+.releases-link:hover { text-decoration: underline; }
 </style>
