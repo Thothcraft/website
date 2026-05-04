@@ -197,7 +197,7 @@ const GITHUB_RELEASES = 'https://github.com/Thothcraft/thoth/releases/latest/dow
 
 const downloads = {
   mac: `${GITHUB_RELEASES}/Thoth-macOS.tar.gz`,
-  win: `${GITHUB_RELEASES}/Thoth-Setup-latest.exe`,
+  win: `${GITHUB_RELEASES}/Thoth-Setup.exe`,
   rpi: `${GITHUB_RELEASES}/Thoth-RPi.tar.gz`,
 }
 </script>
