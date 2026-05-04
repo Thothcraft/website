@@ -69,6 +69,82 @@
       </v-row>
     </v-container>
 
+    <!-- Federated Learning deep-dive -->
+    <v-container class="py-12" style="max-width: 1100px;">
+      <v-row justify="center">
+        <v-col cols="12" class="text-center mb-10">
+          <v-chip color="green" variant="tonal" size="small" class="mb-4">
+            <v-icon start size="small">mdi-shield-lock</v-icon>
+            Privacy-Preserving AI
+          </v-chip>
+          <h2 class="section-title mb-3">Federated Learning — Private by Design</h2>
+          <p class="section-text">
+            Multiple devices collaborate to build better models <strong>without sharing any raw data</strong>.
+            Every training round happens locally; only anonymised model gradients travel over the network.
+          </p>
+        </v-col>
+      </v-row>
+
+      <!-- How FL works diagram-style row -->
+      <v-row align="center" justify="center" class="mb-10">
+        <v-col cols="12" md="5">
+          <v-card class="fl-explainer-card pa-6" elevation="0">
+            <h3 class="fl-explainer-title mb-4">
+              <v-icon color="blue" class="mr-2">mdi-devices</v-icon>
+              On your device
+            </h3>
+            <v-list density="compact" class="fl-list">
+              <v-list-item prepend-icon="mdi-database-lock" class="fl-list-item">
+                Raw sensor data (video, audio, CSI) stays on device storage — never uploaded
+              </v-list-item>
+              <v-list-item prepend-icon="mdi-brain" class="fl-list-item">
+                Local model trains on your personal data using your CPU/GPU
+              </v-list-item>
+              <v-list-item prepend-icon="mdi-upload-lock" class="fl-list-item">
+                Only encrypted gradient updates (weight deltas) are sent — not data
+              </v-list-item>
+            </v-list>
+          </v-card>
+        </v-col>
+
+        <v-col cols="12" md="2" class="text-center">
+          <v-icon size="48" color="primary" class="fl-arrow-icon">mdi-arrow-left-right</v-icon>
+          <p class="fl-arrow-label">Model updates only</p>
+        </v-col>
+
+        <v-col cols="12" md="5">
+          <v-card class="fl-explainer-card pa-6" elevation="0">
+            <h3 class="fl-explainer-title mb-4">
+              <v-icon color="purple" class="mr-2">mdi-cloud-outline</v-icon>
+              Research Portal (server)
+            </h3>
+            <v-list density="compact" class="fl-list">
+              <v-list-item prepend-icon="mdi-merge" class="fl-list-item">
+                Aggregates gradient updates from all opted-in devices using FedAvg
+              </v-list-item>
+              <v-list-item prepend-icon="mdi-arrow-down-circle" class="fl-list-item">
+                Distributes improved global model back to all devices
+              </v-list-item>
+              <v-list-item prepend-icon="mdi-eye-off" class="fl-list-item">
+                Never sees raw sensor data from any device
+              </v-list-item>
+            </v-list>
+          </v-card>
+        </v-col>
+      </v-row>
+
+      <!-- Privacy vs accuracy tradeoff cards -->
+      <v-row justify="center">
+        <v-col v-for="point in flPoints" :key="point.title" cols="12" sm="6" md="3" class="mb-6">
+          <v-card class="fl-point-card pa-5 h-100 text-center" elevation="0">
+            <v-icon :color="point.color" size="40" class="mb-3">{{ point.icon }}</v-icon>
+            <h4 class="fl-point-title mb-2">{{ point.title }}</h4>
+            <p class="fl-point-text">{{ point.text }}</p>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
+
     <!-- Platform support -->
     <div class="section-light py-12">
       <v-container style="max-width: 900px;">
@@ -116,8 +192,35 @@ const haEntities = [
 
 const platforms = [
   { icon: 'mdi-apple', color: '#1d1d1f', name: 'macOS', desc: 'Menu bar app with LaunchAgent' },
-  { icon: 'mdi-microsoft-windows', color: '#0078d4', name: 'Windows', desc: 'System tray app' },
+  { icon: 'mdi-microsoft-windows', color: '#0078d4', name: 'Windows', desc: 'One-click GUI installer, system tray app' },
   { icon: 'mdi-raspberry-pi', color: '#c51a4a', name: 'Raspberry Pi', desc: 'Headless edge device' },
+]
+
+const flPoints = [
+  {
+    icon: 'mdi-database-lock',
+    color: 'blue',
+    title: 'Zero data exposure',
+    text: 'Raw sensor recordings never leave the device they were collected on.',
+  },
+  {
+    icon: 'mdi-account-group',
+    color: 'purple',
+    title: 'Collective intelligence',
+    text: 'Every participating device improves the shared model without contributing private data.',
+  },
+  {
+    icon: 'mdi-toggle-switch',
+    color: 'green',
+    title: 'Fully opt-in',
+    text: 'Federated training rounds are optional — you choose when and whether to participate.',
+  },
+  {
+    icon: 'mdi-source-branch',
+    color: 'orange',
+    title: 'Open source',
+    text: 'The aggregation logic is public. Inspect, fork, and audit the entire pipeline yourself.',
+  },
 ]
 
 const yamlExample = `# Night mode when sleeping detected
@@ -155,7 +258,19 @@ automation:
 .yaml-card { background: var(--text-primary) !important; border-radius: 14px !important; }
 .yaml-label { color: rgba(255,255,255,0.5); font-size: 0.8rem; font-weight: 500; }
 .yaml-code { color: #a8d8a8; font-size: 0.82rem; line-height: 1.5; white-space: pre; overflow-x: auto; font-family: 'SF Mono', monospace; }
+.fl-explainer-card { background: var(--bg-card) !important; border: 1px solid var(--border-color) !important; border-radius: 16px !important; height: 100%; }
+.fl-explainer-title { font-weight: 600; font-size: 1.05rem; color: var(--text-primary); display: flex; align-items: center; }
+.fl-list { background: transparent !important; }
+.fl-list-item { color: var(--text-muted) !important; font-size: 0.9rem !important; padding-left: 0 !important; align-items: flex-start !important; }
+.fl-arrow-icon { display: block; margin: 0 auto 8px; }
+.fl-arrow-label { color: var(--text-muted); font-size: 0.8rem; font-weight: 500; }
+.fl-point-card { background: var(--bg-card) !important; border: 1px solid var(--border-color) !important; border-radius: 16px !important; transition: all 0.3s ease; }
+.fl-point-card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.07) !important; }
+.fl-point-title { font-weight: 600; font-size: 1rem; color: var(--text-primary); }
+.fl-point-text { color: var(--text-muted); font-size: 0.88rem; line-height: 1.45; }
+.section-text { color: var(--text-secondary); font-size: 1.05rem; line-height: 1.6; max-width: 780px; margin: 0 auto; }
 @media (max-width: 768px) {
   .hero-title { font-size: 2.5rem; }
+  .fl-arrow-icon { transform: rotate(90deg); }
 }
 </style>

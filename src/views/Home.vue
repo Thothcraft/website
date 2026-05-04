@@ -113,12 +113,99 @@
             </div>
             <h3 class="feature-title mb-3">Privacy First</h3>
             <p class="feature-text">
-              Federated learning keeps your data local. No cameras required for most scenarios.
+              Raw sensor data never leaves your device. Federated learning trains on your hardware and shares only encrypted model updates.
             </p>
           </v-col>
         </v-row>
       </v-container>
     </div>
+
+    <!-- Federated Learning Section -->
+    <v-container class="py-16" style="max-width: 1100px;">
+      <v-row justify="center">
+        <v-col cols="12" class="text-center mb-10">
+          <v-chip color="green" variant="tonal" size="small" class="mb-4">
+            <v-icon start size="small">mdi-shield-lock</v-icon>
+            Privacy-Preserving AI
+          </v-chip>
+          <h2 class="section-title">Train Together, Share Nothing</h2>
+          <p class="section-text mt-3">
+            Thoth uses <strong>federated learning</strong> — your raw data stays on your device while the model gets smarter across the whole network.
+          </p>
+        </v-col>
+      </v-row>
+
+      <v-row justify="center" class="mb-10">
+        <!-- Step 1 -->
+        <v-col cols="12" md="4" class="mb-6">
+          <v-card class="fl-step-card pa-6 h-100" elevation="0">
+            <div class="fl-step-num mb-4">1</div>
+            <v-icon color="blue" size="36" class="mb-3">mdi-database-lock</v-icon>
+            <h3 class="fl-step-title mb-2">Data stays local</h3>
+            <p class="fl-step-text">
+              Camera frames, audio clips, and sensor readings are collected and processed entirely on your device. Nothing is uploaded to any server.
+            </p>
+          </v-card>
+        </v-col>
+        <!-- Step 2 -->
+        <v-col cols="12" md="4" class="mb-6">
+          <v-card class="fl-step-card pa-6 h-100" elevation="0">
+            <div class="fl-step-num mb-4">2</div>
+            <v-icon color="purple" size="36" class="mb-3">mdi-brain</v-icon>
+            <h3 class="fl-step-title mb-2">Train on-device</h3>
+            <p class="fl-step-text">
+              Each device trains a local model on its own data. Only the encrypted weight updates — never the data itself — are shared with the Research Portal.
+            </p>
+          </v-card>
+        </v-col>
+        <!-- Step 3 -->
+        <v-col cols="12" md="4" class="mb-6">
+          <v-card class="fl-step-card pa-6 h-100" elevation="0">
+            <div class="fl-step-num mb-4">3</div>
+            <v-icon color="green" size="36" class="mb-3">mdi-merge</v-icon>
+            <h3 class="fl-step-title mb-2">Aggregate &amp; improve</h3>
+            <p class="fl-step-text">
+              The Research Portal aggregates updates from all participating devices into a better global model — then pushes it back, improving everyone's accuracy.
+            </p>
+          </v-card>
+        </v-col>
+      </v-row>
+
+      <!-- Privacy guarantees row -->
+      <v-row justify="center">
+        <v-col cols="12" md="10">
+          <v-card class="fl-guarantee-card pa-6" elevation="0">
+            <v-row align="center">
+              <v-col cols="12" md="7">
+                <h3 class="fl-guarantee-title mb-3">What we guarantee</h3>
+                <v-list density="compact" class="fl-guarantee-list">
+                  <v-list-item prepend-icon="mdi-check-circle" class="fl-guarantee-item">
+                    <strong>Raw sensor data never leaves your device</strong>
+                  </v-list-item>
+                  <v-list-item prepend-icon="mdi-check-circle" class="fl-guarantee-item">
+                    <strong>No video or audio stored in the cloud</strong>
+                  </v-list-item>
+                  <v-list-item prepend-icon="mdi-check-circle" class="fl-guarantee-item">
+                    <strong>Participation in federated rounds is opt-in</strong>
+                  </v-list-item>
+                  <v-list-item prepend-icon="mdi-check-circle" class="fl-guarantee-item">
+                    <strong>Open source — verify everything yourself</strong>
+                  </v-list-item>
+                </v-list>
+              </v-col>
+              <v-col cols="12" md="5" class="text-center">
+                <v-icon size="80" color="green" class="mb-3">mdi-shield-check</v-icon>
+                <p class="fl-guarantee-tagline">Your home data stays in your home.</p>
+                <v-btn variant="outlined" color="primary" class="mt-4" to="/features">
+                  How It Works
+                  <v-icon end>mdi-arrow-right</v-icon>
+                </v-btn>
+              </v-col>
+            </v-row>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
 
     <!-- Home Assistant Integration -->
     <v-container class="py-16">
@@ -277,6 +364,18 @@
 .footer-links { margin-top: 8px; }
 .footer-link { color: var(--accent); text-decoration: none; font-size: 0.9rem; }
 .footer-link:hover { text-decoration: underline; }
+
+/* Federated Learning section */
+.fl-step-card { background: var(--bg-card) !important; border: 1px solid var(--border-color) !important; border-radius: 18px !important; transition: all 0.3s ease; }
+.fl-step-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.08) !important; }
+.fl-step-num { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 50%; background: var(--accent, #6c7fd8); color: white; font-weight: 700; font-size: 1rem; }
+.fl-step-title { font-weight: 600; font-size: 1.15rem; color: var(--text-primary); }
+.fl-step-text { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; }
+.fl-guarantee-card { background: var(--bg-secondary) !important; border: 1px solid var(--border-color) !important; border-radius: 18px !important; }
+.fl-guarantee-title { font-weight: 600; font-size: 1.3rem; color: var(--text-primary); }
+.fl-guarantee-list { background: transparent !important; }
+.fl-guarantee-item { color: var(--text-secondary) !important; padding-left: 0 !important; }
+.fl-guarantee-tagline { color: var(--text-secondary); font-size: 1rem; font-weight: 500; }
 
 /* Responsive */
 @media (max-width: 768px) {

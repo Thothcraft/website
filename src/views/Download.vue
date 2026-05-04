@@ -5,7 +5,7 @@
       <div class="hero-content">
         <h1 class="hero-title mb-4">Download Thoth</h1>
         <p class="hero-subtitle mb-6">
-          Free. Open source. Install with Python on any platform.
+          Free. Open source. One-click installer for Windows — no setup required.
         </p>
       </div>
     </div>
@@ -36,10 +36,11 @@
 
         <!-- Windows -->
         <v-col cols="12" md="4" class="mb-6">
-          <v-card class="platform-card h-100 pa-6 text-center" elevation="0">
+          <v-card class="platform-card featured-card h-100 pa-6 text-center" elevation="0">
+            <v-chip color="primary" variant="tonal" size="x-small" class="mb-3">Recommended</v-chip>
             <v-icon size="56" color="#0078d4" class="mb-4">mdi-microsoft-windows</v-icon>
             <h3 class="platform-name mb-2">Windows</h3>
-            <p class="platform-desc mb-4">System tray app. Starts on login via Scheduled Task.</p>
+            <p class="platform-desc mb-4">GUI installer wizard. System tray app — no Python or terminal needed.</p>
             <v-btn
               block
               color="primary"
@@ -49,9 +50,9 @@
               class="mb-3"
             >
               <v-icon start>mdi-download</v-icon>
-              Download .zip
+              Download .exe Installer
             </v-btn>
-            <p class="platform-req">Requires Python 3.9+ and Windows 10+</p>
+            <p class="platform-req">Windows 10 or later &nbsp;·&nbsp; 64-bit</p>
           </v-card>
         </v-col>
 
@@ -120,18 +121,24 @@
           <v-expansion-panel>
             <v-expansion-panel-title>
               <v-icon class="mr-3">mdi-microsoft-windows</v-icon>
-              <strong>Windows — Install from Source Archive</strong>
+              <strong>Windows — GUI Installer (Recommended)</strong>
             </v-expansion-panel-title>
             <v-expansion-panel-text>
+              <v-alert type="success" variant="tonal" class="mb-4" density="compact">
+                No Python, no terminal. Just download and double-click.
+              </v-alert>
               <ol class="install-steps">
-                <li>Extract the downloaded <code>.zip</code> file</li>
-                <li>Open PowerShell and navigate to the extracted directory: <code>cd thoth_win</code></li>
-                <li>Run the installer: <code>powershell -ExecutionPolicy Bypass -File install.ps1</code></li>
-                <li>Thoth appears as an icon in your system tray</li>
-                <li>Right-click the tray icon → <strong>Open Dashboard</strong></li>
-                <li>Thoth will start automatically on every login</li>
+                <li>Download <strong>Thoth-Setup-*.exe</strong> above</li>
+                <li>Double-click the installer and follow the wizard (takes ~30 seconds)</li>
+                <li>Thoth launches automatically and appears in your system tray near the clock</li>
               </ol>
-              <p class="mt-4 text-caption">Requires Python 3.9+. The installer creates a virtual environment and installs all dependencies.</p>
+              <v-divider class="my-4"/>
+              <p class="text-subtitle-2 mb-2">After installation:</p>
+              <ul class="install-steps">
+                <li>Right-click the tray icon → <strong>Open Dashboard</strong> to open <code>http://localhost:8000</code></li>
+                <li>Thoth starts automatically every time you log in</li>
+                <li>To uninstall: right-click tray icon → <strong>Uninstall Thoth</strong>, or go to <strong>Settings → Apps → Thoth</strong></li>
+              </ul>
             </v-expansion-panel-text>
           </v-expansion-panel>
 
@@ -190,7 +197,7 @@ const GITHUB_RELEASES = 'https://github.com/Thothcraft/thoth/releases/latest/dow
 
 const downloads = {
   mac: `${GITHUB_RELEASES}/Thoth-macOS.tar.gz`,
-  win: `${GITHUB_RELEASES}/Thoth-Windows.zip`,
+  win: `${GITHUB_RELEASES}/Thoth-Setup-latest.exe`,
   rpi: `${GITHUB_RELEASES}/Thoth-RPi.tar.gz`,
 }
 </script>
@@ -203,6 +210,7 @@ const downloads = {
 .hero-title { font-size: 3.5rem; font-weight: 700; letter-spacing: -0.03em; color: var(--text-primary); }
 .hero-subtitle { font-size: 1.25rem; color: var(--text-muted); max-width: 500px; margin: 0 auto; }
 .platform-card { background: var(--bg-card) !important; border: 1px solid var(--border-color) !important; border-radius: 18px !important; transition: all 0.3s ease; }
+.featured-card { border: 2px solid var(--accent, #6c7fd8) !important; box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent, #6c7fd8) 10%, transparent) !important; }
 .platform-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.08) !important; }
 .platform-name { font-size: 1.4rem; font-weight: 600; color: var(--text-primary); }
 .platform-desc { color: var(--text-muted); font-size: 0.95rem; line-height: 1.4; }
