@@ -10,11 +10,9 @@
       <v-container class="d-flex align-center justify-space-between pa-0" style="max-width: 1200px;">
         <!-- Logo Section -->
         <div class="d-flex align-center">
-          <img 
-            src="@/assets/thoth_logo.png" 
-            alt="Thoth Logo" 
-            class="logo mr-2"
-          />
+          <div class="logo-square mr-2">
+            <span class="logo-t">T</span>
+          </div>
           <v-toolbar-title class="brand-title">
             {{ brandTitle }}
           </v-toolbar-title>
@@ -468,28 +466,30 @@ const isActive = (path) => route.path === path
   transform: scale(1.02);
 }
 
-/* Logo with Pulse Effect */
-.logo {
-  height: 32px;
-  width: 32px;
+/* Logo Square with T */
+.logo-square {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.logo:hover {
-  transform: rotate(10deg) scale(1.1);
-  filter: drop-shadow(0 4px 8px rgba(0, 113, 227, 0.3));
-  animation: pulse 1s infinite;
+.logo-t {
+  color: white;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
-@keyframes pulse {
-  0%, 100% {
-    transform: rotate(10deg) scale(1.1);
-  }
-  50% {
-    transform: rotate(10deg) scale(1.15);
-  }
+.logo-square:hover {
+  transform: scale(1.1) rotate(-2deg);
+  box-shadow: 0 4px 16px color-mix(in srgb, var(--accent) 30%, transparent);
 }
 
 /* Brand Title with Gradient Effect */

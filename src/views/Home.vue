@@ -73,48 +73,113 @@
       </v-row>
     </v-container>
 
-    <!-- Core Capabilities -->
+    <!-- Data Control & Training -->
     <div class="section-light py-16">
-      <v-container>
+      <v-container style="max-width: 1200px;">
         <v-row justify="center">
           <v-col cols="12" class="text-center mb-12">
-            <h2 class="section-title">Core Capabilities</h2>
-          </v-col>
-          <v-col cols="12" md="3" class="text-center mb-8">
-            <div class="animated-icon-wrapper mb-4">
-              <img src="@/assets/artificial-intelligence.gif" alt="AI Processing" class="animated-icon">
-            </div>
-            <h3 class="feature-title mb-3">Edge AI</h3>
-            <p class="feature-text">
-              Run ML models locally on any device — presence detection, activity recognition, fall detection.
+            <v-chip color="green" variant="tonal" size="small" class="mb-4">
+              <v-icon start size="small">mdi-shield-lock</v-icon>
+              Privacy by Design
+            </v-chip>
+            <h2 class="section-title">Complete Control Over Your Data</h2>
+            <p class="section-text mt-3">
+              Your sensor data stays yours. Train powerful models without compromising privacy.
             </p>
           </v-col>
-          <v-col cols="12" md="3" class="text-center mb-8">
-            <div class="animated-icon-wrapper mb-4">
-              <img src="@/assets/iot.gif" alt="IoT Connectivity" class="animated-icon">
-            </div>
-            <h3 class="feature-title mb-3">WiFi Sensing</h3>
-            <p class="feature-text">
-              ESP32 CSI for through-wall motion detection — no cameras needed.
-            </p>
+        </v-row>
+
+        <v-row justify="center" class="mb-12">
+          <v-col cols="12" md="6" class="mb-8">
+            <v-card class="data-control-card pa-8 h-100" elevation="0">
+              <div class="data-control-icon mb-6">
+                <v-icon size="64" color="green">mdi-database-lock</v-icon>
+              </div>
+              <h3 class="data-control-title mb-4">Raw Sensor Data Never Leaves Your Device</h3>
+              <p class="data-control-text mb-6">
+                All sensor recordings — video frames, audio clips, WiFi CSI, radar signals — are processed and stored entirely on your local hardware. No raw data is ever transmitted to our servers or any third party.
+              </p>
+              <v-list density="compact" class="data-control-list">
+                <v-list-item prepend-icon="mdi-check-circle" class="data-control-item">
+                  <strong>Local processing</strong> — ML inference happens on-device
+                </v-list-item>
+                <v-list-item prepend-icon="mdi-check-circle" class="data-control-item">
+                  <strong>Encrypted storage</strong> — Your data is protected at rest
+                </v-list-item>
+                <v-list-item prepend-icon="mdi-check-circle" class="data-control-item">
+                  <strong>No telemetry</strong> — We don't collect usage statistics
+                </v-list-item>
+              </v-list>
+            </v-card>
           </v-col>
-          <v-col cols="12" md="3" class="text-center mb-8">
-            <div class="animated-icon-wrapper mb-4">
-              <img src="@/assets/data-collection.gif" alt="Data Collection" class="animated-icon">
-            </div>
-            <h3 class="feature-title mb-3">Multi-Sensor</h3>
-            <p class="feature-text">
-              Camera, microphone, radar, IMU — collect from built-in sensors or attached hardware.
-            </p>
+
+          <v-col cols="12" md="6" class="mb-8">
+            <v-card class="data-control-card pa-8 h-100" elevation="0">
+              <div class="data-control-icon mb-6">
+                <v-icon size="64" color="blue">mdi-video-off-outline</v-icon>
+              </div>
+              <h3 class="data-control-title mb-4">No Video or Audio Stored in the Cloud</h3>
+              <p class="data-control-text mb-6">
+                Unlike traditional smart home systems, Thoth never uploads or stores video recordings or audio files in the cloud. All media processing happens locally, ensuring complete visual and auditory privacy.
+              </p>
+              <v-list density="compact" class="data-control-list">
+                <v-list-item prepend-icon="mdi-check-circle" class="data-control-item">
+                  <strong>Zero cloud storage</strong> — No media files leave your device
+                </v-list-item>
+                <v-list-item prepend-icon="mdi-check-circle" class="data-control-item">
+                  <strong>Local inference</strong> — Real-time processing without upload
+                </v-list-item>
+                <v-list-item prepend-icon="mdi-check-circle" class="data-control-item">
+                  <strong>Retention control</strong> — You decide what to keep and delete
+                </v-list-item>
+              </v-list>
+            </v-card>
           </v-col>
-          <v-col cols="12" md="3" class="text-center mb-8">
-            <div class="animated-icon-wrapper mb-4">
-              <img src="@/assets/privacy.gif" alt="Privacy First" class="animated-icon">
-            </div>
-            <h3 class="feature-title mb-3">Privacy First</h3>
-            <p class="feature-text">
-              Raw sensor data never leaves your device. Federated learning trains on your hardware and shares only encrypted model updates.
-            </p>
+        </v-row>
+
+        <!-- Training Methods -->
+        <v-row justify="center">
+          <v-col cols="12" class="text-center mb-10">
+            <h3 class="training-subtitle">Choose Your Training Approach</h3>
+          </v-col>
+          <v-col cols="12" md="4" class="mb-6">
+            <v-card class="training-card pa-6 h-100 text-center" elevation="0">
+              <v-icon size="48" color="purple" class="mb-4">mdi-cloud-outline</v-icon>
+              <h4 class="training-title mb-3">Cloud Training</h4>
+              <p class="training-text">
+                Upload preprocessed features to train on GPU infrastructure. Faster training with full hyperparameter optimization.
+              </p>
+              <div class="training-badge mb-3">
+                <v-chip color="purple" variant="tonal" size="small">Fast</v-chip>
+                <v-chip color="blue" variant="tonal" size="small" class="ml-2">GPU</v-chip>
+              </div>
+            </v-card>
+          </v-col>
+          <v-col cols="12" md="4" class="mb-6">
+            <v-card class="training-card pa-6 h-100 text-center" elevation="0">
+              <v-icon size="48" color="green" class="mb-4">mdi-devices</v-icon>
+              <h4 class="training-title mb-3">On-Device Training</h4>
+              <p class="training-text">
+                Train models locally using your device's CPU. Complete data isolation with no external dependencies.
+              </p>
+              <div class="training-badge mb-3">
+                <v-chip color="green" variant="tonal" size="small">Private</v-chip>
+                <v-chip color="orange" variant="tonal" size="small" class="ml-2">CPU</v-chip>
+              </div>
+            </v-card>
+          </v-col>
+          <v-col cols="12" md="4" class="mb-6">
+            <v-card class="training-card pa-6 h-100 text-center" elevation="0">
+              <v-icon size="48" color="blue" class="mb-4">mdi-account-group</v-icon>
+              <h4 class="training-title mb-3">Federated Learning</h4>
+              <p class="training-text">
+                Collaborate with other devices to improve model accuracy while keeping all raw data private.
+              </p>
+              <div class="training-badge mb-3">
+                <v-chip color="blue" variant="tonal" size="small">Collaborative</v-chip>
+                <v-chip color="green" variant="tonal" size="small" class="ml-2">Opt-in</v-chip>
+              </div>
+            </v-card>
           </v-col>
         </v-row>
       </v-container>
@@ -376,6 +441,21 @@
 .fl-guarantee-list { background: transparent !important; }
 .fl-guarantee-item { color: var(--text-secondary) !important; padding-left: 0 !important; }
 .fl-guarantee-tagline { color: var(--text-secondary); font-size: 1rem; font-weight: 500; }
+
+/* Data Control & Training section */
+.data-control-card { background: var(--bg-card) !important; border: 1px solid var(--border-color) !important; border-radius: 20px !important; transition: all 0.3s ease; }
+.data-control-card:hover { transform: translateY(-6px); box-shadow: 0 12px 32px rgba(0,0,0,0.1) !important; }
+.data-control-icon { display: flex; align-items: center; justify-content: center; width: 120px; height: 120px; border-radius: 24px; background: linear-gradient(135deg, var(--bg-secondary), var(--bg-card)); margin: 0 auto; }
+.data-control-title { font-weight: 700; font-size: 1.4rem; color: var(--text-primary); text-align: center; line-height: 1.3; }
+.data-control-text { color: var(--text-secondary); font-size: 1.05rem; line-height: 1.6; text-align: center; }
+.data-control-list { background: transparent !important; }
+.data-control-item { color: var(--text-muted) !important; font-size: 0.95rem !important; padding-left: 0 !important; margin-bottom: 8px; }
+.training-subtitle { font-weight: 600; font-size: 1.8rem; color: var(--text-primary); }
+.training-card { background: var(--bg-card) !important; border: 1px solid var(--border-color) !important; border-radius: 18px !important; transition: all 0.3s ease; }
+.training-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.08) !important; }
+.training-title { font-weight: 600; font-size: 1.1rem; color: var(--text-primary); }
+.training-text { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; }
+.training-badge { min-height: 32px; }
 
 /* Responsive */
 @media (max-width: 768px) {

@@ -30,7 +30,46 @@
         <h2 class="section-title text-center mb-10">Multi-Modal Sensors</h2>
         <v-row>
           <v-col v-for="sensor in sensors" :key="sensor.name" cols="12" sm="6" md="3" class="text-center mb-6">
-            <v-icon :color="sensor.color" size="44" class="mb-3">{{ sensor.icon }}</v-icon>
+            <div class="sensor-icon-wrapper" :class="sensor.wrapperClass" @mouseenter="sensor.hover = true" @mouseleave="sensor.hover = false">
+              <svg class="sensor-svg" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g v-if="sensor.name === 'WiFi CSI'">
+                  <circle cx="32" cy="32" r="28" :fill="sensor.bgColor" :opacity="sensor.hover ? 0.3 : 0.1"/>
+                  <path d="M32 48C25.3726 48 20 42.6274 20 36C20 29.3726 25.3726 24 32 24C38.6274 24 44 29.3726 44 36C44 42.6274 38.6274 48 32 48Z" :fill="sensor.color" :opacity="sensor.hover ? 1 : 0.7"/>
+                  <path d="M32 20C23.1634 20 16 27.1634 16 36C16 44.8366 23.1634 52 32 52C40.8366 52 48 44.8366 48 36C48 27.1634 40.8366 20 32 20Z" :fill="sensor.color" :opacity="sensor.hover ? 0.5 : 0.3"/>
+                  <path d="M32 16C21.5059 16 13 24.5059 13 35C13 45.4941 21.5059 54 32 54C42.4941 54 51 45.4941 51 35C51 24.5059 42.4941 16 32 16Z" :fill="sensor.color" :opacity="sensor.hover ? 0.3 : 0.15"/>
+                  <circle cx="32" cy="36" r="4" fill="white"/>
+                </g>
+                <g v-else-if="sensor.name === 'mmWave Radar'">
+                  <circle cx="32" cy="32" r="28" :fill="sensor.bgColor" :opacity="sensor.hover ? 0.3 : 0.1"/>
+                  <circle cx="32" cy="32" r="16" :fill="sensor.color" :opacity="sensor.hover ? 1 : 0.7"/>
+                  <circle cx="32" cy="32" r="12" :fill="sensor.bgColor" :opacity="sensor.hover ? 0.5 : 0.3"/>
+                  <circle cx="32" cy="32" r="8" :fill="sensor.color" :opacity="sensor.hover ? 0.8 : 0.5"/>
+                  <circle cx="32" cy="32" r="4" fill="white"/>
+                  <line x1="32" y1="4" x2="32" y2="12" :stroke="sensor.color" :stroke-width="2" :opacity="sensor.hover ? 1 : 0.5"/>
+                  <line x1="32" y1="52" x2="32" y2="60" :stroke="sensor.color" :stroke-width="2" :opacity="sensor.hover ? 1 : 0.5"/>
+                  <line x1="4" y1="32" x2="12" y2="32" :stroke="sensor.color" :stroke-width="2" :opacity="sensor.hover ? 1 : 0.5"/>
+                  <line x1="52" y1="32" x2="60" y2="32" :stroke="sensor.color" :stroke-width="2" :opacity="sensor.hover ? 1 : 0.5"/>
+                </g>
+                <g v-else-if="sensor.name === 'Camera'">
+                  <circle cx="32" cy="32" r="28" :fill="sensor.bgColor" :opacity="sensor.hover ? 0.3 : 0.1"/>
+                  <rect x="14" y="20" width="36" height="24" rx="4" :fill="sensor.color" :opacity="sensor.hover ? 1 : 0.7"/>
+                  <circle cx="32" cy="32" r="8" :fill="sensor.bgColor" :opacity="sensor.hover ? 0.8 : 0.5"/>
+                  <circle cx="32" cy="32" r="5" :fill="sensor.color" :opacity="sensor.hover ? 1 : 0.7"/>
+                  <circle cx="32" cy="32" r="2" fill="white"/>
+                  <rect x="28" y="46" width="8" height="6" rx="2" :fill="sensor.color" :opacity="sensor.hover ? 0.8 : 0.5"/>
+                  <circle cx="40" cy="24" r="3" :fill="sensor.bgColor" :opacity="sensor.hover ? 0.6 : 0.3"/>
+                </g>
+                <g v-else-if="sensor.name === 'Microphone'">
+                  <circle cx="32" cy="32" r="28" :fill="sensor.bgColor" :opacity="sensor.hover ? 0.3 : 0.1"/>
+                  <rect x="26" y="14" width="12" height="20" rx="6" :fill="sensor.color" :opacity="sensor.hover ? 1 : 0.7"/>
+                  <rect x="22" y="34" width="20" height="4" rx="2" :fill="sensor.color" :opacity="sensor.hover ? 0.8 : 0.5"/>
+                  <line x1="32" y1="38" x2="32" y2="46" :stroke="sensor.color" :stroke-width="2" :opacity="sensor.hover ? 1 : 0.5"/>
+                  <line x1="24" y1="46" x2="40" y2="46" :stroke="sensor.color" :stroke-width="2" :opacity="sensor.hover ? 1 : 0.5"/>
+                  <path d="M18 32C18 25.3726 23.3726 20 30 20" :stroke="sensor.color" :stroke-width="2" :opacity="sensor.hover ? 0.5 : 0.3" fill="none"/>
+                  <path d="M46 32C46 25.3726 40.6274 20 34 20" :stroke="sensor.color" :stroke-width="2" :opacity="sensor.hover ? 0.5 : 0.3" fill="none"/>
+                </g>
+              </svg>
+            </div>
             <h4 class="sensor-name mb-1">{{ sensor.name }}</h4>
             <p class="sensor-desc">{{ sensor.desc }}</p>
           </v-col>
@@ -175,10 +214,38 @@ const scenarios = [
 ]
 
 const sensors = [
-  { icon: 'mdi-wifi', color: 'blue', name: 'WiFi CSI', desc: 'ESP32 through-wall sensing' },
-  { icon: 'mdi-radar', color: 'purple', name: 'mmWave Radar', desc: 'DreamHAT / IWR6843' },
-  { icon: 'mdi-camera', color: 'green', name: 'Camera', desc: 'Built-in or USB cameras' },
-  { icon: 'mdi-microphone', color: 'orange', name: 'Microphone', desc: 'Audio event detection' },
+  { 
+    name: 'WiFi CSI', 
+    desc: 'ESP32 through-wall sensing',
+    color: '#3b82f6',
+    bgColor: '#3b82f6',
+    wrapperClass: 'wifi-wrapper',
+    hover: false
+  },
+  { 
+    name: 'mmWave Radar', 
+    desc: 'DreamHAT / IWR6843',
+    color: '#a855f7',
+    bgColor: '#a855f7',
+    wrapperClass: 'radar-wrapper',
+    hover: false
+  },
+  { 
+    name: 'Camera', 
+    desc: 'Built-in or USB cameras',
+    color: '#22c55e',
+    bgColor: '#22c55e',
+    wrapperClass: 'camera-wrapper',
+    hover: false
+  },
+  { 
+    name: 'Microphone', 
+    desc: 'Audio event detection',
+    color: '#f97316',
+    bgColor: '#f97316',
+    wrapperClass: 'mic-wrapper',
+    hover: false
+  },
 ]
 
 const haEntities = [
@@ -252,6 +319,37 @@ automation:
 .scenario-desc { color: var(--text-muted); font-size: 0.9rem; line-height: 1.4; }
 .sensor-name { font-weight: 600; color: var(--text-primary); }
 .sensor-desc { color: var(--text-muted); font-size: 0.9rem; }
+
+/* Sensor Icon Wrapper */
+.sensor-icon-wrapper {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+.sensor-icon-wrapper:hover {
+  transform: translateY(-8px) scale(1.05);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+}
+
+.sensor-svg {
+  width: 64px;
+  height: 64px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sensor-icon-wrapper:hover .sensor-svg {
+  transform: scale(1.1);
+}
+
 .platform-name { font-weight: 600; color: var(--text-primary); font-size: 1.1rem; }
 .platform-desc { color: var(--text-muted); font-size: 0.9rem; }
 .ha-table { border-radius: 12px; overflow: hidden; }
