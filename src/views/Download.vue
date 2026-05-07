@@ -5,7 +5,7 @@
       <div class="hero-content">
         <h1 class="hero-title mb-4">Download Thoth</h1>
         <p class="hero-subtitle mb-6">
-          Free. Open source. One-click installer for Windows — no setup required.
+          Free. Open source. GUI installer for macOS, plus Windows and Raspberry Pi packages.
         </p>
       </div>
     </div>
@@ -18,7 +18,7 @@
           <v-card class="platform-card h-100 pa-6 text-center" elevation="0">
             <v-icon size="56" color="#1d1d1f" class="mb-4">mdi-apple</v-icon>
             <h3 class="platform-name mb-2">macOS</h3>
-            <p class="platform-desc mb-4">Menu bar app. Runs on login via LaunchAgent.</p>
+            <p class="platform-desc mb-4">Menu bar app with a guided GUI installer.</p>
             <v-btn
               block
               color="primary"
@@ -28,9 +28,9 @@
               class="mb-3"
             >
               <v-icon start>mdi-download</v-icon>
-              Download .tar.gz
+              Download .dmg
             </v-btn>
-            <p class="platform-req">Requires Python 3.9+ and macOS 12+</p>
+            <p class="platform-req">macOS 12+ (Python is installed during setup)</p>
           </v-card>
         </v-col>
 
@@ -108,18 +108,18 @@
           <v-expansion-panel>
             <v-expansion-panel-title>
               <v-icon class="mr-3">mdi-apple</v-icon>
-              <strong>macOS — Install from Source Archive</strong>
+              <strong>macOS — Install from DMG (GUI)</strong>
             </v-expansion-panel-title>
             <v-expansion-panel-text>
               <ol class="install-steps">
-                <li>Extract the downloaded <code>.tar.gz</code> file</li>
-                <li>Open Terminal and navigate to the extracted directory: <code>cd thoth_mac</code></li>
-                <li>Run the installer: <code>./install.sh</code></li>
-                <li>Thoth appears as an icon in your menu bar (𓁟)</li>
+                <li>Open the downloaded <code>Thoth-macOS-Installer.dmg</code></li>
+                <li>Double-click <code>Install Thoth.command</code></li>
+                <li>Follow the installation prompts shown in the GUI dialog</li>
+                <li>Thoth appears as a square <strong>T</strong> icon in your menu bar</li>
                 <li>Click the icon → <strong>Open Dashboard</strong> to access the web UI at <code>http://localhost:8000</code></li>
                 <li>Thoth will start automatically on every login</li>
               </ol>
-              <p class="mt-4 text-caption">Requires Python 3.9+. The installer creates a virtual environment and installs all dependencies.</p>
+              <p class="mt-4 text-caption">The installer sets up dependencies and registers auto-start via LaunchAgent.</p>
             </v-expansion-panel-text>
           </v-expansion-panel>
 
@@ -202,7 +202,7 @@ const GITHUB_RELEASES_BASE  = 'https://github.com/Thothcraft/thoth/releases/late
 const GITHUB_RELEASES_PAGE  = 'https://github.com/Thothcraft/thoth/releases/latest'
 
 const downloads = {
-  mac: `${GITHUB_RELEASES_BASE}/Thoth-macOS.tar.gz`,
+  mac: `${GITHUB_RELEASES_BASE}/Thoth-macOS-Installer.dmg`,
   // Direct link works once the new build workflow has run at least once.
   // Until then, the releases page always shows the available assets.
   win: `${GITHUB_RELEASES_BASE}/Thoth-Setup.exe`,
