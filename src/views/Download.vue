@@ -23,12 +23,24 @@
               block
               color="primary"
               size="large"
-              :href="downloads.mac"
+              :href="downloads.macZip"
               target="_blank"
               class="mb-3"
             >
               <v-icon start>mdi-download</v-icon>
-              Download .dmg
+              Download .zip
+            </v-btn>
+            <v-btn
+              block
+              color="grey"
+              variant="text"
+              :href="downloads.macDmg"
+              target="_blank"
+              class="mb-3"
+              disabled
+            >
+              <v-icon start>mdi-download</v-icon>
+              Download .dmg (requires Apple signing)
             </v-btn>
             <p class="platform-req">macOS 12+ (Python is installed during setup)</p>
           </v-card>
@@ -202,7 +214,8 @@ const GITHUB_RELEASES_BASE  = 'https://github.com/Thothcraft/thoth/releases/late
 const GITHUB_RELEASES_PAGE  = 'https://github.com/Thothcraft/thoth/releases/latest'
 
 const downloads = {
-  mac: `${GITHUB_RELEASES_BASE}/Thoth-macOS-Installer.dmg`,
+  macZip: `${GITHUB_RELEASES_BASE}/Thoth-macOS.zip`,
+  macDmg: `${GITHUB_RELEASES_BASE}/Thoth-macOS-Installer.dmg`,
   // Direct link works once the new build workflow has run at least once.
   // Until then, the releases page always shows the available assets.
   win: `${GITHUB_RELEASES_BASE}/Thoth-Setup.exe`,
