@@ -207,7 +207,7 @@ const downloads = {
   // Until then, the releases page always shows the available assets.
   win: `${GITHUB_RELEASES_BASE}/Thoth-Setup.exe`,
   winFallback: GITHUB_RELEASES_PAGE,
-  rpi: `${GITHUB_RELEASES_BASE}/Thoth-RPi.tar.gz`,
+  rpi: GITHUB_RELEASES_PAGE,
 }
 </script>
 
