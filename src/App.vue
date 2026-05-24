@@ -167,6 +167,7 @@ const chatMessages = ref([
 const chatMessagesRef = ref(null)
 const isLoading = ref(false)
 const { locale, t, setLocale, isRTL, LOCALE_LABELS } = useI18n()
+const API_BASE_URL = (import.meta.env.VITE_BRAIN_API_URL || 'https://web-production-d7d37.up.railway.app').replace(/\/$/, '')
 
 const navItems = computed(() => [
   { title: t('nav.home'), icon: 'mdi-home', to: '/' },
@@ -201,14 +202,19 @@ async function sendMessage() {
   try {
     // Get token from localStorage (assuming auth is handled)
     const token = localStorage.getItem('auth_token')
+    if (!token) {
+      chatMessages.value.push({
+        role: 'assistant',
+        content: 'Please log in to the Research Portal before using chat.',
+      })
+      return
+    }
     const headers = {
       'Content-Type': 'application/json',
     }
-    if (token) {
-      headers['Authorization'] = `Bearer ${token}`
-    }
+    headers['Authorization'] = `Bearer ${token}`
 
-    const response = await fetch('https://web-production-d7d37.up.railway.app/query', {
+    const response = await fetch(`${API_BASE_URL}/query`, {
       method: 'POST',
       headers,
       body: JSON.stringify({
@@ -218,7 +224,14 @@ async function sendMessage() {
     })
 
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`)
+      let backendMessage = ''
+      try {
+        const errorBody = await response.json()
+        backendMessage = errorBody?.detail || errorBody?.message || ''
+      } catch (_error) {
+        backendMessage = ''
+      }
+      throw new Error(`HTTP ${response.status}${backendMessage ? `: ${backendMessage}` : ''}`)
     }
 
     const data = await response.json()

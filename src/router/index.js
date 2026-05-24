@@ -10,6 +10,7 @@ const routes = [
   { path: '/', name: 'Home', component: Home },
   { path: '/features', name: 'Features', component: Features },
   { path: '/download', name: 'Download', component: Download },
+  { path: '/thothcraft/download', redirect: '/download' },
   { path: '/shop', name: 'Shop', component: Shop },
   { path: '/plans', name: 'Plans', component: Plans },
   { path: '/projects', name: 'Projects', component: Projects },
