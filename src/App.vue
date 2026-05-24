@@ -135,11 +135,14 @@
         <div v-for="(msg, index) in chatMessages" :key="index" :class="['message', msg.role]">
           <div class="message-content">{{ msg.content }}</div>
         </div>
+        <div v-if="isLoading" class="message assistant">
+          <div class="message-content loading-dots"><span></span><span></span><span></span></div>
+        </div>
       </div>
       <div class="chat-input">
         <textarea
           v-model="chatInput"
-          @keydown.enter.prevent="sendMessage"
+          @keydown.enter="handleEnter"
           placeholder="Type your message..."
           rows="2"
         />
@@ -171,6 +174,7 @@ const navItems = computed(() => [
   { title: t('nav.download'), icon: 'mdi-download', to: '/download' },
   { title: t('nav.shop'), icon: 'mdi-shopping', to: '/shop' },
   { title: t('nav.plans'), icon: 'mdi-currency-usd', to: '/plans' },
+  { title: t('nav.projects'), icon: 'mdi-flask-outline', to: '/projects' },
   { title: t('nav.portal'), icon: 'mdi-login', to: 'https://portal-three-rho.vercel.app', isButton: true, external: true },
 ])
 
@@ -178,6 +182,12 @@ const brandTitle = computed(() => t('brand.title'))
 
 function toggleChat() {
   showChat.value = !showChat.value
+}
+
+function handleEnter(event) {
+  if (event.shiftKey) return
+  event.preventDefault()
+  sendMessage()
 }
 
 async function sendMessage() {
@@ -217,7 +227,7 @@ async function sendMessage() {
     console.error('Chat error:', error)
     chatMessages.value.push({
       role: 'assistant',
-      content: 'Sorry, I encountered an error. Please make sure you\'re logged in to the Research Portal.',
+      content: 'Sorry, I could not reach the server. Please try again or visit the Research Portal.',
     })
   } finally {
     isLoading.value = false
@@ -764,5 +774,29 @@ const isActive = (path) => route.path === path
 .chat-input button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+.loading-dots {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  padding: 4px 0;
+}
+
+.loading-dots span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  animation: dot-bounce 1.2s infinite ease-in-out both;
+}
+
+.loading-dots span:nth-child(1) { animation-delay: 0s; }
+.loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+.loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes dot-bounce {
+  0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+  40% { transform: scale(1); opacity: 1; }
 }
 </style>

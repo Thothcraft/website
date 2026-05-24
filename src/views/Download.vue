@@ -82,21 +82,6 @@
           </v-card>
         </v-col>
       </v-row>
-
-      <!-- GitHub link -->
-      <v-row justify="center" class="mt-4">
-        <v-col cols="12" class="text-center">
-          <v-btn
-            variant="text"
-            color="primary"
-            href="https://github.com/Thothcraft/thoth/releases"
-            target="_blank"
-          >
-            <v-icon start>mdi-github</v-icon>
-            View all releases on GitHub
-          </v-btn>
-        </v-col>
-      </v-row>
     </v-container>
 
     <!-- Install Instructions -->

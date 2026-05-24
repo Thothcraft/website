@@ -12,6 +12,7 @@ const translations = {
     'nav.shop': 'Shop',
     'nav.plans': 'Plans',
     'nav.portal': 'Portal',
+    'nav.projects': 'Projects',
     'brand.title': 'Thothcraft',
   },
   ar: {
@@ -21,6 +22,7 @@ const translations = {
     'nav.shop': 'المتجر',
     'nav.plans': 'الخطط',
     'nav.portal': 'المدخل',
+    'nav.projects': 'المشاريع',
     'brand.title': 'ثوثكرافت',
   },
   fr: {
@@ -30,6 +32,7 @@ const translations = {
     'nav.shop': 'Boutique',
     'nav.plans': 'Plans',
     'nav.portal': 'Portail',
+    'nav.projects': 'Projets',
     'brand.title': 'Thothcraft',
   },
 };

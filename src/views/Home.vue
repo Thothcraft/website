@@ -356,10 +356,6 @@
           <v-col cols="12">
             <p class="footer-text">© 2026 Thothcraft. MIT License.</p>
             <p class="footer-links">
-              <a href="https://github.com/Thothcraft/thoth" target="_blank" class="footer-link">
-                <v-icon size="small" class="mr-1">mdi-github</v-icon> GitHub
-              </a>
-              <span class="mx-3">·</span>
               <router-link to="/plans" class="footer-link">Plans</router-link>
               <span class="mx-3">·</span>
               <a href="https://portal-three-rho.vercel.app" target="_blank" class="footer-link">Research Portal</a>
