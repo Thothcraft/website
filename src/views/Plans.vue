@@ -5,7 +5,7 @@
       <div class="hero-content">
         <h1 class="hero-title mb-4">Simple, Transparent Pricing</h1>
         <p class="hero-subtitle mb-6">
-          Start free. Upgrade when you need federated learning, model deployment, or more devices.
+          Start free. Upgrade when you need longer retention, more devices, or team workspaces.
         </p>
       </div>
     </div>
@@ -121,9 +121,9 @@ const free = {
     '1 device online',
     '5 GB storage',
     'Sensor data collection',
-    '– Federated learning',
-    '– Model deployment',
-    '– Differential privacy',
+    'Live 3D presence',
+    'Editable room calibration',
+    'Local processing',
   ],
 }
 
@@ -132,9 +132,9 @@ const researcher = {
     'Everything in Free',
     '10 devices online',
     '50 GB storage',
-    'Federated learning',
-    'Model deployment',
-    'Differential privacy',
+    'Live 3D presence',
+    'Editable room calibration',
+    'Extended data retention',
   ],
 }
 
@@ -152,9 +152,9 @@ const organization = {
 const compareRows = [
   { feature: 'Devices online',        free: '1',     researcher: '10',    org: '100'   },
   { feature: 'Storage',               free: '5 GB',  researcher: '50 GB', org: '500 GB' },
-  { feature: 'Federated learning',    free: false,   researcher: true,    org: true    },
-  { feature: 'Model deployment',      free: false,   researcher: true,    org: true    },
-  { feature: 'Differential privacy',  free: false,   researcher: true,    org: true    },
+  { feature: 'Live 3D presence',      free: true,    researcher: true,    org: true    },
+  { feature: 'Room calibration',      free: true,    researcher: true,    org: true    },
+  { feature: 'Data retention',        free: 'Basic', researcher: 'Extended', org: 'Custom' },
   { feature: 'Lab workspaces',        free: false,   researcher: false,   org: true    },
   { feature: 'Priority support',      free: false,   researcher: false,   org: true    },
   { feature: 'Price (CAD / month)',   free: 'Free',  researcher: '$20',   org: '$500'  },
@@ -173,8 +173,8 @@ const faqs = [
     a: 'Your data stays safe. Features above your new tier become read-only. You have 30 days to export anything before restrictions apply.' },
   { q: 'Is pricing in Canadian dollars?',
     a: 'Yes — all prices are in CAD. Taxes may apply depending on your region.' },
-  { q: 'What is federated learning?',
-    a: 'Federated learning lets multiple devices train a shared model without any raw data leaving the device. Only encrypted gradient updates are exchanged.' },
+  { q: 'Does live presence require a camera?',
+    a: 'No. The live view is generated locally from radio reflections and reports presence and location without images.' },
   { q: 'Do I need to install anything for the free plan?',
     a: 'Yes — download the client for your platform (Windows, macOS, or Raspberry Pi) from the Download page and run it.' },
 ]

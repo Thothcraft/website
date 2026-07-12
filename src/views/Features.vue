@@ -5,7 +5,7 @@
       <div class="hero-content">
         <h1 class="hero-title mb-4">Smart Sensing for Smart Homes</h1>
         <p class="hero-subtitle">
-          Non-invasive activity recognition. Privacy-first ML. Native Home Assistant integration.
+          Private 3D presence, motion localization, and native Home Assistant integration.
         </p>
       </div>
     </div>
@@ -108,73 +108,23 @@
       </v-row>
     </v-container>
 
-    <!-- Federated Learning deep-dive -->
+    <!-- Live spatial sensing -->
     <v-container class="py-12" style="max-width: 1100px;">
       <v-row justify="center">
         <v-col cols="12" class="text-center mb-10">
-          <v-chip color="green" variant="tonal" size="small" class="mb-4">
-            <v-icon start size="small">mdi-shield-lock</v-icon>
-            Privacy-Preserving AI
+          <v-chip color="cyan" variant="tonal" size="small" class="mb-4">
+            <v-icon start size="small">mdi-radar</v-icon>
+            Live spatial sensing
           </v-chip>
-          <h2 class="section-title mb-3">Federated Learning — Private by Design</h2>
+          <h2 class="section-title mb-3">Presence You Can Place in the Room</h2>
           <p class="section-text">
-            Multiple devices collaborate to build better models <strong>without sharing any raw data</strong>.
-            Every training round happens locally; only anonymised model gradients travel over the network.
+            A live 3D view combines motion energy with persistent stationary presence. It shows target position,
+            estimated dimensions, and the sensor field of view without cameras or cloud processing.
           </p>
         </v-col>
       </v-row>
-
-      <!-- How FL works diagram-style row -->
-      <v-row align="center" justify="center" class="mb-10">
-        <v-col cols="12" md="5">
-          <v-card class="fl-explainer-card pa-6" elevation="0">
-            <h3 class="fl-explainer-title mb-4">
-              <v-icon color="blue" class="mr-2">mdi-devices</v-icon>
-              On your device
-            </h3>
-            <v-list density="compact" class="fl-list">
-              <v-list-item prepend-icon="mdi-database-lock" class="fl-list-item">
-                Raw sensor data (video, audio, CSI) stays on device storage — never uploaded
-              </v-list-item>
-              <v-list-item prepend-icon="mdi-brain" class="fl-list-item">
-                Local model trains on your personal data using your CPU/GPU
-              </v-list-item>
-              <v-list-item prepend-icon="mdi-upload-lock" class="fl-list-item">
-                Only encrypted gradient updates (weight deltas) are sent — not data
-              </v-list-item>
-            </v-list>
-          </v-card>
-        </v-col>
-
-        <v-col cols="12" md="2" class="text-center">
-          <v-icon size="48" color="primary" class="fl-arrow-icon">mdi-arrow-left-right</v-icon>
-          <p class="fl-arrow-label">Model updates only</p>
-        </v-col>
-
-        <v-col cols="12" md="5">
-          <v-card class="fl-explainer-card pa-6" elevation="0">
-            <h3 class="fl-explainer-title mb-4">
-              <v-icon color="purple" class="mr-2">mdi-cloud-outline</v-icon>
-              Research Portal (server)
-            </h3>
-            <v-list density="compact" class="fl-list">
-              <v-list-item prepend-icon="mdi-merge" class="fl-list-item">
-                Aggregates gradient updates from all opted-in devices using FedAvg
-              </v-list-item>
-              <v-list-item prepend-icon="mdi-arrow-down-circle" class="fl-list-item">
-                Distributes improved global model back to all devices
-              </v-list-item>
-              <v-list-item prepend-icon="mdi-eye-off" class="fl-list-item">
-                Never sees raw sensor data from any device
-              </v-list-item>
-            </v-list>
-          </v-card>
-        </v-col>
-      </v-row>
-
-      <!-- Privacy vs accuracy tradeoff cards -->
       <v-row justify="center">
-        <v-col v-for="point in flPoints" :key="point.title" cols="12" sm="6" md="3" class="mb-6">
+        <v-col v-for="point in spatialPoints" :key="point.title" cols="12" sm="6" md="3" class="mb-6">
           <v-card class="fl-point-card pa-5 h-100 text-center" elevation="0">
             <v-icon :color="point.color" size="40" class="mb-3">{{ point.icon }}</v-icon>
             <h4 class="fl-point-title mb-2">{{ point.title }}</h4>
@@ -263,30 +213,30 @@ const platforms = [
   { icon: 'mdi-raspberry-pi', color: '#c51a4a', name: 'Raspberry Pi', desc: 'Headless edge device' },
 ]
 
-const flPoints = [
+const spatialPoints = [
   {
     icon: 'mdi-database-lock',
     color: 'blue',
-    title: 'Zero data exposure',
-    text: 'Raw sensor recordings never leave the device they were collected on.',
+    title: 'Stationary presence',
+    text: 'Confirmed targets persist when standing, sitting, or sleeping still.',
   },
   {
     icon: 'mdi-account-group',
     color: 'purple',
-    title: 'Collective intelligence',
-    text: 'Every participating device improves the shared model without contributing private data.',
+    title: '3D localization',
+    text: 'Target boxes are placed in an editable room using range, azimuth, and elevation.',
   },
   {
     icon: 'mdi-toggle-switch',
     color: 'green',
-    title: 'Fully opt-in',
-    text: 'Federated training rounds are optional — you choose when and whether to participate.',
+    title: 'Calibrated geometry',
+    text: 'Room dimensions and sensor placement are draggable and saved on the device.',
   },
   {
     icon: 'mdi-source-branch',
     color: 'orange',
-    title: 'Open source',
-    text: 'The aggregation logic is public. Inspect, fork, and audit the entire pipeline yourself.',
+    title: 'Private by design',
+    text: 'Presence is processed locally from radio reflections without a camera.',
   },
 ]
 
