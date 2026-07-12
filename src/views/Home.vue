@@ -12,15 +12,11 @@
       </div>
     </section>
 
-    <section class="statement">
-      <p>Out of the box, Thoth detects human presence, maps indoor position in 2D, and connects to Home Assistant. Enable the camera only when you want remote visual access.</p>
-    </section>
-
     <section class="features section-pad">
       <div class="section-intro">
         <p class="kicker">
           WHAT IT DOES
-        </p><h2>Useful immediately.<br>More capable over time.</h2>
+        </p><h2>Your home,<br>more aware.</h2>
       </div>
       <div class="feature-list">
         <article
@@ -41,8 +37,8 @@
       <div class="section-intro">
         <p class="kicker">
           NATURAL SPACES
-        </p><h2>Spaces that should respond naturally.</h2><p class="section-copy">
-          Choose a card to explore how Thoth fits the home, care, security, and research.
+        </p><h2>Technology that stays in the background.</h2><p class="section-copy">
+          For comfort, care, security, and research.
         </p>
       </div>
       <div
