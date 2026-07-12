@@ -1,9 +1,14 @@
 <template>
-  <v-container fluid class="download-page pa-0">
+  <v-container
+    fluid
+    class="download-page pa-0"
+  >
     <!-- Hero -->
     <div class="dl-hero d-flex align-center justify-center text-center">
       <div class="hero-content">
-        <h1 class="hero-title mb-4">Download Thoth</h1>
+        <h1 class="hero-title mb-4">
+          Download Thoth
+        </h1>
         <p class="hero-subtitle mb-6">
           Free. Open source. GUI installer for macOS, plus Windows and Raspberry Pi packages.
         </p>
@@ -11,14 +16,34 @@
     </div>
 
     <!-- Platform Cards -->
-    <v-container class="py-12" style="max-width: 1000px;">
+    <v-container
+      class="py-12"
+      style="max-width: 1000px;"
+    >
       <v-row justify="center">
         <!-- macOS -->
-        <v-col cols="12" md="4" class="mb-6">
-          <v-card class="platform-card h-100 pa-6 text-center" elevation="0">
-            <v-icon size="56" color="#1d1d1f" class="mb-4">mdi-apple</v-icon>
-            <h3 class="platform-name mb-2">macOS</h3>
-            <p class="platform-desc mb-4">Menu bar app with a guided GUI installer.</p>
+        <v-col
+          cols="12"
+          md="4"
+          class="mb-6"
+        >
+          <v-card
+            class="platform-card h-100 pa-6 text-center"
+            elevation="0"
+          >
+            <v-icon
+              size="56"
+              color="#1d1d1f"
+              class="mb-4"
+            >
+              mdi-apple
+            </v-icon>
+            <h3 class="platform-name mb-2">
+              macOS
+            </h3>
+            <p class="platform-desc mb-4">
+              Menu bar app with a guided GUI installer.
+            </p>
             <v-btn
               block
               color="primary"
@@ -27,7 +52,9 @@
               target="_blank"
               class="mb-3"
             >
-              <v-icon start>mdi-download</v-icon>
+              <v-icon start>
+                mdi-download
+              </v-icon>
               Download .zip
             </v-btn>
             <v-btn
@@ -39,20 +66,48 @@
               class="mb-3"
               disabled
             >
-              <v-icon start>mdi-download</v-icon>
+              <v-icon start>
+                mdi-download
+              </v-icon>
               Download .dmg (requires Apple signing)
             </v-btn>
-            <p class="platform-req">macOS 12+ (Python is installed during setup)</p>
+            <p class="platform-req">
+              macOS 12+ (Python is installed during setup)
+            </p>
           </v-card>
         </v-col>
 
         <!-- Windows -->
-        <v-col cols="12" md="4" class="mb-6">
-          <v-card class="platform-card featured-card h-100 pa-6 text-center" elevation="0">
-            <v-chip color="primary" variant="tonal" size="x-small" class="mb-3">Recommended</v-chip>
-            <v-icon size="56" color="#0078d4" class="mb-4">mdi-microsoft-windows</v-icon>
-            <h3 class="platform-name mb-2">Windows</h3>
-            <p class="platform-desc mb-4">GUI installer wizard. System tray app — no Python or terminal needed.</p>
+        <v-col
+          cols="12"
+          md="4"
+          class="mb-6"
+        >
+          <v-card
+            class="platform-card featured-card h-100 pa-6 text-center"
+            elevation="0"
+          >
+            <v-chip
+              color="primary"
+              variant="tonal"
+              size="x-small"
+              class="mb-3"
+            >
+              Recommended
+            </v-chip>
+            <v-icon
+              size="56"
+              color="#0078d4"
+              class="mb-4"
+            >
+              mdi-microsoft-windows
+            </v-icon>
+            <h3 class="platform-name mb-2">
+              Windows
+            </h3>
+            <p class="platform-desc mb-4">
+              GUI installer wizard. System tray app — no Python or terminal needed.
+            </p>
             <v-btn
               block
               color="primary"
@@ -61,12 +116,20 @@
               target="_blank"
               class="mb-3"
             >
-              <v-icon start>mdi-download</v-icon>
+              <v-icon start>
+                mdi-download
+              </v-icon>
               Download .exe Installer
             </v-btn>
-            <p class="platform-req">Windows 10 or later &nbsp;&middot;&nbsp; 64-bit</p>
+            <p class="platform-req">
+              Windows 10 or later &nbsp;&middot;&nbsp; 64-bit
+            </p>
             <p class="platform-req mt-1">
-              <a :href="downloads.winFallback" target="_blank" class="releases-link">
+              <a
+                :href="downloads.winFallback"
+                target="_blank"
+                class="releases-link"
+              >
                 Browse all releases
               </a>
             </p>
@@ -74,11 +137,28 @@
         </v-col>
 
         <!-- Raspberry Pi -->
-        <v-col cols="12" md="4" class="mb-6">
-          <v-card class="platform-card h-100 pa-6 text-center" elevation="0">
-            <v-icon size="56" color="#c51a4a" class="mb-4">mdi-raspberry-pi</v-icon>
-            <h3 class="platform-name mb-2">Raspberry Pi</h3>
-            <p class="platform-desc mb-4">Headless edge device. Flash with Raspberry Pi Imager.</p>
+        <v-col
+          cols="12"
+          md="4"
+          class="mb-6"
+        >
+          <v-card
+            class="platform-card h-100 pa-6 text-center"
+            elevation="0"
+          >
+            <v-icon
+              size="56"
+              color="#c51a4a"
+              class="mb-4"
+            >
+              mdi-raspberry-pi
+            </v-icon>
+            <h3 class="platform-name mb-2">
+              Raspberry Pi
+            </h3>
+            <p class="platform-desc mb-4">
+              Headless edge device. Flash with Raspberry Pi Imager.
+            </p>
             <v-btn
               block
               color="primary"
@@ -87,10 +167,14 @@
               target="_blank"
               class="mb-3"
             >
-              <v-icon start>mdi-download</v-icon>
+              <v-icon start>
+                mdi-download
+              </v-icon>
               Download .tar.gz
             </v-btn>
-            <p class="platform-req">Requires Python 3.9+ and RPi 4+ (64-bit OS)</p>
+            <p class="platform-req">
+              Requires Python 3.9+ and RPi 4+ (64-bit OS)
+            </p>
           </v-card>
         </v-col>
       </v-row>
@@ -99,12 +183,16 @@
     <!-- Install Instructions -->
     <div class="section-light py-12">
       <v-container style="max-width: 900px;">
-        <h2 class="section-title text-center mb-8">Installation Guide</h2>
+        <h2 class="section-title text-center mb-8">
+          Installation Guide
+        </h2>
 
         <v-expansion-panels variant="accordion">
           <v-expansion-panel>
             <v-expansion-panel-title>
-              <v-icon class="mr-3">mdi-apple</v-icon>
+              <v-icon class="mr-3">
+                mdi-apple
+              </v-icon>
               <strong>macOS — Install from DMG (GUI)</strong>
             </v-expansion-panel-title>
             <v-expansion-panel-text>
@@ -116,17 +204,26 @@
                 <li>Click the icon → <strong>Open Dashboard</strong> to access the web UI at <code>http://localhost:8000</code></li>
                 <li>Thoth will start automatically on every login</li>
               </ol>
-              <p class="mt-4 text-caption">The installer sets up dependencies and registers auto-start via LaunchAgent.</p>
+              <p class="mt-4 text-caption">
+                The installer sets up dependencies and registers auto-start via LaunchAgent.
+              </p>
             </v-expansion-panel-text>
           </v-expansion-panel>
 
           <v-expansion-panel>
             <v-expansion-panel-title>
-              <v-icon class="mr-3">mdi-microsoft-windows</v-icon>
+              <v-icon class="mr-3">
+                mdi-microsoft-windows
+              </v-icon>
               <strong>Windows — GUI Installer (Recommended)</strong>
             </v-expansion-panel-title>
             <v-expansion-panel-text>
-              <v-alert type="success" variant="tonal" class="mb-4" density="compact">
+              <v-alert
+                type="success"
+                variant="tonal"
+                class="mb-4"
+                density="compact"
+              >
                 No Python, no terminal. Just download and double-click.
               </v-alert>
               <ol class="install-steps">
@@ -134,8 +231,10 @@
                 <li>Double-click the installer and follow the wizard (takes ~30 seconds)</li>
                 <li>Thoth launches automatically and appears in your system tray near the clock</li>
               </ol>
-              <v-divider class="my-4"/>
-              <p class="text-subtitle-2 mb-2">After installation:</p>
+              <v-divider class="my-4" />
+              <p class="text-subtitle-2 mb-2">
+                After installation:
+              </p>
               <ul class="install-steps">
                 <li>Right-click the tray icon → <strong>Open Dashboard</strong> to open <code>http://localhost:8000</code></li>
                 <li>Thoth starts automatically every time you log in</li>
@@ -146,7 +245,9 @@
 
           <v-expansion-panel>
             <v-expansion-panel-title>
-              <v-icon class="mr-3">mdi-raspberry-pi</v-icon>
+              <v-icon class="mr-3">
+                mdi-raspberry-pi
+              </v-icon>
               <strong>Raspberry Pi — Install from Source Archive</strong>
             </v-expansion-panel-title>
             <v-expansion-panel-text>
@@ -157,7 +258,9 @@
                 <li>Thoth starts as a systemd service automatically</li>
                 <li>Access the dashboard at <code>http://&lt;pi-ip&gt;:8000</code></li>
               </ol>
-              <p class="mt-4 text-caption">Requires Python 3.9+ and RPi 4+ (64-bit OS). The installer creates a virtual environment and installs all dependencies.</p>
+              <p class="mt-4 text-caption">
+                Requires Python 3.9+ and RPi 4+ (64-bit OS). The installer creates a virtual environment and installs all dependencies.
+              </p>
             </v-expansion-panel-text>
           </v-expansion-panel>
         </v-expansion-panels>
@@ -165,14 +268,28 @@
     </div>
 
     <!-- Home Assistant callout -->
-    <v-container class="py-12" style="max-width: 900px;">
+    <v-container
+      class="py-12"
+      style="max-width: 900px;"
+    >
       <v-row justify="center">
         <v-col cols="12">
-          <v-card class="ha-callout pa-8" elevation="0">
+          <v-card
+            class="ha-callout pa-8"
+            elevation="0"
+          >
             <v-row align="center">
-              <v-col cols="12" md="8">
+              <v-col
+                cols="12"
+                md="8"
+              >
                 <h3 class="ha-callout-title mb-2">
-                  <v-icon class="mr-2" color="blue">mdi-home-assistant</v-icon>
+                  <v-icon
+                    class="mr-2"
+                    color="blue"
+                  >
+                    mdi-home-assistant
+                  </v-icon>
                   Works with Home Assistant
                 </h3>
                 <p class="ha-callout-text">
@@ -180,10 +297,20 @@
                   Use them in automations, dashboards, and scripts — no coding required.
                 </p>
               </v-col>
-              <v-col cols="12" md="4" class="text-center text-md-right">
-                <v-btn color="primary" size="large" to="/features">
+              <v-col
+                cols="12"
+                md="4"
+                class="text-center text-md-right"
+              >
+                <v-btn
+                  color="primary"
+                  size="large"
+                  to="/features"
+                >
                   Learn More
-                  <v-icon end>mdi-arrow-right</v-icon>
+                  <v-icon end>
+                    mdi-arrow-right
+                  </v-icon>
                 </v-btn>
               </v-col>
             </v-row>

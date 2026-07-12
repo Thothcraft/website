@@ -1,56 +1,176 @@
 <template>
-  <main class="home-page">
+  <div class="home-page">
     <section class="hero">
-      <div class="hero-copy">
-        <div class="eyebrow">Raspberry Pi–based ambient intelligence</div>
-        <h1>Thoth understands a space without demanding attention.</h1>
-        <p>One compact device combines radar, Wi‑Fi sensing, and an optional camera to detect occupancy and activity, keep data local, and connect your environment to useful automations.</p>
-        <div class="actions">
-          <v-btn class="primary-action" size="large" to="/download">Set up Thoth</v-btn>
-          <v-btn class="secondary-action" size="large" href="https://portal-three-rho.vercel.app" target="_blank">Open portal</v-btn>
-        </div>
-      </div>
-      <div class="device-card">
-        <div class="device-top"><span class="status-dot"></span> Thoth online</div>
-        <div class="pi-mark">T</div>
-        <div class="sensor-row"><span>Radar</span><span>Wi‑Fi CSI</span><span>Camera</span></div>
-        <div class="occupancy"><small>Room state</small><strong>Occupied</strong><span>408 / 585 frames detected</span></div>
+      <p class="kicker">
+        AMBIENT INTELLIGENCE, KEPT PRIVATE
+      </p>
+      <h1>Passive indoor monitoring for private and smart homes.</h1>
+      <div class="hero-foot">
+        <p>Thoth gives your home a quiet understanding of people and place—without demanding wearables, subscriptions, or a camera.</p><router-link to="/product">
+          Meet the device <span>↗</span>
+        </router-link>
       </div>
     </section>
 
-    <section class="sensor-section">
-      <div class="section-heading"><span>One device</span><h2>Purpose-built sensing</h2></div>
-      <div class="sensor-grid">
-        <article><v-icon>mdi-radar</v-icon><h3>Millimeter-wave radar</h3><p>Tracks presence and movement without recording identifiable imagery.</p></article>
-        <article><v-icon>mdi-wifi</v-icon><h3>Wi‑Fi sensing</h3><p>Uses channel-state changes to add passive context from the wireless environment.</p></article>
-        <article><v-icon>mdi-camera-outline</v-icon><h3>Optional camera</h3><p>Add visual context when you choose, with capture and retention under your control.</p></article>
+    <section class="statement">
+      <p>Out of the box, Thoth detects human presence, maps indoor position in 2D, and connects to Home Assistant. Enable the camera only when you want remote visual access.</p>
+    </section>
+
+    <section class="features section-pad">
+      <div class="section-intro">
+        <p class="kicker">
+          WHAT IT DOES
+        </p><h2>Useful immediately.<br>More capable over time.</h2>
+      </div>
+      <div class="feature-list">
+        <article
+          v-for="(item, i) in capabilities"
+          :key="item.title"
+          tabindex="0"
+          @click="openCard(item, i)"
+          @keydown.enter="openCard(item, i)"
+        >
+          <span>0{{ i + 1 }}</span><h3>{{ item.title }}</h3><p>{{ item.short }}</p><button :aria-label="`Learn more about ${item.title}`">
+            ↗
+          </button>
+        </article>
       </div>
     </section>
 
-    <section class="use-section">
-      <div class="section-heading"><span>Use Thoth in</span><h2>Spaces that should respond naturally</h2></div>
-      <div class="uses">
-        <article v-for="item in uses" :key="item.title"><v-icon>{{ item.icon }}</v-icon><div><h3>{{ item.title }}</h3><p>{{ item.text }}</p></div></article>
+    <section class="responsive section-pad">
+      <div class="section-intro">
+        <p class="kicker">
+          NATURAL SPACES
+        </p><h2>Spaces that should respond naturally.</h2><p class="section-copy">
+          Choose a card to explore how Thoth fits the home, care, security, and research.
+        </p>
+      </div>
+      <div
+        class="card-strip"
+        aria-label="Use cases"
+      >
+        <button
+          v-for="(item, i) in uses"
+          :key="item.title"
+          @click="openCard(item, i)"
+        >
+          <span>0{{ i + 1 }}</span><strong>{{ item.title }}</strong><em>{{ item.short }}</em><b>Explore ↗</b>
+        </button>
+      </div>
+    </section>
+
+    <section class="research section-pad">
+      <p class="kicker">
+        BUILT FOR RESEARCH
+      </p>
+      <div>
+        <h2>Open by design.</h2><p>Hardware and software you can inspect, adapt, and extend. Built around accessible components and synchronized multimodal data.</p><button @click="openResearch">
+          Explore the research stack <span>↗</span>
+        </button>
       </div>
     </section>
 
     <section class="closing">
-      <div><span>Local first</span><h2>Your space. Your signals. Your rules.</h2><p>Review captures, tune detection, connect Home Assistant, and decide exactly what leaves the Raspberry Pi.</p></div>
-      <v-btn class="primary-action" size="large" to="/features">Explore Thoth</v-btn>
+      <p class="kicker">
+        THOTH, AT HOME
+      </p><h2>Know what’s happening.<br>Keep it yours.</h2><router-link to="/product">
+        View product
+      </router-link>
     </section>
-  </main>
+
+    <div
+      v-if="modalOpen"
+      class="modal-wrap"
+      role="dialog"
+      aria-modal="true"
+      :aria-labelledby="`modal-${activeIndex}`"
+      @click.self="closeModal"
+    >
+      <section class="modal">
+        <header>
+          <p class="kicker">
+            {{ modalLabel }}
+          </p><button
+            aria-label="Close"
+            @click="closeModal"
+          >
+            ×
+          </button>
+        </header>
+        <div
+          ref="modalTrack"
+          class="modal-track"
+        >
+          <article
+            v-for="(slide, i) in modalSlides"
+            :key="slide.title"
+            :class="slide.tone || ''"
+          >
+            <span>0{{ i + 1 }} / 0{{ modalSlides.length }}</span><h2 :id="`modal-${activeIndex}`">
+              {{ slide.title }}
+            </h2><p>{{ slide.text }}</p><small v-if="slide.detail">{{ slide.detail }}</small>
+          </article>
+        </div>
+        <footer>
+          <span>Scroll to explore</span><div>
+            <button
+              aria-label="Previous card"
+              @click="scrollModal(-1)"
+            >
+              ←
+            </button><button
+              aria-label="Next card"
+              @click="scrollModal(1)"
+            >
+              →
+            </button>
+          </div>
+        </footer>
+      </section>
+    </div>
+  </div>
 </template>
 
 <script setup>
-const uses = [
-  { title: 'Smart home', text: 'Drive lights, climate, and scenes from room occupancy.', icon: 'mdi-home-automation' },
-  { title: 'Personal productivity', text: 'Build assistants that understand focus, breaks, and routines.', icon: 'mdi-lightning-bolt-outline' },
-  { title: 'Parental monitoring & control', text: 'Create transparent household routines and presence-based controls.', icon: 'mdi-account-child-outline' },
-  { title: 'Passive monitoring', text: 'Observe patterns without wearables or active check-ins.', icon: 'mdi-chart-timeline-variant' },
-  { title: 'Security', text: 'Detect unexpected presence and trigger local alerts or automations.', icon: 'mdi-shield-home-outline' },
+import { nextTick, onBeforeUnmount, ref } from 'vue'
+
+const modalOpen = ref(false)
+const modalSlides = ref([])
+const modalLabel = ref('DETAILS')
+const activeIndex = ref(0)
+const modalTrack = ref(null)
+
+const capabilities = [
+  { title: 'Presence detection', short: 'Know when a room is occupied.', text: 'Private, passive human presence detection works out of the box—without requiring a camera or wearable.', detail: 'Camera-free by default.' },
+  { title: 'Indoor localization', short: 'Understand position in 2D.', text: 'See where presence is located within a calibrated room and use that location to trigger context-aware automations.', detail: 'Room-scale spatial awareness.' },
+  { title: 'Camera, by choice', short: 'Remote access only when enabled.', text: 'The camera remains an explicit choice. Enable it for remote access and richer context; keep it off for camera-free monitoring.', detail: 'You decide when vision exists.' },
+  { title: 'A local home model', short: 'Ask your home in natural language.', text: 'Access a local LLM from the portal or app to understand activity, query room state, and interact with connected systems.', detail: 'Local intelligence, accessible anywhere.' },
 ]
+
+const uses = [
+  { title: 'Smart home', short: 'Presence-driven comfort.', text: 'Let lights, climate, media, and scenes respond to real room occupancy through Home Assistant.' },
+  { title: 'Private care', short: 'Quiet reassurance.', text: 'Observe patterns and unexpected changes without wearables, cameras, or constant active check-ins.' },
+  { title: 'Security', short: 'Awareness without surveillance.', text: 'Detect unexpected presence and location, then trigger local alerts or trusted automations.' },
+  { title: 'Research', short: 'Synchronized, open data.', text: 'Build reproducible indoor sensing studies with open hardware, open software, aligned streams, and optional visual labels.' },
+]
+
+const researchSlides = [
+  { title: 'Open source.', text: 'Thoth’s hardware and software are designed to be inspectable, modifiable, and useful as a foundation for new sensing work.', detail: 'Hardware + software', tone: 'ink' },
+  { title: 'Raspberry Pi based.', text: 'Familiar edge compute makes deployment, integration, and extension approachable for researchers and builders.', detail: 'Accessible edge computing' },
+  { title: 'Synchronized data collection.', text: 'Capture aligned sensor streams so multimodal experiments are easier to reproduce, compare, and understand.', detail: 'One timeline, many signals', tone: 'sage' },
+  { title: 'VLM autolabeling.', text: 'When the camera is enabled, vision-language models can help label collected data and accelerate dataset creation.', detail: 'Optional camera · faster annotation', tone: 'clay' },
+]
+
+function openCard(item, index) { modalLabel.value = item.title.toUpperCase(); activeIndex.value = index; modalSlides.value = [{ ...item, title: item.title }, ...capabilities.filter(x => x.title !== item.title)]; openModal() }
+function openResearch() { modalLabel.value = 'RESEARCH'; activeIndex.value = 0; modalSlides.value = researchSlides; openModal() }
+function openModal() { modalOpen.value = true; document.body.style.overflow = 'hidden'; nextTick(() => modalTrack.value?.focus()) }
+function closeModal() { modalOpen.value = false; document.body.style.overflow = '' }
+function scrollModal(direction) { modalTrack.value?.scrollBy({ left: direction * modalTrack.value.clientWidth * .72, behavior: 'smooth' }) }
+function onKey(event) { if (event.key === 'Escape' && modalOpen.value) closeModal() }
+window.addEventListener('keydown', onKey)
+onBeforeUnmount(() => { window.removeEventListener('keydown', onKey); document.body.style.overflow = '' })
 </script>
 
 <style scoped>
-.home-page{background:#f6f7f9;color:#111827}.hero{min-height:calc(100vh - 72px);display:grid;grid-template-columns:minmax(0,1.2fr) minmax(320px,.8fr);gap:72px;align-items:center;max-width:1180px;margin:auto;padding:80px 28px}.eyebrow,.section-heading span,.closing span{text-transform:uppercase;letter-spacing:.16em;font-size:.75rem;font-weight:800;color:#64748b}.hero h1{font-size:clamp(3rem,7vw,6.6rem);line-height:.94;letter-spacing:-.065em;max-width:850px;margin:22px 0}.hero-copy>p{font-size:clamp(1.05rem,2vw,1.35rem);line-height:1.65;color:#475569;max-width:720px}.actions{display:flex;gap:12px;margin-top:34px;flex-wrap:wrap}.primary-action{background:#0f172a!important;color:white!important;border-radius:14px!important;text-transform:none!important;font-weight:700!important}.secondary-action{background:white!important;color:#0f172a!important;border:1px solid #dbe1e8;border-radius:14px!important;text-transform:none!important;font-weight:700!important}.device-card{background:#0f172a;color:white;border-radius:32px;padding:28px;box-shadow:0 30px 80px rgba(15,23,42,.22)}.device-top{font-size:.85rem;color:#cbd5e1}.status-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#34d399;margin-right:8px}.pi-mark{height:180px;display:grid;place-items:center;font-size:5rem;font-weight:900;letter-spacing:-.08em}.sensor-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.sensor-row span{background:#1e293b;border-radius:10px;padding:10px 6px;text-align:center;font-size:.75rem}.occupancy{margin-top:18px;padding:20px;border-radius:18px;background:#ecfeff;color:#164e63;display:flex;flex-direction:column}.occupancy strong{font-size:1.8rem}.occupancy span{font-size:.75rem;color:#0e7490}.sensor-section,.use-section{max-width:1180px;margin:auto;padding:100px 28px}.section-heading h2,.closing h2{font-size:clamp(2.2rem,5vw,4.2rem);letter-spacing:-.05em;margin:10px 0 42px}.sensor-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.sensor-grid article,.uses article{background:white;border:1px solid #e2e8f0;border-radius:22px;padding:28px}.sensor-grid .v-icon,.uses .v-icon{color:#0891b2;font-size:30px}.sensor-grid h3,.uses h3{margin:18px 0 8px;font-size:1.15rem}.sensor-grid p,.uses p,.closing p{color:#64748b;line-height:1.6}.use-section{padding-top:40px}.uses{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.uses article{display:flex;gap:18px}.uses h3{margin:0 0 5px}.closing{max-width:1124px;margin:30px auto 100px;background:#e0f2fe;border-radius:32px;padding:56px;display:flex;align-items:end;justify-content:space-between;gap:30px}.closing h2{margin-bottom:12px}.closing p{max-width:680px}@media(max-width:800px){.hero{grid-template-columns:1fr;gap:40px;padding-top:55px}.hero h1{font-size:3.4rem}.device-card{border-radius:24px}.sensor-grid,.uses{grid-template-columns:1fr}.sensor-section,.use-section{padding:70px 18px}.closing{margin:20px 18px 70px;padding:32px;display:block}.closing .v-btn{margin-top:22px;width:100%}}
+.home-page{padding-top:76px;background:#f4f1e9}.hero{min-height:calc(100vh - 76px);padding:11vh 34px 48px;display:flex;flex-direction:column;justify-content:space-between}.kicker{font-size:11px;font-weight:700;letter-spacing:.18em;margin:0}.hero h1{font-size:clamp(66px,8.6vw,132px);line-height:.89;letter-spacing:-.072em;font-weight:620;max-width:1500px;margin:54px 0 80px}.hero-foot{display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:end}.hero-foot p{font-size:clamp(18px,2vw,27px);line-height:1.25;letter-spacing:-.025em;max-width:720px;margin:0}.hero-foot a,.research button,.closing a{justify-self:end;color:#11110f;text-decoration:none;border-bottom:1px solid #11110f;padding:0 0 7px;font-weight:650}.statement{background:#11110f;color:#f4f1e9;padding:11vw 34px}.statement p{font-size:clamp(38px,5.8vw,88px);line-height:1.02;letter-spacing:-.055em;max-width:1400px;margin:0}.section-pad{padding:140px 34px}.section-intro{display:grid;grid-template-columns:1fr 2fr;gap:30px;margin-bottom:86px}.section-intro h2,.research h2,.closing h2{font-size:clamp(48px,6.4vw,94px);line-height:.96;letter-spacing:-.06em;font-weight:600;margin:0}.section-copy{max-width:460px;font-size:18px;line-height:1.45}.feature-list{border-top:1px solid #a8a49a}.feature-list article{display:grid;grid-template-columns:60px 1fr 1fr 48px;gap:22px;align-items:center;border-bottom:1px solid #a8a49a;padding:30px 0;cursor:pointer;transition:padding .2s}.feature-list article:hover{padding-left:12px}.feature-list h3{font-size:clamp(24px,3vw,40px);letter-spacing:-.04em;margin:0}.feature-list p{font-size:16px;color:#5c5a54}.feature-list button{border:1px solid #11110f;border-radius:50%;width:44px;height:44px;background:transparent;font-size:20px}.responsive{background:#dcd9cf}.card-strip{display:grid;grid-template-columns:repeat(4,minmax(260px,1fr));gap:12px;overflow-x:auto;padding-bottom:8px}.card-strip button{border:0;text-align:left;background:#f4f1e9;min-height:390px;padding:24px;display:flex;flex-direction:column;color:#11110f;cursor:pointer}.card-strip strong{font-size:35px;line-height:1;letter-spacing:-.05em;margin-top:70px}.card-strip em{font-style:normal;font-size:17px;margin-top:14px;color:#5c5a54}.card-strip b{margin-top:auto;font-size:13px}.research{display:grid;grid-template-columns:1fr 2fr;gap:30px;background:#c8d1b2}.research>div>p{font-size:24px;line-height:1.4;max-width:780px;margin:38px 0 66px}.research button{background:none;border:0;border-bottom:1px solid;padding:0 0 7px;font:650 15px inherit;cursor:pointer}.closing{padding:150px 34px 80px;min-height:86vh;display:flex;flex-direction:column}.closing h2{font-size:clamp(60px,9vw,140px);margin:auto 0 80px}.closing a{align-self:flex-start}.modal-wrap{position:fixed;inset:0;z-index:300;background:rgba(17,17,15,.55);padding:28px;display:flex;align-items:center}.modal{width:100%;background:#f4f1e9;padding:26px;overflow:hidden}.modal header,.modal footer{display:flex;align-items:center;justify-content:space-between}.modal header button{border:0;background:none;font-size:34px;cursor:pointer}.modal-track{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:26px 0 22px;scrollbar-width:none}.modal-track article{flex:0 0 min(620px,74vw);min-height:460px;padding:30px;background:#e5e1d7;scroll-snap-align:start;display:flex;flex-direction:column}.modal-track article.ink{background:#11110f;color:#f4f1e9}.modal-track article.sage{background:#c8d1b2}.modal-track article.clay{background:#d9b7a5}.modal-track h2{font-size:clamp(42px,5.5vw,78px);line-height:.94;letter-spacing:-.06em;margin:70px 0 25px}.modal-track p{font-size:20px;line-height:1.45;max-width:520px}.modal-track small{margin-top:auto;text-transform:uppercase;letter-spacing:.12em}.modal footer>span{font-size:12px;text-transform:uppercase;letter-spacing:.12em}.modal footer button{width:44px;height:44px;border:1px solid #11110f;border-radius:50%;background:transparent;margin-left:7px;font-size:20px}@media(max-width:800px){.home-page{padding-top:68px}.hero{min-height:calc(100svh - 68px);padding:70px 20px 30px}.hero h1{font-size:clamp(53px,16vw,78px);margin:42px 0 70px}.hero-foot{grid-template-columns:1fr;gap:34px}.hero-foot a{justify-self:start}.statement,.section-pad,.closing{padding:90px 20px}.section-intro,.research{grid-template-columns:1fr;gap:36px}.section-intro{margin-bottom:55px}.feature-list article{grid-template-columns:38px 1fr 42px}.feature-list article>p{display:none}.card-strip{grid-template-columns:repeat(4,82vw)}.research>div>p{font-size:19px}.modal-wrap{padding:10px}.modal{padding:18px}.modal-track article{flex-basis:84vw;min-height:430px;padding:24px}.modal footer>span{display:none}}
 </style>

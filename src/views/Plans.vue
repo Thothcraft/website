@@ -1,9 +1,14 @@
 <template>
-  <v-container fluid class="plans-page pa-0">
+  <v-container
+    fluid
+    class="plans-page pa-0"
+  >
     <!-- Hero -->
     <div class="glass-hero-global d-flex align-center justify-center text-center">
       <div class="hero-content">
-        <h1 class="hero-title mb-4">Simple, Transparent Pricing</h1>
+        <h1 class="hero-title mb-4">
+          Simple, Transparent Pricing
+        </h1>
         <p class="hero-subtitle mb-6">
           Start free. Upgrade when you need longer retention, more devices, or team workspaces.
         </p>
@@ -11,86 +16,225 @@
     </div>
 
     <!-- Plan Cards -->
-    <v-container class="py-14" style="max-width: 1100px;">
-      <v-row justify="center" align="stretch">
-
+    <v-container
+      class="py-14"
+      style="max-width: 1100px;"
+    >
+      <v-row
+        justify="center"
+        align="stretch"
+      >
         <!-- Free -->
-        <v-col cols="12" md="4" class="mb-6">
-          <v-card class="plan-card h-100 pa-8" elevation="0">
-            <div class="plan-badge mb-2" style="opacity:0">_</div>
-            <h3 class="plan-name mb-1">Free</h3>
-            <div class="plan-price mb-1">$0</div>
-            <p class="plan-cadence mb-6">forever</p>
+        <v-col
+          cols="12"
+          md="4"
+          class="mb-6"
+        >
+          <v-card
+            class="plan-card h-100 pa-8"
+            elevation="0"
+          >
+            <div
+              class="plan-badge mb-2"
+              style="opacity:0"
+            >
+              _
+            </div>
+            <h3 class="plan-name mb-1">
+              Free
+            </h3>
+            <div class="plan-price mb-1">
+              $0
+            </div>
+            <p class="plan-cadence mb-6">
+              forever
+            </p>
             <v-divider class="mb-6" />
-            <v-list density="compact" class="plan-features mb-8">
-              <v-list-item v-for="f in free.features" :key="f"
+            <v-list
+              density="compact"
+              class="plan-features mb-8"
+            >
+              <v-list-item
+                v-for="f in free.features"
+                :key="f"
                 :prepend-icon="f.startsWith('–') ? 'mdi-minus' : 'mdi-check'"
-                :class="f.startsWith('–') ? 'feature-off' : 'feature-on'">
+                :class="f.startsWith('–') ? 'feature-off' : 'feature-on'"
+              >
                 {{ f.replace('– ','') }}
               </v-list-item>
             </v-list>
-            <v-btn block variant="outlined" color="primary" size="large" href="https://thothfrontend.vercel.app/" target="_blank">Get Started</v-btn>
+            <v-btn
+              block
+              variant="outlined"
+              color="primary"
+              size="large"
+              href="https://thothfrontend.vercel.app/"
+              target="_blank"
+            >
+              Get Started
+            </v-btn>
           </v-card>
         </v-col>
 
         <!-- Researcher -->
-        <v-col cols="12" md="4" class="mb-6">
-          <v-card class="plan-card plan-featured h-100 pa-8" elevation="0">
+        <v-col
+          cols="12"
+          md="4"
+          class="mb-6"
+        >
+          <v-card
+            class="plan-card plan-featured h-100 pa-8"
+            elevation="0"
+          >
             <div class="plan-badge mb-2">
-              <v-chip color="white" size="small" variant="elevated" style="color:#3f51b5;font-weight:700;">Most Popular</v-chip>
+              <v-chip
+                color="white"
+                size="small"
+                variant="elevated"
+                style="color:#3f51b5;font-weight:700;"
+              >
+                Most Popular
+              </v-chip>
             </div>
-            <h3 class="plan-name mb-1">Researcher</h3>
-            <div class="plan-price mb-1">$20 <span class="plan-currency">CAD</span></div>
-            <p class="plan-cadence mb-6">per month</p>
-            <v-divider class="mb-6" style="border-color:rgba(255,255,255,0.2)" />
-            <v-list density="compact" class="plan-features plan-features-light mb-8">
-              <v-list-item v-for="f in researcher.features" :key="f" prepend-icon="mdi-check" class="feature-on-light">
+            <h3 class="plan-name mb-1">
+              Researcher
+            </h3>
+            <div class="plan-price mb-1">
+              $20 <span class="plan-currency">CAD</span>
+            </div>
+            <p class="plan-cadence mb-6">
+              per month
+            </p>
+            <v-divider
+              class="mb-6"
+              style="border-color:rgba(255,255,255,0.2)"
+            />
+            <v-list
+              density="compact"
+              class="plan-features plan-features-light mb-8"
+            >
+              <v-list-item
+                v-for="f in researcher.features"
+                :key="f"
+                prepend-icon="mdi-check"
+                class="feature-on-light"
+              >
                 {{ f }}
               </v-list-item>
             </v-list>
-            <v-btn block color="white" style="color:#3f51b5;font-weight:700;" size="large" href="https://thothfrontend.vercel.app/" target="_blank">Subscribe</v-btn>
+            <v-btn
+              block
+              color="white"
+              style="color:#3f51b5;font-weight:700;"
+              size="large"
+              href="https://thothfrontend.vercel.app/"
+              target="_blank"
+            >
+              Subscribe
+            </v-btn>
           </v-card>
         </v-col>
 
         <!-- Organization -->
-        <v-col cols="12" md="4" class="mb-6">
-          <v-card class="plan-card h-100 pa-8" elevation="0">
-            <div class="plan-badge mb-2" style="opacity:0">_</div>
-            <h3 class="plan-name mb-1">Organization</h3>
-            <div class="plan-price mb-1">$500 <span class="plan-currency">CAD</span></div>
-            <p class="plan-cadence mb-6">per month</p>
+        <v-col
+          cols="12"
+          md="4"
+          class="mb-6"
+        >
+          <v-card
+            class="plan-card h-100 pa-8"
+            elevation="0"
+          >
+            <div
+              class="plan-badge mb-2"
+              style="opacity:0"
+            >
+              _
+            </div>
+            <h3 class="plan-name mb-1">
+              Organization
+            </h3>
+            <div class="plan-price mb-1">
+              $500 <span class="plan-currency">CAD</span>
+            </div>
+            <p class="plan-cadence mb-6">
+              per month
+            </p>
             <v-divider class="mb-6" />
-            <v-list density="compact" class="plan-features mb-8">
-              <v-list-item v-for="f in organization.features" :key="f" prepend-icon="mdi-check" class="feature-on">
+            <v-list
+              density="compact"
+              class="plan-features mb-8"
+            >
+              <v-list-item
+                v-for="f in organization.features"
+                :key="f"
+                prepend-icon="mdi-check"
+                class="feature-on"
+              >
                 {{ f }}
               </v-list-item>
             </v-list>
-            <v-btn block variant="outlined" color="primary" size="large" href="https://thothfrontend.vercel.app/" target="_blank">Contact Sales</v-btn>
+            <v-btn
+              block
+              variant="outlined"
+              color="primary"
+              size="large"
+              href="https://thothfrontend.vercel.app/"
+              target="_blank"
+            >
+              Contact Sales
+            </v-btn>
           </v-card>
         </v-col>
-
       </v-row>
 
       <!-- Comparison table -->
-      <v-row justify="center" class="mt-10">
+      <v-row
+        justify="center"
+        class="mt-10"
+      >
         <v-col cols="12">
-          <h2 class="section-title text-center mb-8">Compare Plans</h2>
-          <v-card class="compare-card" elevation="0">
+          <h2 class="section-title text-center mb-8">
+            Compare Plans
+          </h2>
+          <v-card
+            class="compare-card"
+            elevation="0"
+          >
             <v-table class="compare-table">
               <thead>
                 <tr>
-                  <th class="feature-col">Feature</th>
-                  <th class="text-center">Free</th>
-                  <th class="text-center highlighted-col">Researcher</th>
-                  <th class="text-center">Organization</th>
+                  <th class="feature-col">
+                    Feature
+                  </th>
+                  <th class="text-center">
+                    Free
+                  </th>
+                  <th class="text-center highlighted-col">
+                    Researcher
+                  </th>
+                  <th class="text-center">
+                    Organization
+                  </th>
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="row in compareRows" :key="row.feature">
-                  <td class="feature-name">{{ row.feature }}</td>
-                  <td class="text-center"><span v-html="renderCell(row.free)" /></td>
-                  <td class="text-center highlighted-col"><span v-html="renderCell(row.researcher)" /></td>
-                  <td class="text-center"><span v-html="renderCell(row.org)" /></td>
+                <tr
+                  v-for="row in compareRows"
+                  :key="row.feature"
+                >
+                  <td class="feature-name">
+                    {{ row.feature }}
+                  </td>
+                  <td class="text-center">
+                    <span v-html="renderCell(row.free)" />
+                  </td>
+                  <td class="text-center highlighted-col">
+                    <span v-html="renderCell(row.researcher)" />
+                  </td>
+                  <td class="text-center">
+                    <span v-html="renderCell(row.org)" />
+                  </td>
                 </tr>
               </tbody>
             </v-table>
@@ -102,16 +246,24 @@
     <!-- FAQ -->
     <div class="section-light py-14">
       <v-container style="max-width: 780px;">
-        <h2 class="section-title text-center mb-8">Frequently Asked Questions</h2>
+        <h2 class="section-title text-center mb-8">
+          Frequently Asked Questions
+        </h2>
         <v-expansion-panels variant="accordion">
-          <v-expansion-panel v-for="faq in faqs" :key="faq.q">
-            <v-expansion-panel-title class="faq-q">{{ faq.q }}</v-expansion-panel-title>
-            <v-expansion-panel-text class="faq-a">{{ faq.a }}</v-expansion-panel-text>
+          <v-expansion-panel
+            v-for="faq in faqs"
+            :key="faq.q"
+          >
+            <v-expansion-panel-title class="faq-q">
+              {{ faq.q }}
+            </v-expansion-panel-title>
+            <v-expansion-panel-text class="faq-a">
+              {{ faq.a }}
+            </v-expansion-panel-text>
           </v-expansion-panel>
         </v-expansion-panels>
       </v-container>
     </div>
-
   </v-container>
 </template>
 
