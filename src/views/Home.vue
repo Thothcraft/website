@@ -1,464 +1,56 @@
 <template>
-  <v-container fluid class="home-page pa-0">
-    <!-- Hero Section -->
-    <div class="hero-section d-flex align-center justify-center text-center">
-      <div class="hero-content">
-        <div class="hero-badge mb-6">
-          <v-chip color="primary" variant="tonal" size="small">
-            <v-icon start size="small">mdi-home-automation</v-icon>
-            Works with Home Assistant
-          </v-chip>
+  <main class="home-page">
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="eyebrow">Raspberry Pi–based ambient intelligence</div>
+        <h1>Thoth understands a space without demanding attention.</h1>
+        <p>One compact device combines radar, Wi‑Fi sensing, and an optional camera to detect occupancy and activity, keep data local, and connect your environment to useful automations.</p>
+        <div class="actions">
+          <v-btn class="primary-action" size="large" to="/download">Set up Thoth</v-btn>
+          <v-btn class="secondary-action" size="large" href="https://portal-three-rho.vercel.app" target="_blank">Open portal</v-btn>
         </div>
-        <h1 class="hero-title mb-5">Turn any device into a<br>smart home sensor.</h1>
-        <p class="hero-subtitle mb-8">
-          Your laptop. Your phone. Your Raspberry Pi.<br>
-          Collect sensor data, train ML models, and automate your home — all privacy-first.
-        </p>
-        <div class="hero-buttons">
-          <v-btn class="apple-btn-primary mr-4 mb-2" size="large" to="/download">
-            <v-icon start>mdi-download</v-icon>
-            Download Free
-          </v-btn>
-          <v-btn class="apple-btn-secondary mb-2" size="large" to="/features">
-            Learn More
-            <v-icon end>mdi-arrow-right</v-icon>
-          </v-btn>
-        </div>
-        <p class="hero-platforms mt-6">
-          <v-icon size="small" class="mr-1">mdi-apple</v-icon> macOS
-          <span class="mx-2">·</span>
-          <v-icon size="small" class="mr-1">mdi-microsoft-windows</v-icon> Windows
-          <span class="mx-2">·</span>
-          <v-icon size="small" class="mr-1">mdi-raspberry-pi</v-icon> Raspberry Pi
-        </p>
       </div>
-    </div>
+      <div class="device-card">
+        <div class="device-top"><span class="status-dot"></span> Thoth online</div>
+        <div class="pi-mark">T</div>
+        <div class="sensor-row"><span>Radar</span><span>Wi‑Fi CSI</span><span>Camera</span></div>
+        <div class="occupancy"><small>Room state</small><strong>Occupied</strong><span>408 / 585 frames detected</span></div>
+      </div>
+    </section>
 
-    <!-- How It Works -->
-    <v-container class="py-16">
-      <v-row justify="center">
-        <v-col cols="12" class="text-center mb-12">
-          <h2 class="section-title">How It Works</h2>
-          <p class="section-text mt-3">Three steps to a smarter home</p>
-        </v-col>
-      </v-row>
-      <v-row justify="center">
-        <v-col cols="12" md="4" class="text-center mb-8">
-          <div class="step-icon mb-4">
-            <v-icon size="48" color="primary">mdi-download-circle-outline</v-icon>
-          </div>
-          <h3 class="feature-title mb-3">1. Install</h3>
-          <p class="feature-text">
-            Download the app for your Mac, Windows PC, or Raspberry Pi. One-click install — runs in the background.
-          </p>
-        </v-col>
-        <v-col cols="12" md="4" class="text-center mb-8">
-          <div class="step-icon mb-4">
-            <v-icon size="48" color="primary">mdi-brain</v-icon>
-          </div>
-          <h3 class="feature-title mb-3">2. Collect & Train</h3>
-          <p class="feature-text">
-            Record sensor data — camera, audio, WiFi CSI, motion. Train ML models in the cloud or on-device with federated learning.
-          </p>
-        </v-col>
-        <v-col cols="12" md="4" class="text-center mb-8">
-          <div class="step-icon mb-4">
-            <v-icon size="48" color="primary">mdi-home-automation</v-icon>
-          </div>
-          <h3 class="feature-title mb-3">3. Automate</h3>
-          <p class="feature-text">
-            Deploy models to your devices. Predictions flow into Home Assistant to control lights, HVAC, locks, and more.
-          </p>
-        </v-col>
-      </v-row>
-    </v-container>
+    <section class="sensor-section">
+      <div class="section-heading"><span>One device</span><h2>Purpose-built sensing</h2></div>
+      <div class="sensor-grid">
+        <article><v-icon>mdi-radar</v-icon><h3>Millimeter-wave radar</h3><p>Tracks presence and movement without recording identifiable imagery.</p></article>
+        <article><v-icon>mdi-wifi</v-icon><h3>Wi‑Fi sensing</h3><p>Uses channel-state changes to add passive context from the wireless environment.</p></article>
+        <article><v-icon>mdi-camera-outline</v-icon><h3>Optional camera</h3><p>Add visual context when you choose, with capture and retention under your control.</p></article>
+      </div>
+    </section>
 
-    <!-- Data Control & Training -->
-    <div class="section-light py-16">
-      <v-container style="max-width: 1200px;">
-        <v-row justify="center">
-          <v-col cols="12" class="text-center mb-12">
-            <v-chip color="green" variant="tonal" size="small" class="mb-4">
-              <v-icon start size="small">mdi-shield-lock</v-icon>
-              Privacy by Design
-            </v-chip>
-            <h2 class="section-title">Complete Control Over Your Data</h2>
-            <p class="section-text mt-3">
-              Your sensor data stays yours. Train powerful models without compromising privacy.
-            </p>
-          </v-col>
-        </v-row>
+    <section class="use-section">
+      <div class="section-heading"><span>Use Thoth in</span><h2>Spaces that should respond naturally</h2></div>
+      <div class="uses">
+        <article v-for="item in uses" :key="item.title"><v-icon>{{ item.icon }}</v-icon><div><h3>{{ item.title }}</h3><p>{{ item.text }}</p></div></article>
+      </div>
+    </section>
 
-        <v-row justify="center" class="mb-12">
-          <v-col cols="12" md="6" class="mb-8">
-            <v-card class="data-control-card pa-8 h-100" elevation="0">
-              <div class="data-control-icon mb-6">
-                <v-icon size="64" color="green">mdi-database-lock</v-icon>
-              </div>
-              <h3 class="data-control-title mb-4">Raw Sensor Data Never Leaves Your Device</h3>
-              <p class="data-control-text mb-6">
-                All sensor recordings — video frames, audio clips, WiFi CSI, radar signals — are processed and stored entirely on your local hardware. No raw data is ever transmitted to our servers or any third party.
-              </p>
-              <v-list density="compact" class="data-control-list">
-                <v-list-item prepend-icon="mdi-check-circle" class="data-control-item">
-                  <strong>Local processing</strong> — ML inference happens on-device
-                </v-list-item>
-                <v-list-item prepend-icon="mdi-check-circle" class="data-control-item">
-                  <strong>Encrypted storage</strong> — Your data is protected at rest
-                </v-list-item>
-                <v-list-item prepend-icon="mdi-check-circle" class="data-control-item">
-                  <strong>No telemetry</strong> — We don't collect usage statistics
-                </v-list-item>
-              </v-list>
-            </v-card>
-          </v-col>
-
-          <v-col cols="12" md="6" class="mb-8">
-            <v-card class="data-control-card pa-8 h-100" elevation="0">
-              <div class="data-control-icon mb-6">
-                <v-icon size="64" color="blue">mdi-video-off-outline</v-icon>
-              </div>
-              <h3 class="data-control-title mb-4">No Video or Audio Stored in the Cloud</h3>
-              <p class="data-control-text mb-6">
-                Unlike traditional smart home systems, Thoth never uploads or stores video recordings or audio files in the cloud. All media processing happens locally, ensuring complete visual and auditory privacy.
-              </p>
-              <v-list density="compact" class="data-control-list">
-                <v-list-item prepend-icon="mdi-check-circle" class="data-control-item">
-                  <strong>Zero cloud storage</strong> — No media files leave your device
-                </v-list-item>
-                <v-list-item prepend-icon="mdi-check-circle" class="data-control-item">
-                  <strong>Local inference</strong> — Real-time processing without upload
-                </v-list-item>
-                <v-list-item prepend-icon="mdi-check-circle" class="data-control-item">
-                  <strong>Retention control</strong> — You decide what to keep and delete
-                </v-list-item>
-              </v-list>
-            </v-card>
-          </v-col>
-        </v-row>
-
-        <!-- Training Methods -->
-        <v-row justify="center">
-          <v-col cols="12" class="text-center mb-10">
-            <h3 class="training-subtitle">Choose Your Training Approach</h3>
-          </v-col>
-          <v-col cols="12" md="4" class="mb-6">
-            <v-card class="training-card pa-6 h-100 text-center" elevation="0">
-              <v-icon size="48" color="purple" class="mb-4">mdi-cloud-outline</v-icon>
-              <h4 class="training-title mb-3">Cloud Training</h4>
-              <p class="training-text">
-                Upload preprocessed features to train on GPU infrastructure. Faster training with full hyperparameter optimization.
-              </p>
-              <div class="training-badge mb-3">
-                <v-chip color="purple" variant="tonal" size="small">Fast</v-chip>
-                <v-chip color="blue" variant="tonal" size="small" class="ml-2">GPU</v-chip>
-              </div>
-            </v-card>
-          </v-col>
-          <v-col cols="12" md="4" class="mb-6">
-            <v-card class="training-card pa-6 h-100 text-center" elevation="0">
-              <v-icon size="48" color="green" class="mb-4">mdi-devices</v-icon>
-              <h4 class="training-title mb-3">On-Device Training</h4>
-              <p class="training-text">
-                Train models locally using your device's CPU. Complete data isolation with no external dependencies.
-              </p>
-              <div class="training-badge mb-3">
-                <v-chip color="green" variant="tonal" size="small">Private</v-chip>
-                <v-chip color="orange" variant="tonal" size="small" class="ml-2">CPU</v-chip>
-              </div>
-            </v-card>
-          </v-col>
-          <v-col cols="12" md="4" class="mb-6">
-            <v-card class="training-card pa-6 h-100 text-center" elevation="0">
-              <v-icon size="48" color="blue" class="mb-4">mdi-account-group</v-icon>
-              <h4 class="training-title mb-3">Federated Learning</h4>
-              <p class="training-text">
-                Collaborate with other devices to improve model accuracy while keeping all raw data private.
-              </p>
-              <div class="training-badge mb-3">
-                <v-chip color="blue" variant="tonal" size="small">Collaborative</v-chip>
-                <v-chip color="green" variant="tonal" size="small" class="ml-2">Opt-in</v-chip>
-              </div>
-            </v-card>
-          </v-col>
-        </v-row>
-      </v-container>
-    </div>
-
-    <!-- Federated Learning Section -->
-    <v-container class="py-16" style="max-width: 1100px;">
-      <v-row justify="center">
-        <v-col cols="12" class="text-center mb-10">
-          <v-chip color="green" variant="tonal" size="small" class="mb-4">
-            <v-icon start size="small">mdi-shield-lock</v-icon>
-            Privacy-Preserving AI
-          </v-chip>
-          <h2 class="section-title">Train Together, Share Nothing</h2>
-          <p class="section-text mt-3">
-            Thoth uses <strong>federated learning</strong> — your raw data stays on your device while the model gets smarter across the whole network.
-          </p>
-        </v-col>
-      </v-row>
-
-      <v-row justify="center" class="mb-10">
-        <!-- Step 1 -->
-        <v-col cols="12" md="4" class="mb-6">
-          <v-card class="fl-step-card pa-6 h-100" elevation="0">
-            <div class="fl-step-num mb-4">1</div>
-            <v-icon color="blue" size="36" class="mb-3">mdi-database-lock</v-icon>
-            <h3 class="fl-step-title mb-2">Data stays local</h3>
-            <p class="fl-step-text">
-              Camera frames, audio clips, and sensor readings are collected and processed entirely on your device. Nothing is uploaded to any server.
-            </p>
-          </v-card>
-        </v-col>
-        <!-- Step 2 -->
-        <v-col cols="12" md="4" class="mb-6">
-          <v-card class="fl-step-card pa-6 h-100" elevation="0">
-            <div class="fl-step-num mb-4">2</div>
-            <v-icon color="purple" size="36" class="mb-3">mdi-brain</v-icon>
-            <h3 class="fl-step-title mb-2">Train on-device</h3>
-            <p class="fl-step-text">
-              Each device trains a local model on its own data. Only the encrypted weight updates — never the data itself — are shared with the Research Portal.
-            </p>
-          </v-card>
-        </v-col>
-        <!-- Step 3 -->
-        <v-col cols="12" md="4" class="mb-6">
-          <v-card class="fl-step-card pa-6 h-100" elevation="0">
-            <div class="fl-step-num mb-4">3</div>
-            <v-icon color="green" size="36" class="mb-3">mdi-merge</v-icon>
-            <h3 class="fl-step-title mb-2">Aggregate &amp; improve</h3>
-            <p class="fl-step-text">
-              The Research Portal aggregates updates from all participating devices into a better global model — then pushes it back, improving everyone's accuracy.
-            </p>
-          </v-card>
-        </v-col>
-      </v-row>
-
-      <!-- Privacy guarantees row -->
-      <v-row justify="center">
-        <v-col cols="12" md="10">
-          <v-card class="fl-guarantee-card pa-6" elevation="0">
-            <v-row align="center">
-              <v-col cols="12" md="7">
-                <h3 class="fl-guarantee-title mb-3">What we guarantee</h3>
-                <v-list density="compact" class="fl-guarantee-list">
-                  <v-list-item prepend-icon="mdi-check-circle" class="fl-guarantee-item">
-                    <strong>Raw sensor data never leaves your device</strong>
-                  </v-list-item>
-                  <v-list-item prepend-icon="mdi-check-circle" class="fl-guarantee-item">
-                    <strong>No video or audio stored in the cloud</strong>
-                  </v-list-item>
-                  <v-list-item prepend-icon="mdi-check-circle" class="fl-guarantee-item">
-                    <strong>Participation in federated rounds is opt-in</strong>
-                  </v-list-item>
-                  <v-list-item prepend-icon="mdi-check-circle" class="fl-guarantee-item">
-                    <strong>Open source — verify everything yourself</strong>
-                  </v-list-item>
-                </v-list>
-              </v-col>
-              <v-col cols="12" md="5" class="text-center">
-                <v-icon size="80" color="green" class="mb-3">mdi-shield-check</v-icon>
-                <p class="fl-guarantee-tagline">Your home data stays in your home.</p>
-                <v-btn variant="outlined" color="primary" class="mt-4" to="/features">
-                  How It Works
-                  <v-icon end>mdi-arrow-right</v-icon>
-                </v-btn>
-              </v-col>
-            </v-row>
-          </v-card>
-        </v-col>
-      </v-row>
-    </v-container>
-
-    <!-- Home Assistant Integration -->
-    <v-container class="py-16">
-      <v-row justify="center" align="center">
-        <v-col cols="12" md="6" class="text-center text-md-left">
-          <v-chip color="blue-lighten-4" text-color="blue-darken-2" size="small" class="mb-4">
-            <v-icon start size="small">mdi-home-assistant</v-icon>
-            Native Integration
-          </v-chip>
-          <h2 class="section-title mb-6">Works with Home Assistant</h2>
-          <p class="section-text mb-4">
-            Thoth predictions appear as native Home Assistant entities — binary sensors for occupancy, motion, and sleep; numeric sensors for activity and confidence.
-          </p>
-          <p class="section-text mb-8">
-            Create automations like: <em>"When sleeping is detected after 10pm, activate night mode."</em>
-          </p>
-          <v-btn class="apple-btn-primary" size="large" to="/features">
-            See All Scenarios
-            <v-icon end>mdi-arrow-right</v-icon>
-          </v-btn>
-        </v-col>
-        <v-col cols="12" md="5" offset-md="1">
-          <v-card class="ha-card pa-6" elevation="0">
-            <div class="ha-entity mb-3">
-              <v-icon color="green" class="mr-3">mdi-motion-sensor</v-icon>
-              <div>
-                <div class="ha-entity-name">Occupancy</div>
-                <div class="ha-entity-state green--text">Detected</div>
-              </div>
-            </div>
-            <div class="ha-entity mb-3">
-              <v-icon color="blue" class="mr-3">mdi-walk</v-icon>
-              <div>
-                <div class="ha-entity-name">Activity</div>
-                <div class="ha-entity-state">Walking (94%)</div>
-              </div>
-            </div>
-            <div class="ha-entity mb-3">
-              <v-icon color="purple" class="mr-3">mdi-sleep</v-icon>
-              <div>
-                <div class="ha-entity-name">Sleep State</div>
-                <div class="ha-entity-state">Not sleeping</div>
-              </div>
-            </div>
-            <div class="ha-entity">
-              <v-icon color="orange" class="mr-3">mdi-dog</v-icon>
-              <div>
-                <div class="ha-entity-name">Pet Present</div>
-                <div class="ha-entity-state orange--text">Dog detected</div>
-              </div>
-            </div>
-          </v-card>
-        </v-col>
-      </v-row>
-    </v-container>
-
-    <!-- CTA Section -->
-    <div class="cta-section py-16">
-      <v-container>
-        <v-row justify="center" class="text-center">
-          <v-col cols="12" md="8">
-            <h2 class="cta-title mb-4">Ready to make your home intelligent?</h2>
-            <p class="cta-subtitle mb-8">
-              Free to download. Free tier forever. No credit card required.
-            </p>
-            <v-btn class="cta-btn mr-4 mb-2" size="x-large" to="/download">
-              <v-icon start>mdi-download</v-icon>
-              Download for Free
-            </v-btn>
-            <v-btn class="cta-btn-outline mb-2" size="x-large" to="/shop">
-              Buy Thoth Device
-              <v-icon end>mdi-arrow-right</v-icon>
-            </v-btn>
-          </v-col>
-        </v-row>
-      </v-container>
-    </div>
-
-    <!-- Footer -->
-    <div class="footer-section py-8">
-      <v-container>
-        <v-row justify="center" class="text-center">
-          <v-col cols="12">
-            <p class="footer-text">© 2026 Thothcraft. MIT License.</p>
-            <p class="footer-links">
-              <router-link to="/plans" class="footer-link">Plans</router-link>
-              <span class="mx-3">·</span>
-              <a href="https://portal-three-rho.vercel.app" target="_blank" class="footer-link">Research Portal</a>
-            </p>
-          </v-col>
-        </v-row>
-      </v-container>
-    </div>
-  </v-container>
+    <section class="closing">
+      <div><span>Local first</span><h2>Your space. Your signals. Your rules.</h2><p>Review captures, tune detection, connect Home Assistant, and decide exactly what leaves the Raspberry Pi.</p></div>
+      <v-btn class="primary-action" size="large" to="/features">Explore Thoth</v-btn>
+    </section>
+  </main>
 </template>
 
 <script setup>
+const uses = [
+  { title: 'Smart home', text: 'Drive lights, climate, and scenes from room occupancy.', icon: 'mdi-home-automation' },
+  { title: 'Personal productivity', text: 'Build assistants that understand focus, breaks, and routines.', icon: 'mdi-lightning-bolt-outline' },
+  { title: 'Parental monitoring & control', text: 'Create transparent household routines and presence-based controls.', icon: 'mdi-account-child-outline' },
+  { title: 'Passive monitoring', text: 'Observe patterns without wearables or active check-ins.', icon: 'mdi-chart-timeline-variant' },
+  { title: 'Security', text: 'Detect unexpected presence and trigger local alerts or automations.', icon: 'mdi-shield-home-outline' },
+]
 </script>
 
 <style scoped>
-/* Hero */
-.hero-section {
-  background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
-  padding: 160px 20px 120px;
-  min-height: 80vh;
-}
-.hero-title { font-size: 4.5rem; font-weight: 700; letter-spacing: -0.04em; line-height: 1.05; color: var(--text-primary); }
-.hero-subtitle { font-size: 1.4rem; font-weight: 400; line-height: 1.5; color: var(--text-muted); max-width: 620px; margin: 0 auto; }
-.hero-platforms { color: var(--text-muted); font-size: 0.95rem; font-weight: 500; }
-.hero-buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
-
-/* Buttons */
-.apple-btn-primary { background: var(--accent) !important; color: white !important; border-radius: 12px !important; padding: 12px 28px !important; font-weight: 500 !important; text-transform: none !important; transition: all 0.2s ease !important; }
-.apple-btn-primary:hover { background: var(--accent-hover) !important; transform: scale(1.02); }
-.apple-btn-secondary { background: transparent !important; color: var(--accent) !important; border: 1px solid var(--accent) !important; border-radius: 12px !important; padding: 12px 28px !important; font-weight: 500 !important; text-transform: none !important; }
-.apple-btn-secondary:hover { background: color-mix(in srgb, var(--accent) 6%, transparent) !important; transform: scale(1.02); }
-
-/* Sections */
-.section-light { background: var(--bg-secondary); }
-.section-title { color: var(--text-primary) !important; font-weight: 600 !important; font-size: 2.5rem !important; letter-spacing: -0.02em !important; }
-.section-text { color: var(--text-secondary) !important; font-size: 1.125rem !important; line-height: 1.6 !important; max-width: 800px; margin: 0 auto; }
-.feature-title { color: var(--text-primary) !important; font-weight: 600 !important; font-size: 1.25rem !important; }
-.feature-text { color: var(--text-muted) !important; font-size: 1rem !important; line-height: 1.5 !important; }
-
-/* Step icons */
-.step-icon { display: inline-flex; align-items: center; justify-content: center; width: 88px; height: 88px; border-radius: 22px; background: var(--bg-card); box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
-
-/* Animated Icons */
-.animated-icon-wrapper { display: inline-flex; align-items: center; justify-content: center; width: 100px; height: 100px; border-radius: 20px; background: var(--bg-card); box-shadow: 0 4px 16px rgba(0,0,0,0.06); transition: all 0.3s ease; }
-.animated-icon-wrapper:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
-.animated-icon { width: 80px; height: 80px; object-fit: contain; }
-
-/* Home Assistant card */
-.ha-card { background: var(--text-primary) !important; border-radius: 18px !important; color: white; }
-.ha-entity { display: flex; align-items: center; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.08); }
-.ha-entity:last-child { border-bottom: none; }
-.ha-entity-name { font-weight: 500; font-size: 0.95rem; color: rgba(255,255,255,0.9); }
-.ha-entity-state { font-size: 0.85rem; color: rgba(255,255,255,0.5); margin-top: 2px; }
-
-/* CTA */
-.cta-section { background: linear-gradient(135deg, var(--accent) 0%, var(--bg-accent) 100%); }
-.cta-title { color: var(--bg-primary) !important; font-size: 2.5rem !important; font-weight: 600 !important; letter-spacing: -0.02em; }
-.cta-subtitle { color: rgba(255,255,255,0.8) !important; font-size: 1.2rem !important; }
-.cta-btn { background: var(--bg-card) !important; color: var(--accent) !important; border-radius: 14px !important; font-weight: 600 !important; text-transform: none !important; }
-.cta-btn:hover { transform: scale(1.03); }
-.cta-btn-outline { background: transparent !important; color: white !important; border: 2px solid rgba(255,255,255,0.5) !important; border-radius: 14px !important; font-weight: 500 !important; text-transform: none !important; }
-.cta-btn-outline:hover { border-color: white !important; transform: scale(1.03); }
-
-/* Footer */
-.footer-section { background: var(--bg-secondary); }
-.footer-text { color: var(--text-muted); font-size: 0.9rem; }
-.footer-links { margin-top: 8px; }
-.footer-link { color: var(--accent); text-decoration: none; font-size: 0.9rem; }
-.footer-link:hover { text-decoration: underline; }
-
-/* Federated Learning section */
-.fl-step-card { background: var(--bg-card) !important; border: 1px solid var(--border-color) !important; border-radius: 18px !important; transition: all 0.3s ease; }
-.fl-step-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.08) !important; }
-.fl-step-num { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 50%; background: var(--accent, #6c7fd8); color: white; font-weight: 700; font-size: 1rem; }
-.fl-step-title { font-weight: 600; font-size: 1.15rem; color: var(--text-primary); }
-.fl-step-text { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; }
-.fl-guarantee-card { background: var(--bg-secondary) !important; border: 1px solid var(--border-color) !important; border-radius: 18px !important; }
-.fl-guarantee-title { font-weight: 600; font-size: 1.3rem; color: var(--text-primary); }
-.fl-guarantee-list { background: transparent !important; }
-.fl-guarantee-item { color: var(--text-secondary) !important; padding-left: 0 !important; }
-.fl-guarantee-tagline { color: var(--text-secondary); font-size: 1rem; font-weight: 500; }
-
-/* Data Control & Training section */
-.data-control-card { background: var(--bg-card) !important; border: 1px solid var(--border-color) !important; border-radius: 20px !important; transition: all 0.3s ease; }
-.data-control-card:hover { transform: translateY(-6px); box-shadow: 0 12px 32px rgba(0,0,0,0.1) !important; }
-.data-control-icon { display: flex; align-items: center; justify-content: center; width: 120px; height: 120px; border-radius: 24px; background: linear-gradient(135deg, var(--bg-secondary), var(--bg-card)); margin: 0 auto; }
-.data-control-title { font-weight: 700; font-size: 1.4rem; color: var(--text-primary); text-align: center; line-height: 1.3; }
-.data-control-text { color: var(--text-secondary); font-size: 1.05rem; line-height: 1.6; text-align: center; }
-.data-control-list { background: transparent !important; }
-.data-control-item { color: var(--text-muted) !important; font-size: 0.95rem !important; padding-left: 0 !important; margin-bottom: 8px; }
-.training-subtitle { font-weight: 600; font-size: 1.8rem; color: var(--text-primary); }
-.training-card { background: var(--bg-card) !important; border: 1px solid var(--border-color) !important; border-radius: 18px !important; transition: all 0.3s ease; }
-.training-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.08) !important; }
-.training-title { font-weight: 600; font-size: 1.1rem; color: var(--text-primary); }
-.training-text { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; }
-.training-badge { min-height: 32px; }
-
-/* Responsive */
-@media (max-width: 768px) {
-  .hero-title { font-size: 2.8rem; }
-  .hero-subtitle { font-size: 1.15rem; }
-  .section-title { font-size: 2rem !important; }
-  .hero-buttons { flex-direction: column; align-items: center; }
-  .hero-buttons .v-btn { width: 100%; max-width: 300px; }
-}
+.home-page{background:#f6f7f9;color:#111827}.hero{min-height:calc(100vh - 72px);display:grid;grid-template-columns:minmax(0,1.2fr) minmax(320px,.8fr);gap:72px;align-items:center;max-width:1180px;margin:auto;padding:80px 28px}.eyebrow,.section-heading span,.closing span{text-transform:uppercase;letter-spacing:.16em;font-size:.75rem;font-weight:800;color:#64748b}.hero h1{font-size:clamp(3rem,7vw,6.6rem);line-height:.94;letter-spacing:-.065em;max-width:850px;margin:22px 0}.hero-copy>p{font-size:clamp(1.05rem,2vw,1.35rem);line-height:1.65;color:#475569;max-width:720px}.actions{display:flex;gap:12px;margin-top:34px;flex-wrap:wrap}.primary-action{background:#0f172a!important;color:white!important;border-radius:14px!important;text-transform:none!important;font-weight:700!important}.secondary-action{background:white!important;color:#0f172a!important;border:1px solid #dbe1e8;border-radius:14px!important;text-transform:none!important;font-weight:700!important}.device-card{background:#0f172a;color:white;border-radius:32px;padding:28px;box-shadow:0 30px 80px rgba(15,23,42,.22)}.device-top{font-size:.85rem;color:#cbd5e1}.status-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#34d399;margin-right:8px}.pi-mark{height:180px;display:grid;place-items:center;font-size:5rem;font-weight:900;letter-spacing:-.08em}.sensor-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.sensor-row span{background:#1e293b;border-radius:10px;padding:10px 6px;text-align:center;font-size:.75rem}.occupancy{margin-top:18px;padding:20px;border-radius:18px;background:#ecfeff;color:#164e63;display:flex;flex-direction:column}.occupancy strong{font-size:1.8rem}.occupancy span{font-size:.75rem;color:#0e7490}.sensor-section,.use-section{max-width:1180px;margin:auto;padding:100px 28px}.section-heading h2,.closing h2{font-size:clamp(2.2rem,5vw,4.2rem);letter-spacing:-.05em;margin:10px 0 42px}.sensor-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.sensor-grid article,.uses article{background:white;border:1px solid #e2e8f0;border-radius:22px;padding:28px}.sensor-grid .v-icon,.uses .v-icon{color:#0891b2;font-size:30px}.sensor-grid h3,.uses h3{margin:18px 0 8px;font-size:1.15rem}.sensor-grid p,.uses p,.closing p{color:#64748b;line-height:1.6}.use-section{padding-top:40px}.uses{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.uses article{display:flex;gap:18px}.uses h3{margin:0 0 5px}.closing{max-width:1124px;margin:30px auto 100px;background:#e0f2fe;border-radius:32px;padding:56px;display:flex;align-items:end;justify-content:space-between;gap:30px}.closing h2{margin-bottom:12px}.closing p{max-width:680px}@media(max-width:800px){.hero{grid-template-columns:1fr;gap:40px;padding-top:55px}.hero h1{font-size:3.4rem}.device-card{border-radius:24px}.sensor-grid,.uses{grid-template-columns:1fr}.sensor-section,.use-section{padding:70px 18px}.closing{margin:20px 18px 70px;padding:32px;display:block}.closing .v-btn{margin-top:22px;width:100%}}
 </style>

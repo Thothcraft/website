@@ -175,7 +175,6 @@ const navItems = computed(() => [
   { title: t('nav.download'), icon: 'mdi-download', to: '/download' },
   { title: t('nav.shop'), icon: 'mdi-shopping', to: '/shop' },
   { title: t('nav.plans'), icon: 'mdi-currency-usd', to: '/plans' },
-  { title: t('nav.projects'), icon: 'mdi-flask-outline', to: '/projects' },
   { title: t('nav.portal'), icon: 'mdi-login', to: 'https://portal-three-rho.vercel.app', isButton: true, external: true },
 ])
 
