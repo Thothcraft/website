@@ -3,7 +3,7 @@
     <header class="site-header">
       <router-link class="brand" to="/" aria-label="Thoth home"><span class="brand-mark">T</span><span>Thoth</span></router-link>
       <router-link class="product-link" to="/product">Product</router-link>
-      <a class="portal-link" href="https://portal-three-rho.vercel.app" target="_blank" rel="noopener">Portal</a>
+      <a class="portal-link" href="https://portal-three-rho.vercel.app/auth" target="_blank" rel="noopener">Portal</a>
     </header>
     <main><router-view /></main>
   </v-app>
