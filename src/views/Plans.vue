@@ -24,165 +24,54 @@
         justify="center"
         align="stretch"
       >
-        <!-- Free -->
         <v-col
+          v-for="plan in plans"
+          :key="plan.id"
           cols="12"
-          md="4"
+          sm="6"
+          lg="3"
           class="mb-6"
         >
           <v-card
-            class="plan-card h-100 pa-8"
-            elevation="0"
-          >
-            <div
-              class="plan-badge mb-2"
-              style="opacity:0"
-            >
-              _
-            </div>
-            <h3 class="plan-name mb-1">
-              Free
-            </h3>
-            <div class="plan-price mb-1">
-              $0
-            </div>
-            <p class="plan-cadence mb-6">
-              forever
-            </p>
-            <v-divider class="mb-6" />
-            <v-list
-              density="compact"
-              class="plan-features mb-8"
-            >
-              <v-list-item
-                v-for="f in free.features"
-                :key="f"
-                :prepend-icon="f.startsWith('–') ? 'mdi-minus' : 'mdi-check'"
-                :class="f.startsWith('–') ? 'feature-off' : 'feature-on'"
-              >
-                {{ f.replace('– ','') }}
-              </v-list-item>
-            </v-list>
-            <v-btn
-              block
-              variant="outlined"
-              color="primary"
-              size="large"
-              href="https://thothfrontend.vercel.app/"
-              target="_blank"
-            >
-              Get Started
-            </v-btn>
-          </v-card>
-        </v-col>
-
-        <!-- Researcher -->
-        <v-col
-          cols="12"
-          md="4"
-          class="mb-6"
-        >
-          <v-card
-            class="plan-card plan-featured h-100 pa-8"
+            :class="['plan-card h-100 pa-8', { 'plan-featured': plan.featured }]"
             elevation="0"
           >
             <div class="plan-badge mb-2">
-              <v-chip
-                color="white"
-                size="small"
-                variant="elevated"
-                style="color:#3f51b5;font-weight:700;"
-              >
-                Most Popular
-              </v-chip>
+              <v-chip v-if="plan.featured" color="white" size="small" variant="elevated" style="color:#3f51b5;font-weight:700;">Most Popular</v-chip>
             </div>
             <h3 class="plan-name mb-1">
-              Researcher
+              {{ plan.name }}
             </h3>
             <div class="plan-price mb-1">
-              $20 <span class="plan-currency">CAD</span>
+              {{ plan.price }} <span v-if="plan.price !== '$0'" class="plan-currency">USD</span>
             </div>
             <p class="plan-cadence mb-6">
-              per month
+              {{ plan.cadence }}
             </p>
-            <v-divider
-              class="mb-6"
-              style="border-color:rgba(255,255,255,0.2)"
-            />
+            <v-divider class="mb-6" :style="plan.featured ? 'border-color:rgba(255,255,255,0.2)' : ''" />
             <v-list
               density="compact"
-              class="plan-features plan-features-light mb-8"
+              :class="['plan-features mb-8', { 'plan-features-light': plan.featured }]"
             >
               <v-list-item
-                v-for="f in researcher.features"
+                v-for="f in plan.features"
                 :key="f"
                 prepend-icon="mdi-check"
-                class="feature-on-light"
+                :class="plan.featured ? 'feature-on-light' : 'feature-on'"
               >
                 {{ f }}
               </v-list-item>
             </v-list>
             <v-btn
               block
-              color="white"
-              style="color:#3f51b5;font-weight:700;"
+              :variant="plan.featured ? 'flat' : 'outlined'"
+              :color="plan.featured ? 'white' : 'primary'"
+              :style="plan.featured ? 'color:#3f51b5;font-weight:700;' : ''"
               size="large"
-              href="https://thothfrontend.vercel.app/"
+              :href="plan.id === 'free' ? 'https://portal-three-rho.vercel.app/auth' : 'https://portal-three-rho.vercel.app/pricing'"
               target="_blank"
             >
-              Subscribe
-            </v-btn>
-          </v-card>
-        </v-col>
-
-        <!-- Organization -->
-        <v-col
-          cols="12"
-          md="4"
-          class="mb-6"
-        >
-          <v-card
-            class="plan-card h-100 pa-8"
-            elevation="0"
-          >
-            <div
-              class="plan-badge mb-2"
-              style="opacity:0"
-            >
-              _
-            </div>
-            <h3 class="plan-name mb-1">
-              Organization
-            </h3>
-            <div class="plan-price mb-1">
-              $500 <span class="plan-currency">CAD</span>
-            </div>
-            <p class="plan-cadence mb-6">
-              per month
-            </p>
-            <v-divider class="mb-6" />
-            <v-list
-              density="compact"
-              class="plan-features mb-8"
-            >
-              <v-list-item
-                v-for="f in organization.features"
-                :key="f"
-                prepend-icon="mdi-check"
-                class="feature-on"
-              >
-                {{ f }}
-              </v-list-item>
-            </v-list>
-            <v-btn
-              block
-              variant="outlined"
-              color="primary"
-              size="large"
-              href="https://thothfrontend.vercel.app/"
-              target="_blank"
-            >
-              Contact Sales
+              {{ plan.id === 'free' ? 'Get started' : 'Choose plan' }}
             </v-btn>
           </v-card>
         </v-col>
@@ -207,14 +96,8 @@
                   <th class="feature-col">
                     Feature
                   </th>
-                  <th class="text-center">
-                    Free
-                  </th>
-                  <th class="text-center highlighted-col">
-                    Researcher
-                  </th>
-                  <th class="text-center">
-                    Organization
+                  <th v-for="plan in plans" :key="plan.id" :class="['text-center', { 'highlighted-col': plan.featured }]">
+                    {{ plan.name }}
                   </th>
                 </tr>
               </thead>
@@ -226,14 +109,8 @@
                   <td class="feature-name">
                     {{ row.feature }}
                   </td>
-                  <td class="text-center">
-                    <span v-html="renderCell(row.free)" />
-                  </td>
-                  <td class="text-center highlighted-col">
-                    <span v-html="renderCell(row.researcher)" />
-                  </td>
-                  <td class="text-center">
-                    <span v-html="renderCell(row.org)" />
+                  <td v-for="plan in plans" :key="plan.id" :class="['text-center', { 'highlighted-col': plan.featured }]">
+                    <span v-html="renderCell(row[plan.id])" />
                   </td>
                 </tr>
               </tbody>
@@ -268,48 +145,21 @@
 </template>
 
 <script setup>
-const free = {
-  features: [
-    '1 device online',
-    '5 GB storage',
-    'Sensor data collection',
-    'Live 3D presence',
-    'Editable room calibration',
-    'Local processing',
-  ],
-}
-
-const researcher = {
-  features: [
-    'Everything in Free',
-    '10 devices online',
-    '50 GB storage',
-    'Live 3D presence',
-    'Editable room calibration',
-    'Extended data retention',
-  ],
-}
-
-const organization = {
-  features: [
-    'Everything in Researcher',
-    '100 devices online',
-    '500 GB storage',
-    'Lab / team workspaces',
-    'Priority support',
-    'Custom onboarding',
-  ],
-}
+const plans = [
+  { id: 'free', name: 'Free', price: '$0', cadence: 'forever', features: ['1 device in 1 room', 'Occupancy detection', 'XY location', 'Home Assistant', 'Data download and annotation'] },
+  { id: 'home', name: 'Home', price: '$5', cadence: 'per month', featured: true, features: ['Everything in Free', 'Up to 5 devices', 'Multiple smart rooms', 'Portal device management'] },
+  { id: 'pro', name: 'Pro', price: '$10', cadence: 'per month', features: ['Everything in Home', 'Up to 10 devices', 'Private AI detection models', 'Federated learning'] },
+  { id: 'research', name: 'Research', price: '$20', cadence: 'per month', features: ['Everything in Pro', 'Detailed annotation and export', 'Research workspaces', 'Academy and assistant'] },
+]
 
 const compareRows = [
-  { feature: 'Devices online',        free: '1',     researcher: '10',    org: '100'   },
-  { feature: 'Storage',               free: '5 GB',  researcher: '50 GB', org: '500 GB' },
-  { feature: 'Live 3D presence',      free: true,    researcher: true,    org: true    },
-  { feature: 'Room calibration',      free: true,    researcher: true,    org: true    },
-  { feature: 'Data retention',        free: 'Basic', researcher: 'Extended', org: 'Custom' },
-  { feature: 'Lab workspaces',        free: false,   researcher: false,   org: true    },
-  { feature: 'Priority support',      free: false,   researcher: false,   org: true    },
-  { feature: 'Price (CAD / month)',   free: 'Free',  researcher: '$20',   org: '$500'  },
+  { feature: 'Devices online', free: '1', home: '5', pro: '10', research: '10' },
+  { feature: 'Occupancy and XY location', free: true, home: true, pro: true, research: true },
+  { feature: 'Home Assistant', free: true, home: true, pro: true, research: true },
+  { feature: 'Multi-room Portal', free: false, home: true, pro: true, research: true },
+  { feature: 'Private AI models', free: false, home: false, pro: true, research: true },
+  { feature: 'Research workspaces', free: false, home: false, pro: false, research: true },
+  { feature: 'Price (USD / month)', free: 'Free', home: '$5', pro: '$10', research: '$20' },
 ]
 
 function renderCell(val) {
@@ -323,8 +173,8 @@ const faqs = [
     a: 'Yes. Upgrades take effect immediately; downgrades apply at the start of the next billing cycle.' },
   { q: 'What happens to my data if I downgrade?',
     a: 'Your data stays safe. Features above your new tier become read-only. You have 30 days to export anything before restrictions apply.' },
-  { q: 'Is pricing in Canadian dollars?',
-    a: 'Yes — all prices are in CAD. Taxes may apply depending on your region.' },
+  { q: 'Is pricing in US dollars?',
+    a: 'Yes. Stripe calculates applicable taxes during checkout.' },
   { q: 'Does live presence require a camera?',
     a: 'No. The live view is generated locally from radio reflections and reports presence and location without images.' },
   { q: 'Do I need to install anything for the free plan?',
