@@ -149,7 +149,7 @@ const plans = [
   { id: 'free', name: 'Free', price: '$0', cadence: 'forever', features: ['1 device in 1 room', 'Occupancy detection', 'XY location', 'Home Assistant', 'Data download and annotation'] },
   { id: 'home', name: 'Home', price: '$5', cadence: 'per month', featured: true, features: ['Everything in Free', 'Up to 5 devices', 'Multiple smart rooms', 'Portal device management'] },
   { id: 'pro', name: 'Pro', price: '$10', cadence: 'per month', features: ['Everything in Home', 'Up to 10 devices', 'Private AI detection models', 'Federated learning'] },
-  { id: 'research', name: 'Research', price: '$20', cadence: 'per month', features: ['Everything in Pro', 'Detailed annotation and export', 'Research workspaces', 'Academy and assistant'] },
+  { id: 'research', name: 'Research', price: '$15', cadence: 'per month', features: ['Everything in Pro', 'Detailed annotation and export', 'Research workspaces', 'Academy and assistant'] },
 ]
 
 const compareRows = [
@@ -159,7 +159,7 @@ const compareRows = [
   { feature: 'Multi-room Portal', free: false, home: true, pro: true, research: true },
   { feature: 'Private AI models', free: false, home: false, pro: true, research: true },
   { feature: 'Research workspaces', free: false, home: false, pro: false, research: true },
-  { feature: 'Price (USD / month)', free: 'Free', home: '$5', pro: '$10', research: '$20' },
+  { feature: 'Price (USD / month)', free: 'Free', home: '$5', pro: '$10', research: '$15' },
 ]
 
 function renderCell(val) {
