@@ -6,11 +6,11 @@ import Plans from '../views/Plans.vue'
 const routes = [
   { path: '/', name: 'Home', component: Home },
   { path: '/product', name: 'Product', component: Product },
+  { path: '/plans', name: 'Plans', component: Plans },
   { path: '/shop', redirect: '/product' },
   { path: '/features', redirect: '/' },
   { path: '/download', redirect: '/product' },
   { path: '/thothcraft/download', redirect: '/product' },
-  { path: '/plans', name: 'Plans', component: Plans },
   { path: '/projects', redirect: '/' },
   { path: '/:pathMatch(.*)*', redirect: '/' },
 ]
