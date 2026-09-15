@@ -4,6 +4,7 @@
       <router-link class="brand" to="/" aria-label="Thoth home"><span class="brand-mark">T</span><span>Thoth</span></router-link>
       <nav class="site-nav" aria-label="Main navigation">
         <router-link to="/product">Product</router-link>
+        <router-link to="/download">Install</router-link>
         <router-link to="/plans">Plans</router-link>
       </nav>
       <a class="portal-link" href="https://portal-three-rho.vercel.app/auth" target="_blank" rel="noopener">Portal</a>

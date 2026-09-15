@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import Product from '../views/Shop.vue'
 import Plans from '../views/Plans.vue'
+import Download from '../views/Download.vue'
 
 const routes = [
   { path: '/', name: 'Home', component: Home },
@@ -9,8 +10,8 @@ const routes = [
   { path: '/plans', name: 'Plans', component: Plans },
   { path: '/shop', redirect: '/product' },
   { path: '/features', redirect: '/' },
-  { path: '/download', redirect: '/product' },
-  { path: '/thothcraft/download', redirect: '/product' },
+  { path: '/download', name: 'Download', component: Download },
+  { path: '/thothcraft/download', redirect: '/download' },
   { path: '/projects', redirect: '/' },
   { path: '/:pathMatch(.*)*', redirect: '/' },
 ]

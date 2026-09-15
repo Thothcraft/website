@@ -11,8 +11,11 @@
         </p>
         <a
           class="buy"
-          href="#buy"
-        ><span class="buy-icon" aria-hidden="true">▣</span> Buy Thoth <span>↗</span></a>
+          href="https://portal-three-rho.vercel.app/buy"
+          target="_blank"
+          rel="noopener"
+        ><span class="buy-icon" aria-hidden="true">▣</span> Buy Thoth · $500 <span>↗</span></a>
+        <router-link class="buy" style="margin-left:10px;background:#fff;color:#11110f;border:1px solid #11110f" to="/download">Install on Raspberry Pi <span>→</span></router-link>
       </div>
       <div class="model-wrap">
         <iframe
