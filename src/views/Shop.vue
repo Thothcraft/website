@@ -19,14 +19,14 @@
       </div>
       <div class="model-wrap">
         <iframe
-          title="Interactive 3D model of the Thoth device"
-          src="https://poly.cam/capture/d88e03b4-4645-4a66-bf69-af3e4752090d?"
+          title="Polycam capture viewer"
+          src="https://poly.cam/capture/ABE69FEA-A1DF-4CC5-BC65-CF1DB40BFEE8/embed"
           loading="lazy"
-          allow="fullscreen; xr-spatial-tracking"
+          allow="webgpu; fullscreen; xr-spatial-tracking"
           allowfullscreen
         />
         <a
-          href="https://poly.cam/capture/d88e03b4-4645-4a66-bf69-af3e4752090d?"
+          href="https://poly.cam/capture/ABE69FEA-A1DF-4CC5-BC65-CF1DB40BFEE8"
           target="_blank"
           rel="noopener"
         >Open 3D view ↗</a>
