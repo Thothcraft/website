@@ -40,7 +40,7 @@
       </div>
     </section>
 
-    <!-- Step by Step Instructions -->
+      <!-- Step by Step Instructions -->
     <section class="instructions">
       <div>
         <span>01</span>
@@ -55,7 +55,16 @@
       <div>
         <span>03</span>
         <h2>Local Dashboard</h2>
-        <pre><code>http://localhost:5000</code></pre>
+        <pre><code>http://thoth-&lt;name&gt;.local:5000</code></pre>
+      </div>
+    </section>
+
+    <!-- Supported Terminals Info -->
+    <section class="terminals-section">
+      <div class="terminal-card">
+        <span class="terminal-badge">Supported Terminals ({{ activeConfig.name }})</span>
+        <p>{{ activeConfig.supportedTerminals }}</p>
+        <span class="terminal-sub">The installer automatically configures your environment <code>PATH</code>, so <code>thothcraft</code> is immediately available across all listed shells.</span>
       </div>
     </section>
 
@@ -67,16 +76,17 @@
           <div class="guide-col">
             <h4>1. Local Machine Dashboard (Offline & Edge)</h4>
             <p>
-              Once installed, the background daemon <code>thothcraftd</code> serves an interactive, real-time dashboard on your local network:
+              Once installed, the background daemon (<code>thothcraft daemon</code>) serves an interactive dashboard following the Thoth design system on your local network:
             </p>
             <div class="url-box">
-              <a href="http://localhost:5000" target="_blank" rel="noopener">http://localhost:5000</a>
-              <span>or <code>http://thoth.local:5000</code></span>
+              <a href="http://localhost:5000" target="_blank" rel="noopener">http://thoth-&lt;name&gt;.local:5000</a>
+              <span>or <code>http://localhost:5000</code></span>
             </div>
             <ul>
-              <li><strong>Connected Sensors:</strong> Live webcam feed, Wi-Fi, Bluetooth, CPU & RAM telemetry.</li>
-              <li><strong>Model Execution:</strong> Runs edge rules and OpenCV face recognition locally without cloud latency.</li>
-              <li><strong>OpenSSH Access:</strong> Automatically configured on port 22 for secure remote CLI management.</li>
+              <li><strong>Host Naming:</strong> Follows the canonical <code>thoth-&lt;name&gt;.local</code> format (e.g. <code>thoth-denver.local</code>, <code>thoth-alex.local</code>, or <code>thoth.local</code>).</li>
+              <li><strong>Connected Sensors:</strong> Live webcam feed, Wi-Fi, Bluetooth, CPU & RAM telemetry in the Sensor Lab stage.</li>
+              <li><strong>Model Execution:</strong> Runs edge rules and OpenCV face recognition locally with low latency.</li>
+              <li><strong>OpenSSH Access:</strong> Automatically configured on port 22 (<code>ssh &lt;user&gt;@thoth-&lt;name&gt;.local</code>).</li>
             </ul>
           </div>
           <div class="guide-col">
@@ -114,7 +124,8 @@ const platforms = {
     downloadUrl: '/install.ps1',
     oneLiner: 'irm https://raw.githubusercontent.com/gadm21/whispy/main/install.ps1 | iex',
     step1: 'irm https://raw.githubusercontent.com/gadm21/whispy/main/install.ps1 | iex',
-    step2: '# Starts thothcraftd at logon\n# Enables OpenSSH Server (sshd)'
+    step2: '# Starts thothcraft daemon at logon\n# Enables OpenSSH Server (sshd)\n# Configures PATH for PowerShell & Git Bash',
+    supportedTerminals: 'Windows PowerShell 5.1, PowerShell 7+, Windows Terminal, Git Bash (bash.exe), Command Prompt (cmd.exe)'
   },
   macos: {
     name: 'macOS',
@@ -122,7 +133,8 @@ const platforms = {
     downloadUrl: '/install.sh',
     oneLiner: 'curl -fsSL https://raw.githubusercontent.com/gadm21/whispy/main/install.sh | bash',
     step1: 'curl -fsSL https://raw.githubusercontent.com/gadm21/whispy/main/install.sh | bash',
-    step2: '# Loads LaunchAgent background daemon\n# Requests Remote Login (SSH)'
+    step2: '# Loads LaunchAgent background daemon\n# Requests Remote Login (SSH)',
+    supportedTerminals: 'Terminal (zsh, bash), iTerm2'
   },
   linux: {
     name: 'Linux / Raspberry Pi',
@@ -130,7 +142,8 @@ const platforms = {
     downloadUrl: '/install.sh',
     oneLiner: 'curl -fsSL https://raw.githubusercontent.com/gadm21/whispy/main/install.sh | sudo bash',
     step1: 'curl -fsSL https://raw.githubusercontent.com/gadm21/whispy/main/install.sh | sudo bash',
-    step2: '# Enables thothcraftd systemd service\n# Starts openssh-server'
+    step2: '# Enables thothcraft systemd service\n# Starts openssh-server',
+    supportedTerminals: 'bash, zsh, dash'
   }
 }
 
@@ -270,6 +283,39 @@ const activeConfig = computed(() => platforms[currentPlatform.value] || platform
   border-radius: 10px;
   font-size: 12px;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.terminals-section {
+  max-width: 1100px;
+  margin: 24px auto 0;
+}
+
+.terminal-card {
+  background: #faf8f2;
+  border: 1px solid #c9c4b9;
+  border-radius: 12px;
+  padding: 18px 24px;
+}
+
+.terminal-badge {
+  display: inline-block;
+  font: 700 11px ui-monospace, monospace;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: #6d6961;
+  margin-bottom: 8px;
+}
+
+.terminal-card p {
+  margin: 0 0 6px;
+  font-weight: 600;
+  font-size: 15px;
+  color: #11110f;
+}
+
+.terminal-sub {
+  font-size: 13px;
+  color: #6d6961;
 }
 
 .dashboard-guide {
