@@ -4,8 +4,8 @@
 
       <h2 class="animated-pitch">Passive monitoring for<br><button :class="['changing-place', { leaving: isLeaving }]" @click="openCard(uses[placeIndex], placeIndex)">{{ places[placeIndex] }}.</button></h2>
       <div class="hero-foot">
-        <p>Thoth gives your home a quiet understanding of people and place—No wearables, subscriptions, or a camera.</p><router-link to="/product">
-          Meet the device <span>↗</span>
+        <p>Thothcraft is a programmable sensing platform—Whispy SDK, Thoth edge nodes, and Brain cloud—giving any space a quiet understanding of people and place. No wearables, subscriptions, or a required camera.</p><router-link to="/product">
+          Meet the platform <span>↗</span>
         </router-link>
       </div>
     </section>
@@ -40,7 +40,7 @@
 
     <section class="closing">
       <p class="kicker">
-        THOTH, AT HOME
+        THOTHCRAFT PLATFORM
       </p><h2>Know what’s happening.<br>Keep it yours.</h2><router-link to="/product">
         View product
       </router-link>

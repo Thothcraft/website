@@ -1,17 +1,17 @@
-# ThothCraft installer for Windows — turns this computer into a Thoth node.
+﻿# Thoth installer for Windows — turns this computer into a Thoth node.
 #
 # One-liner (once hosted):
-#   irm https://get.thothcraft.com/install.ps1 | iex
+#   irm https://thothcraft.com/install.ps1 | iex
 # From a cloned repo:
 #   powershell -ExecutionPolicy Bypass -File install.ps1 [-Local .\packages]
 #
-# Installs thothcraft-sdk + thothcraft-cli[sensors], then registers
-# thothcraftd as a logon task so the node stays reachable via
-# thothcraft.local("<this-pc>") and heartbeats to Brain once paired.
+# Installs the whispy SDK + thoth node app, then registers `thoth daemon`
+# as a logon task so the node stays reachable via whispy.local("<this-pc>")
+# and heartbeats to Brain once paired.
 
 [CmdletBinding()]
 param(
-    # Install from a local checkout instead of PyPI (path containing packages/).
+    # Install from local checkouts instead of git (path containing whispy/ and thoth/).
     [string]$Local = "",
     # Skip registering the background daemon task.
     [switch]$NoDaemon,
@@ -36,7 +36,7 @@ function Find-Python {
     return $null
 }
 
-Write-Host "== ThothCraft installer (Windows) ==" -ForegroundColor Cyan
+Write-Host "== Thoth installer (Windows) ==" -ForegroundColor Cyan
 
 $py = Find-Python
 if (-not $py) {
@@ -45,36 +45,39 @@ if (-not $py) {
 }
 Write-Host "Using Python: $(& $py --version)"
 
-$packages = if ($NoSensors) { @("thothcraft-sdk", "thothcraft-cli") } else { @("thothcraft-sdk", "thothcraft-cli[sensors]") }
+$whispyRepo = "git+https://github.com/gadm21/whispy.git#subdirectory=packages/whispy"
+$thothRepo = "git+https://github.com/Thothcraft/thoth.git"
 
 if ($Local) {
-    $sdk = Join-Path $Local "thothcraft-sdk"
-    $cli = Join-Path $Local "thothcraft-cli"
-    if (-not (Test-Path $sdk) -or -not (Test-Path $cli)) {
-        Write-Host "-Local must point at the directory containing thothcraft-sdk/ and thothcraft-cli/" -ForegroundColor Red
+    $whispy = Join-Path $Local "whispy"
+    $thoth = Join-Path $Local "thoth"
+    if (-not (Test-Path $whispy) -or -not (Test-Path $thoth)) {
+        Write-Host "-Local must point at a directory containing whispy/ and thoth/ package dirs" -ForegroundColor Red
         exit 1
     }
-    $cliSpec = if ($NoSensors) { $cli } else { "$cli[sensors]" }
+    $whispySpec = if ($NoSensors) { $whispy } else { "$whispy[sensors]" }
     Write-Host "Installing from local checkout: $Local"
     $origPref = $ErrorActionPreference
     $ErrorActionPreference = "Continue"
-    & $py -m pip install --upgrade -e $sdk -e $cliSpec
+    & $py -m pip install --upgrade -e $whispySpec -e $thoth
     $code = $LASTEXITCODE
     $ErrorActionPreference = $origPref
     if ($code -ne 0) { Write-Host "pip install failed" -ForegroundColor Red; exit 1 }
 }
 else {
-    Write-Host "Installing from PyPI (falls back to the git repo if unpublished)..."
+    Write-Host "Installing whispy + thoth from git..."
+    $whispySpec = if ($NoSensors) { $whispyRepo } else { "$whispyRepo[sensors]" }
     $origPref = $ErrorActionPreference
     $ErrorActionPreference = "Continue"
-    & $py -m pip install --upgrade $packages
+    & $py -m pip install --upgrade $whispySpec $thothRepo
     $code = $LASTEXITCODE
     if ($code -ne 0) {
-        $sdkUrl = "git+https://github.com/gadm21/whispy.git#subdirectory=packages/thothcraft-sdk"
-        $cliUrl = "git+https://github.com/gadm21/whispy.git#subdirectory=packages/thothcraft-cli"
-        $cliSpec = if ($NoSensors) { $cliUrl } else { "$cliUrl[sensors]" }
-        & $py -m pip install --upgrade $sdkUrl $cliSpec
+        # pip can't combine extras with direct refs on older versions
+        & $py -m pip install --upgrade $whispyRepo $thothRepo
         $code = $LASTEXITCODE
+        if ($code -eq 0 -and -not $NoSensors) {
+            & $py -m pip install --upgrade opencv-python pyserial psutil
+        }
     }
     $ErrorActionPreference = $origPref
     if ($code -ne 0) { Write-Host "pip install failed" -ForegroundColor Red; exit 1 }
@@ -123,7 +126,7 @@ try {
 # Ensure Git Bash profiles have the PATH export
 try {
     $posixScripts = $userScripts.Replace('\', '/').Replace('C:', '/c')
-    $bashExport = "`n# Added by ThothCraft`nexport PATH=`"`$PATH:$posixScripts`"`n"
+    $bashExport = "`n# Added by Thoth`nexport PATH=`"`$PATH:$posixScripts`"`n"
     foreach ($profileName in @(".bashrc", ".bash_profile")) {
         $pPath = Join-Path $HOME $profileName
         $existing = if (Test-Path $pPath) { Get-Content $pPath -Raw } else { "" }
@@ -134,57 +137,57 @@ try {
     }
 } catch { }
 
-$thothcraft = Get-Command thothcraft -ErrorAction SilentlyContinue
-if (-not $thothcraft) {
-    foreach ($cand in @((Join-Path $userScripts "thothcraft.exe"), (Join-Path $sysScripts "thothcraft.exe"))) {
-        if (Test-Path $cand) { $thothcraft = $cand; break }
+$thoth = Get-Command thoth -ErrorAction SilentlyContinue
+if (-not $thoth) {
+    foreach ($cand in @((Join-Path $userScripts "thoth.exe"), (Join-Path $sysScripts "thoth.exe"))) {
+        if (Test-Path $cand) { $thoth = $cand; break }
     }
 }
 
-# Copy thothcraft.exe to WindowsApps for instant PATH availability across all active terminals
+# Copy thoth.exe to WindowsApps for instant PATH availability across all active terminals
 $winApps = Join-Path $env:LOCALAPPDATA "Microsoft\WindowsApps"
 if (Test-Path $winApps) {
-    $srcExe = if ($thothcraft -is [System.Management.Automation.CommandInfo]) { $thothcraft.Source } else { [string]$thothcraft }
+    $srcExe = if ($thoth -is [System.Management.Automation.CommandInfo]) { $thoth.Source } else { [string]$thoth }
     if ($srcExe -and (Test-Path $srcExe)) {
         try {
-            Copy-Item $srcExe -Destination (Join-Path $winApps "thothcraft.exe") -Force -ErrorAction SilentlyContinue
-            Write-Host "✓ Copied thothcraft to $winApps (immediately available in all terminals)" -ForegroundColor Green
+            Copy-Item $srcExe -Destination (Join-Path $winApps "thoth.exe") -Force -ErrorAction SilentlyContinue
+            Write-Host "✓ Copied thoth to $winApps (immediately available in all terminals)" -ForegroundColor Green
         } catch { }
     }
 }
 
-if (-not $thothcraft) {
-    Write-Host "thothcraft entry point not found on PATH — check pip output above." -ForegroundColor Red
+if (-not $thoth) {
+    Write-Host "thoth entry point not found on PATH — check pip output above." -ForegroundColor Red
     exit 1
 }
-$thothcraftPath = if ($thothcraft -is [System.Management.Automation.CommandInfo]) { $thothcraft.Source } else { [string]$thothcraft }
-Write-Host "thothcraft: $thothcraftPath"
+$thothPath = if ($thoth -is [System.Management.Automation.CommandInfo]) { $thoth.Source } else { [string]$thoth }
+Write-Host "thoth: $thothPath"
 
 if (-not $NoDaemon) {
-    $taskName = "Thothcraft"
-    $action = New-ScheduledTaskAction -Execute $thothcraftPath -Argument "daemon"
+    $taskName = "Thoth"
+    $action = New-ScheduledTaskAction -Execute $thothPath -Argument "daemon"
     $trigger = New-ScheduledTaskTrigger -AtLogOn
     $settings = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries `
         -RestartCount 3 -RestartInterval (New-TimeSpan -Minutes 1) -ExecutionTimeLimit ([TimeSpan]::Zero)
     $registered = $false
     try {
         Register-ScheduledTask -TaskName $taskName -Action $action -Trigger $trigger `
-            -Settings $settings -Description "ThothCraft device daemon (local sensor API + Brain heartbeat)" -Force -ErrorAction Stop | Out-Null
+            -Settings $settings -Description "Thoth device daemon (local sensor API + Brain heartbeat)" -Force -ErrorAction Stop | Out-Null
         Start-ScheduledTask -TaskName $taskName -ErrorAction SilentlyContinue
-        Write-Host "✓ thothcraft daemon registered as logon task '$taskName' and started" -ForegroundColor Green
+        Write-Host "✓ thoth daemon registered as logon task '$taskName' and started" -ForegroundColor Green
         $registered = $true
     } catch {
         try {
             $startupDir = [System.IO.Path]::Combine($env:APPDATA, "Microsoft\Windows\Start Menu\Programs\Startup")
             if (Test-Path $startupDir) {
-                $cmdFile = Join-Path $startupDir "thothcraft.cmd"
-                "@start `"`" `"$thothcraftPath`" daemon" | Out-File -FilePath $cmdFile -Encoding ascii
-                Write-Host "✓ thothcraft daemon added to Startup folder ($cmdFile)" -ForegroundColor Green
+                $cmdFile = Join-Path $startupDir "thoth.cmd"
+                "@start `"`" `"$thothPath`" daemon" | Out-File -FilePath $cmdFile -Encoding ascii
+                Write-Host "✓ thoth daemon added to Startup folder ($cmdFile)" -ForegroundColor Green
                 $registered = $true
             }
         } catch { }
         if (-not $registered) {
-            Write-Host "Note: To register scheduled logon task, run PowerShell as Administrator. You can run 'thothcraft daemon' directly." -ForegroundColor Yellow
+            Write-Host "Note: To register scheduled logon task, run PowerShell as Administrator. You can run 'thoth daemon' directly." -ForegroundColor Yellow
         }
     }
 }
@@ -192,9 +195,6 @@ if (-not $NoDaemon) {
 if (-not $NoSsh) {
     Enable-SshServer
 }
-
-$hostName = try { & $py -c "import sys; sys.path.insert(0, r'packages/thothcraft-cli'); from thothcraft_cli.daemon import _device_uuid, _device_hostname; print(_device_hostname(_device_uuid()))" 2>$null } catch { "thoth-node.local" }
-if (-not $hostName) { $hostName = "thoth-node.local" }
 
 Write-Host ""
 Write-Host "Supported Terminals:" -ForegroundColor Cyan
@@ -204,13 +204,12 @@ Write-Host "  - Git Bash (C:\Program Files\Git\bin\bash.exe)"
 Write-Host "  - Command Prompt (cmd.exe)"
 Write-Host ""
 Write-Host "Done. Next steps in your terminal (PowerShell, CMD, or Git Bash):" -ForegroundColor Cyan
-Write-Host "  thothcraft login            # link your thothHUB account"
-Write-Host "  thothcraft pair             # claim this computer as a device"
-Write-Host "  thothcraft device init      # probe sensors + pair in one step"
+Write-Host "  thoth pair                # claim this computer as a device"
+Write-Host "  thoth status              # node + account status"
+Write-Host "  thoth sensors             # list detected sensors"
 Write-Host ""
 Write-Host "Local Dashboard Access:" -ForegroundColor Cyan
-Write-Host "  http://$hostName:5000"
 Write-Host "  http://localhost:5000"
 Write-Host ""
 Write-Host "Local SDK check (no pairing needed):"
-Write-Host "  python -c `"import thothcraft; print(thothcraft.local('$hostName').sensors())`""
+Write-Host "  python -c `"import whispy; print([s.id for s in whispy.local().sensors()])`""

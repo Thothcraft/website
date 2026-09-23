@@ -1,14 +1,14 @@
-#!/usr/bin/env bash
-# ThothCraft installer for Linux/macOS — turns this computer into a Thoth node.
+﻿#!/usr/bin/env bash
+# Thoth installer for Linux/macOS — turns this computer into a Thoth node.
 #
 # One-liner (once hosted):
-#   curl -fsSL https://get.thothcraft.com/install.sh | bash
+#   curl -fsSL https://thothcraft.com/install | bash
 # From a cloned repo:
-#   ./install.sh [--local ./packages] [--no-daemon] [--no-sensors]
+#   ./install [--local ./packages] [--no-daemon] [--no-sensors]
 #
-# Installs thothcraft-sdk + thothcraft-cli[sensors], then registers
-# thothcraftd as a user service (systemd) or LaunchAgent (macOS) so the node
-# stays reachable via thothcraft.local("<host>") and heartbeats to Brain.
+# Installs the whispy SDK + thoth node app, then registers `thoth daemon`
+# as a user service (systemd) or LaunchAgent (macOS) so the node stays
+# reachable via whispy.local("<host>") and heartbeats to Brain.
 
 set -euo pipefail
 
@@ -26,7 +26,7 @@ while [ $# -gt 0 ]; do
     esac
 done
 
-echo "== ThothCraft installer ($(uname -s)) =="
+echo "== Thoth installer ($(uname -s)) =="
 
 PY=""
 for cmd in python3 python; do
@@ -42,49 +42,42 @@ if [ -z "$PY" ]; then
 fi
 echo "Using Python: $($PY --version)"
 
+WHISPY_REPO="git+https://github.com/gadm21/whispy.git"
+THOTH_REPO="git+https://github.com/Thothcraft/thoth.git"
 if [ -n "$LOCAL" ]; then
     EXTRA=""
     [ "$NO_SENSORS" -eq 0 ] && EXTRA="[sensors]"
     echo "Installing from local checkout: $LOCAL"
-    "$PY" -m pip install --user --upgrade -e "$LOCAL/thothcraft-sdk" -e "$LOCAL/thothcraft-cli$EXTRA"
+    "$PY" -m pip install --user --upgrade -e "$LOCAL/whispy$EXTRA" -e "$LOCAL/thoth"
 else
-    if [ "$NO_SENSORS" -eq 0 ]; then
-        PKGS="thothcraft-cli[sensors]"
-    else
-        PKGS="thothcraft-cli"
-    fi
-    if ! "$PY" -m pip install --user --upgrade thothcraft-sdk "$PKGS" 2>/dev/null; then
-        REPO="git+https://github.com/gadm21/whispy.git"
-        "$PY" -m pip install --user --upgrade \
-            "$REPO#subdirectory=packages/thothcraft-sdk" \
-            "$REPO&subdirectory=packages/thothcraft-cli$([ "$NO_SENSORS" -eq 0 ] && echo '[sensors]' || true)" \
-            2>/dev/null || {
-                # pip can't combine extras with direct refs on older versions
-                "$PY" -m pip install --user --upgrade \
-                    "$REPO#subdirectory=packages/thothcraft-sdk" \
-                    "$REPO#subdirectory=packages/thothcraft-cli"
-                [ "$NO_SENSORS" -eq 0 ] && "$PY" -m pip install --user --upgrade opencv-python pyserial psutil
-            }
-    fi
+    WEXTRA=""
+    [ "$NO_SENSORS" -eq 0 ] && WEXTRA="[sensors]"
+    "$PY" -m pip install --user --upgrade \
+        "$WHISPY_REPO#subdirectory=packages/whispy" \
+        "$THOTH_REPO" || {
+            "$PY" -m pip install --user --upgrade \
+                "$WHISPY_REPO#subdirectory=packages/whispy" "$THOTH_REPO"
+            [ "$NO_SENSORS" -eq 0 ] && "$PY" -m pip install --user --upgrade opencv-python pyserial psutil
+        }
 fi
 
-THOTHCRAFT="$(command -v thothcraft || true)"
-if [ -z "$THOTHCRAFT" ]; then
-    THOTHCRAFT="$("$PY" -c 'import sysconfig; print(sysconfig.get_path("scripts"))')/thothcraft"
+THOTH="$(command -v thoth || true)"
+if [ -z "$THOTH" ]; then
+    THOTH="$("$PY" -c 'import sysconfig; print(sysconfig.get_path("scripts"))')/thoth"
 fi
-[ -x "$THOTHCRAFT" ] || THOTHCRAFT="$HOME/.local/bin/thothcraft"
-echo "thothcraft: $THOTHCRAFT"
+[ -x "$THOTH" ] || THOTH="$HOME/.local/bin/thoth"
+echo "thoth: $THOTH"
 
 if [ "$NO_DAEMON" -eq 0 ]; then
     if [ "$(uname -s)" = "Linux" ] && command -v systemctl >/dev/null 2>&1; then
         mkdir -p "$HOME/.config/systemd/user"
-        cat > "$HOME/.config/systemd/user/thothcraft.service" <<EOF
+        cat > "$HOME/.config/systemd/user/thoth.service" <<EOF
 [Unit]
-Description=ThothCraft device daemon (local sensor API + Brain heartbeat)
+Description=Thoth device daemon (local sensor API + Brain heartbeat)
 After=network-online.target
 
 [Service]
-ExecStart=$THOTHCRAFT daemon
+ExecStart=$THOTH daemon
 Restart=on-failure
 RestartSec=10
 
@@ -92,26 +85,26 @@ RestartSec=10
 WantedBy=default.target
 EOF
         systemctl --user daemon-reload
-        systemctl --user enable --now thothcraft
-        echo "✓ thothcraft daemon enabled as a systemd user service"
+        systemctl --user enable --now thoth
+        echo "✓ thoth daemon enabled as a systemd user service"
     elif [ "$(uname -s)" = "Darwin" ]; then
-        PLIST="$HOME/Library/LaunchAgents/com.thothcraft.daemon.plist"
+        PLIST="$HOME/Library/LaunchAgents/com.thoth.daemon.plist"
         mkdir -p "$(dirname "$PLIST")"
         cat > "$PLIST" <<EOF
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0"><dict>
-  <key>Label</key><string>com.thothcraft.daemon</string>
-  <key>ProgramArguments</key><array><string>$THOTHCRAFT</string><string>daemon</string></array>
+  <key>Label</key><string>com.thoth.daemon</string>
+  <key>ProgramArguments</key><array><string>$THOTH</string><string>daemon</string></array>
   <key>RunAtLoad</key><true/>
   <key>KeepAlive</key><true/>
 </dict></plist>
 EOF
         launchctl unload "$PLIST" 2>/dev/null || true
         launchctl load "$PLIST"
-        echo "✓ thothcraft daemon loaded as a LaunchAgent"
+        echo "✓ thoth daemon loaded as a LaunchAgent"
     else
-        echo "No supported service manager — run 'thothcraft daemon' manually or via your init system."
+        echo "No supported service manager — run 'thoth daemon' manually or via your init system."
     fi
 fi
 
@@ -141,8 +134,6 @@ if [ "$NO_SSH" -eq 0 ]; then
     fi
 fi
 
-HOSTNAME="$("$PY" -c "import sys; sys.path.insert(0, 'packages/thothcraft-cli'); from thothcraft_cli.daemon import _device_uuid, _device_hostname; print(_device_hostname(_device_uuid()))" 2>/dev/null || echo 'thoth-node.local')"
-
 echo ""
 echo "Supported Terminals:"
 echo "  - bash"
@@ -150,13 +141,12 @@ echo "  - zsh"
 echo "  - sh / dash"
 echo ""
 echo "Done. Next steps in your terminal:"
-echo "  thothcraft login            # link your thothHUB account"
-echo "  thothcraft pair             # claim this computer as a device"
-echo "  thothcraft device init      # probe sensors + pair in one step"
+echo "  thoth pair                # claim this computer as a device"
+echo "  thoth status              # node + account status"
+echo "  thoth sensors             # list detected sensors"
 echo ""
 echo "Local Dashboard access:"
-echo "  http://$HOSTNAME:5000"
 echo "  http://localhost:5000"
 echo ""
 echo "Local SDK check (no pairing needed):"
-echo "  python3 -c \"import thothcraft; print(thothcraft.local('$HOSTNAME').sensors())\""
+echo "  python3 -c \"import whispy; print([s.id for s in whispy.local().sensors()])\""

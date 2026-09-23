@@ -2,9 +2,9 @@
   <main class="download-page">
     <section class="hero">
       <p class="eyebrow">Multi-Platform Edge & Node Installer</p>
-      <h1>Install ThothCraft<br>with one command.</h1>
+      <h1>Install Thoth<br>with one command.</h1>
       <p class="lede">
-        Turns any computer (Windows laptop, macOS workstation, or Linux / Raspberry Pi node) into an intelligent edge sensor node. Discovers built-in sensors, hosts the local REST API and real-time dashboard, executes rule & TorchScript models, and drives actuators.
+        Turns any computer (Windows laptop, macOS workstation, or Linux / Raspberry Pi node) into a programmable sensing node. Thoth discovers local sensors through the Whispy SDK, hosts a local API and dashboard, runs rule &amp; TorchScript processors, and drives actuators—then links to Brain for fleet management.
       </p>
 
       <!-- Platform Selector Tabs -->
@@ -64,7 +64,7 @@
       <div class="terminal-card">
         <span class="terminal-badge">Supported Terminals ({{ activeConfig.name }})</span>
         <p>{{ activeConfig.supportedTerminals }}</p>
-        <span class="terminal-sub">The installer automatically configures your environment <code>PATH</code>, so <code>thothcraft</code> is immediately available across all listed shells.</span>
+        <span class="terminal-sub">The installer automatically configures your environment <code>PATH</code>, so <code>thoth</code> is immediately available across all listed shells.</span>
       </div>
     </section>
 
@@ -76,7 +76,7 @@
           <div class="guide-col">
             <h4>1. Local Machine Dashboard (Offline & Edge)</h4>
             <p>
-              Once installed, the background daemon (<code>thothcraft daemon</code>) serves an interactive dashboard following the Thoth design system on your local network:
+              Once installed, the background daemon (<code>thoth daemon</code>) serves an interactive dashboard following the Thoth design system on your local network:
             </p>
             <div class="url-box">
               <a href="http://localhost:5000" target="_blank" rel="noopener">http://thoth-&lt;name&gt;.local:5000</a>
@@ -90,16 +90,15 @@
             </ul>
           </div>
           <div class="guide-col">
-            <h4>2. Cloud ResearchPortal (Central Fleet View)</h4>
+            <h4>2. Cloud thothHUB (Central Fleet View)</h4>
             <p>
-              To link your computer to the cloud ResearchPortal for dataset storage, model deployments, and multi-node synchronization:
+              To link your computer to thothHUB for dataset storage, model deployments, and multi-node synchronization:
             </p>
-            <pre class="cli-box"><code>thothcraft login
-thothcraft pair</code></pre>
+            <pre class="cli-box"><code>thoth pair</code></pre>
             <p class="subnote">
-              View all paired devices, start/stop minute sensor captures, and deploy TorchScript classifiers at:
+              View all paired devices, start/stop sensor captures, and deploy processors at:
               <br>
-              <strong>ResearchPortal &rarr; Devices:</strong> <code>https://thothcraft.org/devices</code>
+              <strong>thothHUB &rarr; Devices:</strong> <code>https://hub.thothcraft.com</code>
             </p>
           </div>
         </div>
@@ -122,17 +121,17 @@ const platforms = {
     name: 'Windows',
     filename: 'install.ps1',
     downloadUrl: '/install.ps1',
-    oneLiner: 'irm https://raw.githubusercontent.com/gadm21/whispy/main/install.ps1 | iex',
-    step1: 'irm https://raw.githubusercontent.com/gadm21/whispy/main/install.ps1 | iex',
-    step2: '# Starts thothcraft daemon at logon\n# Enables OpenSSH Server (sshd)\n# Configures PATH for PowerShell & Git Bash',
+    oneLiner: 'irm https://get.thothcraft.com/install.ps1 | iex',
+    step1: 'irm https://get.thothcraft.com/install.ps1 | iex',
+    step2: '# Starts thoth daemon at logon\n# Enables OpenSSH Server (sshd)\n# Configures PATH for PowerShell & Git Bash',
     supportedTerminals: 'Windows PowerShell 5.1, PowerShell 7+, Windows Terminal, Git Bash (bash.exe), Command Prompt (cmd.exe)'
   },
   macos: {
     name: 'macOS',
     filename: 'install.sh',
     downloadUrl: '/install.sh',
-    oneLiner: 'curl -fsSL https://raw.githubusercontent.com/gadm21/whispy/main/install.sh | bash',
-    step1: 'curl -fsSL https://raw.githubusercontent.com/gadm21/whispy/main/install.sh | bash',
+    oneLiner: 'curl -fsSL https://get.thothcraft.com/install.sh | bash',
+    step1: 'curl -fsSL https://get.thothcraft.com/install.sh | bash',
     step2: '# Loads LaunchAgent background daemon\n# Requests Remote Login (SSH)',
     supportedTerminals: 'Terminal (zsh, bash), iTerm2'
   },
@@ -140,9 +139,9 @@ const platforms = {
     name: 'Linux / Raspberry Pi',
     filename: 'install.sh',
     downloadUrl: '/install.sh',
-    oneLiner: 'curl -fsSL https://raw.githubusercontent.com/gadm21/whispy/main/install.sh | sudo bash',
-    step1: 'curl -fsSL https://raw.githubusercontent.com/gadm21/whispy/main/install.sh | sudo bash',
-    step2: '# Enables thothcraft systemd service\n# Starts openssh-server',
+    oneLiner: 'curl -fsSL https://get.thothcraft.com/install.sh | sudo bash',
+    step1: 'curl -fsSL https://get.thothcraft.com/install.sh | sudo bash',
+    step2: '# Enables thoth systemd service\n# Starts openssh-server',
     supportedTerminals: 'bash, zsh, dash'
   }
 }
