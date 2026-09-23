@@ -1,0 +1,12 @@
+# Dependencies — installed by Vercel via package-lock.json
+node_modules/
+
+# Logs
+*.log
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Vercel local
+.vercel
