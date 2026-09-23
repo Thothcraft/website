@@ -1,22 +1,25 @@
 import js from '@eslint/js'
-import pluginVue from 'eslint-plugin-vue'
-export default [
-  {
-    name: 'app/files-to-lint',
-    files: ['**/*.{js,mjs,jsx,vue}'],
-  },
+import reactHooks from 'eslint-plugin-react-hooks'
+import reactRefresh from 'eslint-plugin-react-refresh'
+import tseslint from 'typescript-eslint'
 
+export default tseslint.config(
   {
     name: 'app/files-to-ignore',
-    ignores: ['**/dist/**', '**/dist-ssr/**', '**/coverage/**'],
+    ignores: ['**/dist/**', '**/dist-ssr/**', '**/coverage/**', '**/node_modules/**'],
   },
-
   js.configs.recommended,
-  ...pluginVue.configs['flat/recommended'],
-
+  ...tseslint.configs.recommended,
   {
-    rules: {
-      'vue/multi-word-component-names': 'off',
+    name: 'app/files-to-lint',
+    files: ['**/*.{ts,tsx}'],
+    plugins: {
+      'react-hooks': reactHooks,
+      'react-refresh': reactRefresh,
     },
-  }
-]
+    rules: {
+      ...reactHooks.configs.recommended.rules,
+      'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
+    },
+  },
+)
