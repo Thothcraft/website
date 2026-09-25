@@ -14,6 +14,7 @@ import { ThothNode } from './ThothNode'
 import { RoomFloor } from './Room'
 import { ObservationOverlay } from './ObservationOverlay'
 import { SemanticOverlay } from './SemanticOverlay'
+import { RoomShell } from '@/scene'
 
 interface CameraRigProps {
   mode: Mode
@@ -49,36 +50,27 @@ function CameraRig({ mode, isMobile, reducedMotion }: CameraRigProps) {
   return null
 }
 
-/** Low perimeter + divider walls — open-roof architectural model. */
+/** Low perimeter + divider walls — open-roof architectural model.
+ *  Perimeter comes from the shared RoomShell (room/v1 semantics);
+ *  the site keeps its hand-placed divider walls as explicit segments. */
 function Walls() {
   const { width: W, depth: D } = FLOOR
   const h = WALL.height
   const t = WALL.thickness
-  const hw = W / 2
-  const hd = D / 2
   return (
-    <group>
-      {/* perimeter */}
-      <WallSeg p={[0, h / 2, -hd]} s={[W + t, h, t]} />
-      <WallSeg p={[0, h / 2, hd]} s={[W + t, h, t]} />
-      <WallSeg p={[-hw, h / 2, 0]} s={[t, h, D]} />
-      <WallSeg p={[hw, h / 2, 0]} s={[t, h, D]} />
-      {/* divider between left column and living area — doorway gap at z≈0.4 */}
-      <WallSeg p={[0.05, h / 2, -1.95]} s={[t, h, 3.1]} />
-      <WallSeg p={[0.05, h / 2, 2.45]} s={[t, h, 2.1]} />
-      {/* divider between office and bedroom — doorway gap at z≈1.15 */}
-      <WallSeg p={[-3.6, h / 2, 0.6]} s={[2.8, h, t]} />
-      <WallSeg p={[-0.75, h / 2, 0.6]} s={[1.5, h, t]} />
-    </group>
-  )
-}
-
-function WallSeg({ p, s }: { p: [number, number, number]; s: [number, number, number] }) {
-  return (
-    <mesh position={p} castShadow receiveShadow>
-      <boxGeometry args={s} />
-      <meshStandardMaterial color={C.wall} roughness={0.95} />
-    </mesh>
+    <RoomShell
+      dims={{ w: W, d: D, h: h / 0.35 }}     // perimeter at 0.35·h = WALL.height
+      floor={false}
+      grid={false}
+      walls={[
+        // divider between left column and living area — doorway gap at z≈0.4
+        { p: [0.05, h / 2, -1.95], s: [t, h, 3.1] },
+        { p: [0.05, h / 2, 2.45], s: [t, h, 2.1] },
+        // divider between office and bedroom — doorway gap at z≈1.15
+        { p: [-3.6, h / 2, 0.6], s: [2.8, h, t] },
+        { p: [-0.75, h / 2, 0.6], s: [1.5, h, t] },
+      ]}
+    />
   )
 }
 
