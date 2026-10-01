@@ -36,7 +36,8 @@ const PLANS: Plan[] = [
     note: 'A connected set of smart rooms.',
     features: [
       'Everything in Free',
-      'Up to 5 devices',
+      'Multiple devices per account (up to 5)',
+      'Remote access to thothHUB portal',
       '10 GB cloud storage with auto sync',
       'Download and export raw data',
     ],
@@ -50,6 +51,7 @@ const PLANS: Plan[] = [
     features: [
       'Everything in Home',
       'Up to 10 devices, 100 GB cloud storage',
+      'Upload captured data to cloud storage',
       'Research datasets and Python SDK',
       'Research Labs with notebook grading',
     ],
@@ -70,6 +72,8 @@ const COMPARE_ROWS: CompareRow[] = [
   { feature: 'Occupancy, predictions and live view', free: true, home: true, research: true },
   { feature: 'Home Assistant', free: true, home: true, research: true },
   { feature: 'Cloud storage', free: '400 min', home: '10 GB', research: '100 GB' },
+  { feature: 'Remote access via thothHUB portal', free: 'local only', home: true, research: true },
+  { feature: 'Upload data to cloud storage', free: false, home: false, research: true },
   { feature: 'Download / export raw data', free: false, home: true, research: true },
   { feature: 'Python SDK', free: 'read/control', home: true, research: true },
   { feature: 'Research datasets and Labs', free: false, home: false, research: true },
