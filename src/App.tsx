@@ -4,9 +4,10 @@ import Home from './pages/Home'
 import Product from './pages/Product'
 import Plans from './pages/Plans'
 import Download from './pages/Download'
+import Skill from './pages/Skill'
 import './app.css'
 
-const PORTAL_URL = 'https://portal-three-rho.vercel.app/auth'
+const PORTAL_URL = 'https://hub.thothcraft.com/auth'
 
 const NAV_ITEMS = [
   { label: 'Platform', to: '/#platform' },
@@ -14,6 +15,7 @@ const NAV_ITEMS = [
   { label: 'Research', to: '/#research' },
   { label: 'Thoth One', to: '/product' },
   { label: 'Plans', to: '/plans' },
+  { label: 'Agent skill', to: '/skill' },
 ]
 
 function ScrollManager() {
@@ -109,6 +111,7 @@ function Footer() {
           <Link to="/product">Thoth One</Link>
           <Link to="/plans">Plans</Link>
           <Link to="/download">Install</Link>
+          <Link to="/skill">Agent skill</Link>
         </nav>
         <nav aria-label="Footer — company">
           <p className="footer-head">Access</p>
@@ -136,6 +139,7 @@ export default function App() {
           <Route path="/product" element={<Product />} />
           <Route path="/plans" element={<Plans />} />
           <Route path="/download" element={<Download />} />
+          <Route path="/skill" element={<Skill />} />
           <Route path="/shop" element={<Navigate to="/product" replace />} />
           <Route path="/features" element={<Navigate to="/" replace />} />
           <Route path="/thothcraft/download" element={<Navigate to="/download" replace />} />
