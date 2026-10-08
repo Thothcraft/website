@@ -15,6 +15,9 @@ interface Platform {
   family: 'Desktop' | 'Edge' | 'Mobile' | 'Firmware'
   blurb: string
   asset: RegExp
+  /** Fallback link shown when the latest release has no matching asset —
+   *  repo, install script, or store page. Every card must resolve a link. */
+  url?: string
   install: string
   then: string[]
   icon: string
@@ -32,6 +35,7 @@ const PLATFORMS: Platform[] = [
     id: 'macos', name: 'macOS', family: 'Desktop', icon: '',
     blurb: 'Universal .pkg + `thoth` CLI as a LaunchAgent.',
     asset: /Thoth.*\.pkg$/i,
+    url: 'https://thothcraft.com/install',
     install: 'curl -fsSL https://thothcraft.com/install.sh | bash',
     then: ['Camera, mic, Wi-Fi and BLE with macOS permission prompts', 'Dashboard at http://thoth.local', 'Pair with `thoth pair`'],
   },
@@ -39,13 +43,15 @@ const PLATFORMS: Platform[] = [
     id: 'linux', name: 'Linux (apt)', family: 'Desktop', icon: '◆',
     blurb: 'Debian/Ubuntu package from the Thoth apt repository (amd64, arm64).',
     asset: /thoth_.*_amd64\.deb$/i,
+    url: 'https://thothcraft.com/install',
     install: 'curl -fsSL https://thothcraft.com/install.sh | sudo bash',
     then: ['systemd service `thoth`', 'Dashboard at http://thoth-<name>.local', '`apt upgrade` keeps it current'],
   },
   {
     id: 'pi', name: 'Raspberry Pi', family: 'Edge', icon: '◎',
-    blurb: 'arm64 .deb for Pi 3/4/5 — radar HATs, Sense HAT, ESP32 over USB.',
-    asset: /thoth_.*_arm64\.deb$/i,
+    blurb: 'SD image or arm64 .deb for Pi 3/4/5 — radar HATs, Sense HAT, ESP32 over USB.',
+    asset: /Thoth-?RPi.*\.img\.gz$|thoth_.*_arm64\.deb$/i,
+    url: 'https://thothcraft.com/install',
     install: 'curl -fsSL https://thothcraft.com/install.sh | sudo bash',
     then: ['Detects SPI radar, Sense HAT, USB cameras/mics', 'Recognizes an attached thothesp32 automatically', 'Dashboard at http://thoth-<name>.local'],
   },
@@ -53,6 +59,7 @@ const PLATFORMS: Platform[] = [
     id: 'android', name: 'Android', family: 'Mobile', icon: '▲',
     blurb: 'The phone is a node: sensors, BLE beacon, watch bridge, notifications.',
     asset: /thoth.*\.apk$/i,
+    url: 'https://github.com/Thothcraft/thoth-app',
     install: 'Google Play — or sideload the APK below',
     then: ['Connects your Thoth watch automatically', 'Stays connected with the screen off', 'Push notifications from automations'],
   },
@@ -60,20 +67,23 @@ const PLATFORMS: Platform[] = [
     id: 'ios', name: 'iOS', family: 'Mobile', icon: '●',
     blurb: 'Same app on iPhone — sensors, watch bridge, notifications.',
     asset: /thoth.*\.ipa$/i,
+    url: 'https://hub.thothcraft.com/auth',
     install: 'TestFlight invite from the hub',
     then: ['Background BLE within iOS limits', 'Notifications from automations', 'Shares the same account as every node'],
   },
   {
     id: 'esp32', name: 'thothesp32', family: 'Firmware', icon: '⬡',
-    blurb: 'One signed ESP32-C6 build: Wi-Fi CSI, BLE, Zigbee, own Wi-Fi uplink.',
-    asset: /thothesp32.*\.bin$/i,
-    install: 'thoth esp flash',
-    then: ['Plug into any node or power it standalone', '`thoth esp` CLI: wifi, csi, ble, zigbee', 'Talks to Brain directly when on Wi-Fi'],
+    blurb: 'One ESP32-C6 image, runtime role: CSI transmitter or serial receiver — flip over the console, no reflash.',
+    asset: /thoth_csi.*\.bin$|thothesp32.*\.bin$/i,
+    url: 'https://github.com/Thothcraft/thoth-esp32',
+    install: 'git clone https://github.com/Thothcraft/thoth-esp32 && python thoth-esp32/flash.py --port COM10',
+    then: ['Boots as CSI receiver by default', '`role=send` over serial switches to transmitter', 'Feeds whispy-sensor-csi on any node over USB'],
   },
   {
     id: 'watch', name: 'Thoth watch', family: 'Firmware', icon: '◷',
     blurb: 'Signed PineTime firmware (thothIoT): motion, heart rate, neighbour scan.',
     asset: /thothiot.*\.zip$/i,
+    url: 'https://github.com/Thothcraft/InfiniTime',
     install: 'Update from the Thoth app — Devices → Watch',
     then: ['Recognized and paired by the app instantly', 'Streams motion + HR through any nearby node', 'Cell boot screen and progress UI'],
   },
@@ -247,10 +257,14 @@ export default function Download() {
                       <a className="dl-asset" href={a.browser_download_url}>
                         <span>{a.name}</span><small>{fmtSize(a.size)}</small>
                       </a>
+                    ) : p.url ? (
+                      <a className="dl-asset" href={p.url} target="_blank" rel="noopener">
+                        <span>{p.url.replace(/^https?:\/\//, '')}</span><small>↗</small>
+                      </a>
                     ) : (
-                      <span className="dl-asset is-pending">
-                        {state === 'loading' ? 'Checking…' : 'Build pending in the next release'}
-                      </span>
+                      <a className="dl-asset" href={RELEASES} target="_blank" rel="noopener">
+                        <span>{state === 'loading' ? 'Checking…' : 'Releases ↗'}</span><small>↗</small>
+                      </a>
                     )}
                   </motion.article>
                 )
