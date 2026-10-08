@@ -5,6 +5,7 @@ import Product from './pages/Product'
 import Plans from './pages/Plans'
 import Download from './pages/Download'
 import Skill from './pages/Skill'
+import Docs from './pages/Docs'
 import { CellLogo } from './components/brand/CellLogo'
 import './app.css'
 
@@ -17,6 +18,7 @@ const NAV_ITEMS = [
   { label: 'Thoth One', to: '/product' },
   { label: 'Plans', to: '/plans' },
   { label: 'Agent skill', to: '/skill' },
+  { label: 'Docs', to: '/docs' },
 ]
 
 function ScrollManager() {
@@ -105,6 +107,7 @@ function Footer() {
           <Link to="/#platform">Overview</Link>
           <Link to="/#stack">The stack</Link>
           <Link to="/#developers">Developers</Link>
+          <Link to="/docs">Docs</Link>
           <Link to="/#research">Research</Link>
         </nav>
         <nav aria-label="Footer — product">
@@ -141,6 +144,7 @@ export default function App() {
           <Route path="/plans" element={<Plans />} />
           <Route path="/download" element={<Download />} />
           <Route path="/skill" element={<Skill />} />
+          <Route path="/docs" element={<Docs />} />
           <Route path="/shop" element={<Navigate to="/product" replace />} />
           <Route path="/features" element={<Navigate to="/" replace />} />
           <Route path="/thothcraft/download" element={<Navigate to="/download" replace />} />
