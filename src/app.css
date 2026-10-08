@@ -28,15 +28,13 @@
   justify-self: start;
 }
 .brand-mark {
-  width: 28px;
-  height: 28px;
+  width: 30px;
+  height: 30px;
   display: grid;
   place-items: center;
-  border: 1.5px solid var(--ink);
-  border-radius: 50%;
-  font-size: 13px;
-  font-weight: 700;
+  transition: transform 0.4s var(--ease-out);
 }
+.brand:hover .brand-mark { transform: rotate(-8deg) scale(1.06); }
 
 .site-nav { display: flex; align-items: center; gap: 26px; }
 .site-nav a {
@@ -126,7 +124,6 @@
   padding-bottom: 64px;
 }
 .site-footer .brand { color: var(--dark-ink); }
-.site-footer .brand-mark { border-color: var(--dark-ink); }
 .footer-tag {
   margin-top: 18px;
   max-width: 300px;

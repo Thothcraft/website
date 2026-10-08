@@ -1,0 +1,129 @@
+/* Thoth Cell mark — shared brand tokens (mirror these in hub, dashboard,
+   Flutter ThothTheme and the watch firmware palette). */
+:root {
+  --cell-top: #e9e2d0;
+  --cell-left: #11110f;
+  --cell-right: #a3502e;
+  --cell-lattice-light: rgba(17, 17, 15, 0.28);
+  --cell-lattice-dark: rgba(244, 241, 233, 0.32);
+  --cell-nucleus: #f4f1e9;
+  --cell-glow: rgba(163, 80, 46, 0.55);
+}
+
+.cell-logo { display: block; overflow: visible; }
+.cell-face { stroke-linejoin: round; }
+.cell-face-top { fill: var(--cell-top); }
+.cell-face-left { fill: var(--cell-left); }
+.cell-face-right { fill: var(--cell-right); }
+.cell-dark .cell-face-top { fill: #3a372e; }
+.cell-dark .cell-face-left { fill: #f4f1e9; }
+
+.cell-lattice line {
+  stroke: var(--cell-lattice-light);
+  stroke-width: 0.9;
+  stroke-linecap: round;
+}
+.cell-logo .cell-face-left ~ .cell-lattice line:nth-child(n + 5):nth-child(-n + 8) {
+  stroke: var(--cell-lattice-dark);
+}
+.cell-dark .cell-lattice line { stroke: var(--cell-lattice-dark); }
+.cell-dark .cell-lattice line:nth-child(n + 5):nth-child(-n + 8) {
+  stroke: var(--cell-lattice-light);
+}
+
+.cell-edge { fill: none; stroke: var(--cell-left); stroke-width: 1.2; stroke-linejoin: round; }
+.cell-dark .cell-edge { stroke: #f4f1e9; }
+.cell-ring { fill: none; stroke: var(--cell-nucleus); stroke-width: 1.2; opacity: 0.7; }
+.cell-nucleus { fill: var(--cell-nucleus); }
+
+/* -- animation --------------------------------------------------------- */
+.cell-logo.is-animated .cell-face {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: cell-face-in 0.7s var(--ease-out, ease-out) both;
+}
+.cell-logo.is-animated .cell-face-left { animation-delay: 0.08s; }
+.cell-logo.is-animated .cell-face-right { animation-delay: 0.16s; }
+.cell-logo.is-animated .cell-lattice line {
+  stroke-dasharray: 30;
+  stroke-dashoffset: 30;
+  animation: cell-draw 1.6s var(--ease-out, ease-out) infinite;
+}
+.cell-logo.is-animated .cell-nucleus {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: cell-pulse 1.6s ease-in-out infinite;
+}
+.cell-logo.is-animated .cell-ring {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: cell-ring 1.6s ease-out infinite;
+}
+
+@keyframes cell-face-in {
+  from { opacity: 0; transform: scale(0.82) translateY(4px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes cell-draw {
+  0% { stroke-dashoffset: 30; opacity: 0.2; }
+  45% { stroke-dashoffset: 0; opacity: 1; }
+  100% { stroke-dashoffset: 0; opacity: 0.55; }
+}
+@keyframes cell-pulse {
+  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 0 var(--cell-glow)); }
+  50% { transform: scale(1.18); filter: drop-shadow(0 0 4px var(--cell-glow)); }
+}
+@keyframes cell-ring {
+  0% { transform: scale(0.6); opacity: 0.9; }
+  100% { transform: scale(1.8); opacity: 0; }
+}
+
+/* -- loader ------------------------------------------------------------ */
+.cell-loader {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  color: var(--ink, #11110f);
+}
+.cell-loader-dark { color: var(--dark-ink, #f4f1e9); }
+.cell-loader-bar {
+  position: relative;
+  width: 160px;
+  height: 4px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: var(--bg-sunken, #eae5d8);
+}
+.cell-loader-dark .cell-loader-bar { background: var(--dark-line, #35332b); }
+.cell-loader-bar span {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--cell-left), var(--cell-right));
+  transition: width 0.3s var(--ease-out, ease-out);
+}
+.cell-loader-dark .cell-loader-bar span {
+  background: linear-gradient(90deg, var(--cell-top), var(--cell-right));
+}
+.cell-loader-bar span.is-indeterminate {
+  width: 40%;
+  animation: cell-bar 1.2s ease-in-out infinite;
+}
+@keyframes cell-bar {
+  0% { left: -40%; }
+  100% { left: 100%; }
+}
+.cell-loader-label {
+  font: 600 11px var(--mono, monospace);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cell-logo.is-animated *,
+  .cell-loader-bar span.is-indeterminate { animation: none !important; }
+  .cell-logo.is-animated .cell-lattice line { stroke-dashoffset: 0; }
+}

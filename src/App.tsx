@@ -5,6 +5,7 @@ import Product from './pages/Product'
 import Plans from './pages/Plans'
 import Download from './pages/Download'
 import Skill from './pages/Skill'
+import { CellLogo } from './components/brand/CellLogo'
 import './app.css'
 
 const PORTAL_URL = 'https://hub.thothcraft.com/auth'
@@ -50,7 +51,7 @@ function Header() {
   return (
     <header className={`site-header ${scrolled || menuOpen ? 'is-solid' : ''}`}>
       <Link className="brand" to="/" aria-label="Thothcraft home">
-        <span className="brand-mark" aria-hidden="true">T</span>
+        <span className="brand-mark" aria-hidden="true"><CellLogo size={30} /></span>
         <span className="brand-word">Thoth</span>
       </Link>
 
@@ -94,7 +95,7 @@ function Footer() {
       <div className="footer-grid">
         <div>
           <Link className="brand" to="/" aria-label="Thothcraft home">
-            <span className="brand-mark" aria-hidden="true">T</span>
+            <span className="brand-mark" aria-hidden="true"><CellLogo size={30} tone="dark" /></span>
             <span className="brand-word">Thoth</span>
           </Link>
           <p className="footer-tag">The context layer between the physical world and intelligent software.</p>

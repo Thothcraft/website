@@ -1,0 +1,12 @@
+{
+  "version": "0.2.0",
+  "skills": [
+    {
+      "name": "thoth-context",
+      "description": "Know who is where and what is happening in a real space monitored by Thoth sensor nodes; read and refresh the stable context map, live sensor scenes, notifications, automations and calibration.",
+      "version": "2",
+      "url": "https://thothcraft.com/skill.md",
+      "sha256": "c9b5faa987476a6d804a9ea94c1d912f7d5fbaca6ad9b5165cf262d526ecbf55"
+    }
+  ]
+}
