@@ -3,7 +3,7 @@ import { motion } from 'motion/react'
 import { CellLogo, CellLoader } from '../components/brand/CellLogo'
 import './download.css'
 
-const REPO = 'Thothcraft/thoth'
+const REPO = 'Thothcraft/thothNode'
 const RELEASES = `https://github.com/${REPO}/releases`
 const API = `https://api.github.com/repos/${REPO}/releases/latest`
 
@@ -75,15 +75,15 @@ const PLATFORMS: Platform[] = [
     id: 'esp32', name: 'thothesp32', family: 'Firmware', icon: '⬡',
     blurb: 'One ESP32-C6 image, runtime role: CSI transmitter or serial receiver — flip over the console, no reflash.',
     asset: /thoth_csi.*\.bin$|thothesp32.*\.bin$/i,
-    url: 'https://github.com/Thothcraft/thoth-esp32',
-    install: 'git clone https://github.com/Thothcraft/thoth-esp32 && python thoth-esp32/flash.py --port COM10',
+    url: 'https://github.com/Thothcraft/thothESP',
+    install: 'git clone https://github.com/Thothcraft/thothESP && python thothESP/flash.py --port COM10',
     then: ['Boots as CSI receiver by default', '`role=send` over serial switches to transmitter', 'Feeds whispy-sensor-csi on any node over USB'],
   },
   {
     id: 'watch', name: 'Thoth watch', family: 'Firmware', icon: '◷',
     blurb: 'Signed PineTime firmware (thothIoT): motion, heart rate, neighbour scan.',
     asset: /thothiot.*\.zip$/i,
-    url: 'https://github.com/Thothcraft/InfiniTime',
+    url: 'https://github.com/Thothcraft/thothWatch',
     install: 'Update from the Thoth app — Devices → Watch',
     then: ['Recognized and paired by the app instantly', 'Streams motion + HR through any nearby node', 'Cell boot screen and progress UI'],
   },
