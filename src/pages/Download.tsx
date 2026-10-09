@@ -28,7 +28,7 @@ const PLATFORMS: Platform[] = [
     id: 'windows', name: 'Windows', family: 'Desktop', icon: '⊞',
     blurb: 'Installer + `thoth` CLI. Runs as a background service with tray icon.',
     asset: /Thoth-Setup.*\.exe$/i,
-    install: '& ([scriptblock]::Create((irm https://thothcraft.com/install.ps1)))',
+    install: '$f="$env:TEMP\\thoth-install.ps1"; irm https://thothcraft.com/install.ps1 -OutFile $f; & $f',
     then: ['Collects built-in sensors, Wi-Fi and BLE scans every 60 s', 'Dashboard at http://thoth.local', 'Pair with `thoth pair`'],
   },
   {

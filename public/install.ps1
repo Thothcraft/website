@@ -1,8 +1,8 @@
 ﻿# Thoth installer for Windows — turns this computer into a Thoth node.
 #
 # One-liner (once hosted):
-#   & ([scriptblock]::Create((irm https://thothcraft.com/install.ps1)))
-# (plain `irm ... | iex` cannot parse the param() block below)
+#   $f="$env:TEMP\thoth-install.ps1"; irm https://thothcraft.com/install.ps1 -OutFile $f; & $f
+# (plain `irm ... | iex` and scriptblock::Create cannot parse the param() block below)
 # From a cloned repo:
 #   powershell -ExecutionPolicy Bypass -File install.ps1 [-Local .\packages]
 #
