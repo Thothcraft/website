@@ -26,7 +26,7 @@ const STACK: Array<{
     desc: 'Continuous edge execution, inference and fusion.',
     cmds: [
       { kind: 'pypi', label: 'PyPI', cmd: 'pip install thoth-node' },
-      { kind: 'shell', label: 'Windows', cmd: 'irm https://get.thothcraft.com/install.ps1 | iex' },
+      { kind: 'shell', label: 'Windows', cmd: '& ([scriptblock]::Create((irm https://get.thothcraft.com/install.ps1)))' },
       { kind: 'shell', label: 'Linux / Pi', cmd: 'curl -fsSL https://get.thothcraft.com/install.sh | sudo bash' },
     ],
     links: [
