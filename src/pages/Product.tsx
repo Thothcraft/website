@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { HardwareViewer } from '../components/hardware/HardwareViewer'
 import './product.css'
 
 const INCLUDED = [
@@ -9,7 +10,7 @@ const INCLUDED = [
   { title: 'Smart-home integration', text: 'Connect local room state to Home Assistant and your automations.' },
 ]
 
-const HARDWARE = ['Raspberry Pi 4', 'PiSugar battery module', 'DreamHat sensor board', '2× ESP32 wireless modules', 'USB camera']
+const HARDWARE = ['Raspberry Pi 5', 'MMW-HAT 60 GHz radar (Infineon BGT60TR13C)', '3D-printed enclosure', '2× ESP32-C6 CSI boards', 'USB camera']
 
 const BUNDLES = [
   {
@@ -55,20 +56,8 @@ export default function Product() {
           </div>
         </div>
         <div className="model-wrap">
-          <iframe
-            title="Polycam capture viewer"
-            src="https://poly.cam/capture/ABE69FEA-A1DF-4CC5-BC65-CF1DB40BFEE8/embed"
-            loading="lazy"
-            allow="webgpu; fullscreen; xr-spatial-tracking"
-            allowFullScreen
-          />
-          <a
-            href="https://poly.cam/capture/ABE69FEA-A1DF-4CC5-BC65-CF1DB40BFEE8"
-            target="_blank"
-            rel="noopener"
-          >
-            Open 3D view ↗
-          </a>
+          <HardwareViewer device="thoth-one" showSpecs={false} compact />
+          <Link to="/hardware">All hardware + specs →</Link>
         </div>
       </section>
 
@@ -87,6 +76,12 @@ export default function Product() {
             </article>
           ))}
         </div>
+      </section>
+
+      <section className="included" id="hardware">
+        <p className="eyebrow">INSIDE THE FLEET</p>
+        <h2>Radar node, CSI boards,<br />and a wrist sensor.</h2>
+        <HardwareViewer />
       </section>
 
       <section className="purchase" id="buy">

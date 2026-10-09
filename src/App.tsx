@@ -6,6 +6,7 @@ import Plans from './pages/Plans'
 import Download from './pages/Download'
 import Skill from './pages/Skill'
 import Docs from './pages/Docs'
+import Hardware from './pages/Hardware'
 import { CellLogo } from './components/brand/CellLogo'
 import './app.css'
 
@@ -16,6 +17,7 @@ const NAV_ITEMS = [
   { label: 'Developers', to: '/#developers' },
   { label: 'Research', to: '/#research' },
   { label: 'Thoth One', to: '/product' },
+  { label: 'Hardware', to: '/hardware' },
   { label: 'Plans', to: '/plans' },
   { label: 'Agent skill', to: '/skill' },
   { label: 'Docs', to: '/docs' },
@@ -141,6 +143,8 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/product" element={<Product />} />
+          <Route path="/hardware" element={<Hardware />} />
+          <Route path="/hardware/:id" element={<Hardware />} />
           <Route path="/plans" element={<Plans />} />
           <Route path="/download" element={<Download />} />
           <Route path="/skill" element={<Skill />} />
