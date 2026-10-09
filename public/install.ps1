@@ -77,7 +77,7 @@ else {
         & $py -m pip install --upgrade $whispyRepo $thothRepo
         $code = $LASTEXITCODE
         if ($code -eq 0 -and -not $NoSensors) {
-            & $py -m pip install --upgrade opencv-python pyserial psutil
+            & $py -m pip install --upgrade "opencv-python>=4.8,<5" pyserial psutil
         }
     }
     $ErrorActionPreference = $origPref
