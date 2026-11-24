@@ -7,6 +7,7 @@ import Download from './pages/Download'
 import Skill from './pages/Skill'
 import Docs from './pages/Docs'
 import Hardware from './pages/Hardware'
+import Legal from './pages/Legal'
 import { CellLogo } from './components/brand/CellLogo'
 import './app.css'
 
@@ -149,6 +150,8 @@ export default function App() {
           <Route path="/download" element={<Download />} />
           <Route path="/skill" element={<Skill />} />
           <Route path="/docs" element={<Docs />} />
+          <Route path="/privacy" element={<Legal />} />
+          <Route path="/terms" element={<Legal />} />
           <Route path="/shop" element={<Navigate to="/product" replace />} />
           <Route path="/features" element={<Navigate to="/" replace />} />
           <Route path="/thothcraft/download" element={<Navigate to="/download" replace />} />
