@@ -4,7 +4,7 @@ import { HARDWARE, type HardwareId } from '../components/hardware/specs'
 
 /**
  * /hardware            — all official devices (tabs)
- * /hardware/:id        — one device (thoth-one | esp32 | pinetime)
+ * /hardware/:id        — one device (room1 | esp32 | pinetime)
  * ?embed=1             — chrome-less full-viewport view for docs iframes
  */
 export default function Hardware() {

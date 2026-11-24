@@ -1,4 +1,4 @@
-export type HardwareId = 'thoth-one' | 'esp32' | 'pinetime'
+export type HardwareId = 'room1' | 'esp32' | 'pinetime'
 
 export interface HardwareSpec {
   id: HardwareId
@@ -11,28 +11,31 @@ export interface HardwareSpec {
 
 /** Official fleet hardware — values match the shipped firmware/configs. */
 export const HARDWARE: Record<HardwareId, HardwareSpec> = {
-  'thoth-one': {
-    id: 'thoth-one',
-    name: 'Thoth One',
-    tagline: 'Raspberry Pi 5 + MMW-HAT 60 GHz radar in a 3D-printed enclosure',
+  'room1': {
+    id: 'room1',
+    name: 'Room1',
+    tagline: 'Raspberry Pi 5 + MMW-HAT 60 GHz radar + 2× ESP32-C6 CSI boards in a 3D-printed enclosure',
     specs: [
       ['Compute', 'Raspberry Pi 5 · BCM2712 quad Cortex-A76 @ 2.4 GHz'],
       ['Memory', '4 / 8 GB LPDDR4X'],
       ['Radar', 'Infineon BGT60TR13C FMCW · 58–63 GHz · 1 TX / 3 RX'],
       ['Radar link', 'SPI0 mode 0 · 10–50 MHz · RST GPIO12 · IRQ GPIO25'],
       ['Range resolution', '≈7.5 cm at 2 GHz sweep (58–60 GHz profile)'],
+      ['CSI nodes', '2× ESP32-C6 (room1-esp-l left, room1-esp-r right) · Wi-Fi CSI over USB serial'],
       ['Connectivity', 'Gigabit Ethernet · Wi-Fi 5 · Bluetooth 5.0 / BLE'],
       ['I/O', '2× USB 3.0 · 2× USB 2.0 · 2× micro-HDMI · 40-pin GPIO'],
       ['Power', 'USB-C 5 V / 5 A (27 W)'],
       ['Enclosure', 'PLA/PETG print · hinged lid · radome window over the antennas'],
-      ['Local access', 'http://thoth-<name>.local:5000 (dashboard + API)'],
+      ['Local access', 'http://room1.local:5000 (dashboard + API)'],
+      ['Bundle', 'Room1 is the room node of the person1 kit'],
     ],
     features: [
-      'Presence, motion and XY localisation from radar — no camera needed',
-      'Optional USB camera and ESP32 CSI boards as extra modalities',
+      'Presence, motion and XY localisation from radar + Wi-Fi CSI — no camera needed',
+      'Optional USB camera as an extra modality',
       'Runs the thoth node daemon: sensors, models, automations, Brain uplink',
+      'Room node of person1 — pair it with the necklace, watch and earbuds',
     ],
-    docs: 'https://docs.thothcraft.com/#/hardware/thoth-one',
+    docs: 'https://docs.thothcraft.com/#/hardware/room1',
   },
   esp32: {
     id: 'esp32',
@@ -46,12 +49,13 @@ export const HARDWARE: Record<HardwareId, HardwareSpec> = {
       ['Channel sweep', 'Sender-led hop across 1 / 6 / 11 · 500 ms dwell · receivers follow'],
       ['Scan feeds', 'WIFI_DATA · BLE_DATA · ZB_DATA · HEALTH_DATA · SELF_DATA'],
       ['Host link', 'USB-C serial @ 921600 baud'],
-      ['Local access', 'http://thoth-<name>.local:5000 when joined to Wi-Fi'],
+      ['Local access', 'http://<name>.local:5000 when joined to Wi-Fi'],
+      ['Room1 names', 'room1-esp-l (left CSI link) · room1-esp-r (right CSI link)'],
     ],
     features: [
       'Same image on every board — no tx/rx builds; `role=send|recv|zb`',
       'Wi-Fi uplink with status dashboard + mDNS (`wifi=<ssid>,<pass>`)',
-      'Identity beacon advertised as thoth-<name> over BLE',
+      'Identity beacon advertised as thoth-<name> over BLE (`name=` console command)',
     ],
     docs: 'https://docs.thothcraft.com/#/hardware/esp32',
   },

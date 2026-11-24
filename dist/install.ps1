@@ -1,7 +1,8 @@
 ﻿# Thoth installer for Windows — turns this computer into a Thoth node.
 #
 # One-liner (once hosted):
-#   irm https://thothcraft.com/install.ps1 | iex
+#   $f="$env:TEMP\thoth-install.ps1"; irm https://thothcraft.com/install.ps1 -OutFile $f; & $f
+# (plain `irm ... | iex` and scriptblock::Create cannot parse the param() block below)
 # From a cloned repo:
 #   powershell -ExecutionPolicy Bypass -File install.ps1 [-Local .\packages]
 #
@@ -76,7 +77,7 @@ else {
         & $py -m pip install --upgrade $whispyRepo $thothRepo
         $code = $LASTEXITCODE
         if ($code -eq 0 -and -not $NoSensors) {
-            & $py -m pip install --upgrade opencv-python pyserial psutil
+            & $py -m pip install --upgrade "opencv-python>=4.8,<5" pyserial psutil
         }
     }
     $ErrorActionPreference = $origPref

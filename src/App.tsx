@@ -16,7 +16,7 @@ const NAV_ITEMS = [
   { label: 'Platform', to: '/#platform' },
   { label: 'Developers', to: '/#developers' },
   { label: 'Research', to: '/#research' },
-  { label: 'Thoth One', to: '/product' },
+  { label: 'person1', to: '/product' },
   { label: 'Hardware', to: '/hardware' },
   { label: 'Plans', to: '/plans' },
   { label: 'Agent skill', to: '/skill' },
@@ -114,7 +114,7 @@ function Footer() {
         </nav>
         <nav aria-label="Footer — product">
           <p className="footer-head">Product</p>
-          <Link to="/product">Thoth One</Link>
+          <Link to="/product">person1</Link>
           <Link to="/plans">Plans</Link>
           <Link to="/download">Install</Link>
           <Link to="/skill">Agent skill</Link>

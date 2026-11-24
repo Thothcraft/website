@@ -10,23 +10,25 @@ const TRAITS = [
 ]
 
 /**
- * Section F — Thoth One. One hardware implementation of the platform,
- * introduced only after the platform story is told.
+ * Section F — Room1. The room node of the person1 kit: a Raspberry Pi–based
+ * sensing node (radar + 2× ESP32-C6 CSI), introduced only after the platform
+ * story is told.
  */
 export function ThothOneSection() {
   return (
     <section className="section thoth-one" aria-labelledby="thoth-one-h">
       <div className="thoth-one-grid">
         <div>
-          <p className="kicker">THOTH ONE</p>
+          <p className="kicker">ROOM1 · PERSON1 KIT</p>
           <h2 id="thoth-one-h">Presence, not surveillance.</h2>
           <p className="lede">
-            A Raspberry Pi–based sensing node — one implementation of the Thoth
-            platform. It observes a room locally and feeds the context layer;
-            the camera remains an explicit choice.
+            Room1 is a Raspberry Pi–based sensing node — radar plus two ESP32-C6
+            CSI boards — and the room half of the person1 kit. It observes a
+            room locally and feeds the context layer; the camera remains an
+            explicit choice.
           </p>
           <div className="thoth-one-ctas">
-            <Link className="btn btn-primary" to="/product">Meet Thoth One</Link>
+            <Link className="btn btn-primary" to="/product">Meet Room1</Link>
             <Link className="btn btn-ghost" to="/download">Install on your own hardware</Link>
           </div>
         </div>

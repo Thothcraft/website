@@ -12,22 +12,29 @@ const INCLUDED = [
 
 const HARDWARE = ['Raspberry Pi 5', 'MMW-HAT 60 GHz radar (Infineon BGT60TR13C)', '3D-printed enclosure', '2× ESP32-C6 CSI boards', 'USB camera']
 
+const PERSON1 = [
+  'Room1 room node (Pi 5 + radar + 2× ESP32-C6)',
+  'Necklace pendant (audio + IMU)',
+  'PineTime smartwatch (motion + heart rate)',
+  'Earbuds',
+]
+
 const BUNDLES = [
   {
-    name: '1 Thoth Device',
-    for: 'FOR INDIVIDUALS & RESEARCHERS',
+    name: 'person1 kit',
+    for: 'ONE PERSON · ONE ROOM',
     price: '$500',
-    items: HARDWARE,
-    href: 'mailto:hello@thothcraft.com?subject=Order: 1 Thoth Device',
-    featured: false,
+    items: PERSON1,
+    href: 'mailto:hello@thothcraft.com?subject=Order: person1 kit',
+    featured: true,
   },
   {
-    name: '5 Thoth Devices',
-    for: 'FOR LABS & ORGANIZATIONS',
-    price: '$2,500',
-    items: HARDWARE.map((item) => `5× ${item}`),
-    href: 'mailto:hello@thothcraft.com?subject=Order: 5 Thoth Devices',
-    featured: true,
+    name: 'Room1',
+    for: 'ROOM NODE ONLY',
+    price: '$350',
+    items: HARDWARE,
+    href: 'mailto:hello@thothcraft.com?subject=Order: Room1',
+    featured: false,
   },
 ]
 
@@ -36,10 +43,11 @@ export default function Product() {
     <div className="product-page">
       <section className="product-hero">
         <div className="product-copy">
-          <p className="eyebrow">THOTH ONE</p>
+          <p className="eyebrow">PERSON1 KIT</p>
           <h1>Presence,<br />not surveillance.</h1>
           <p className="lede">
-            A Raspberry Pi–based indoor intelligence device for private homes, smart spaces, and research.
+            Room1 — a Raspberry Pi–based indoor intelligence device — plus the wearables
+            that complete the person1 kit: necklace, watch and earbuds.
           </p>
           <div className="product-ctas">
             <a
@@ -48,7 +56,7 @@ export default function Product() {
               target="_blank"
               rel="noopener"
             >
-              <span className="buy-icon" aria-hidden="true">▣</span> Buy Thoth · $500 <span>↗</span>
+              <span className="buy-icon" aria-hidden="true">▣</span> Buy person1 · $500 <span>↗</span>
             </a>
             <Link className="buy buy-secondary" to="/download">
               Install on Raspberry Pi <span>→</span>
@@ -56,7 +64,7 @@ export default function Product() {
           </div>
         </div>
         <div className="model-wrap">
-          <HardwareViewer device="thoth-one" showSpecs={false} compact />
+          <HardwareViewer device="room1" showSpecs={false} compact />
           <Link to="/hardware">All hardware + specs →</Link>
         </div>
       </section>
@@ -79,14 +87,14 @@ export default function Product() {
       </section>
 
       <section className="included" id="hardware">
-        <p className="eyebrow">INSIDE THE FLEET</p>
+        <p className="eyebrow">INSIDE THE KIT</p>
         <h2>Radar node, CSI boards,<br />and a wrist sensor.</h2>
         <HardwareViewer />
       </section>
 
       <section className="purchase" id="buy">
         <div className="purchase-heading">
-          <p className="eyebrow">BUY THOTH</p>
+          <p className="eyebrow">BUY PERSON1</p>
           <h2>Ready to use.<br />Right out of the box.</h2>
           <p>
             Every device ships pre-flashed and pre-configured. Plug it in, connect it to

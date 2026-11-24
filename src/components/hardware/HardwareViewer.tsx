@@ -6,7 +6,7 @@ import { HARDWARE, type HardwareId } from './specs'
 import './hardware.css'
 
 const CAMERA: Record<HardwareId, [number, number, number]> = {
-  'thoth-one': [1.25, 1.0, 1.35],
+  room1: [1.25, 1.0, 1.35],
   esp32: [0.55, 0.45, 0.6],
   pinetime: [0.55, 0.4, 0.75],
 }
@@ -20,20 +20,20 @@ function Model({ id, open }: { id: HardwareId; open: boolean }) {
 /**
  * Interactive 3D viewer for the official fleet hardware. `device` pins a
  * single model (product page / docs embed); otherwise tabs switch models.
- * Thoth One plays an open/close loop until the user toggles it.
+ * Room1 plays an open/close loop until the user toggles it.
  */
 export function HardwareViewer({ device, showSpecs = true, compact = false }: {
   device?: HardwareId
   showSpecs?: boolean
   compact?: boolean
 }) {
-  const [id, setId] = useState<HardwareId>(device ?? 'thoth-one')
+  const [id, setId] = useState<HardwareId>(device ?? 'room1')
   const [open, setOpen] = useState(false)
   const [auto, setAuto] = useState(true)
   const spec = HARDWARE[id]
 
   useEffect(() => {
-    if (!auto || id !== 'thoth-one') return
+    if (!auto || id !== 'room1') return
     const t = setInterval(() => setOpen((o) => !o), 3200)
     return () => clearInterval(t)
   }, [auto, id])
@@ -67,7 +67,7 @@ export function HardwareViewer({ device, showSpecs = true, compact = false }: {
           <OrbitControls makeDefault enablePan={false} autoRotate
                          autoRotateSpeed={0.6} minDistance={0.3} maxDistance={4} />
         </Canvas>
-        {id === 'thoth-one' && (
+        {id === 'room1' && (
           <button className="hw-toggle" onClick={() => { setAuto(false); setOpen((o) => !o) }}>
             {open ? 'Close enclosure' : 'Open enclosure'}
           </button>
